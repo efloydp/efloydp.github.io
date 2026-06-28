@@ -139,7 +139,7 @@ input[type=file]{ font-size:11px; width:100%; }
 .name-input{ position:absolute; left: 68px;px; top:17px; font-size:30px; font-weight:700; border:none; outline:none; background:transparent; width:160px; font-family:inherit; letter-spacing:inherit; line-height:1.3; white-space:nowrap; overflow:visible;color:#666666; }
 .meta-input{
   position:absolute; right:0; top:20px; width:320px; font-size:26px; font-weight:600; color:#909090; border:none; outline:none;
-  background:transparent; text-align:right; font-family:inherit; letter-spacing:inherit; line-height:1.3; white-space:nowrap; overflow:visible;
+  background:transparent; text-align:right; font-family:inherit; letter-spacing:inherit; line-height:1.3; white-space:normal; word-break:break-word; overflow:hidden; max-height:67.6px;
 }
 .meta-input:focus{ color:#555; }
 
@@ -227,7 +227,7 @@ input[type=file]{ font-size:11px; width:100%; }
 }
 
 /* ===== 장평 94% (글자 가로폭 압축) ===== */
-#pairNameField, #pairDescField, .badge, .name-input, .info-line{
+#pairNameField, .badge, .name-input, .info-line{
   transform: scaleX(0.94); transform-origin: left top;
 }
 .animal-box span{
@@ -467,7 +467,15 @@ body.welcome-active{ overflow:hidden; }
           <div class="row"><input type="range" id="irisSizeSlider" min="6" max="90" step="1" value="27"><span id="irisSizeVal" style="width:70px;text-align:right;font-size:12px;">27px(기본)</span></div>
           <div class="row"><label>안광 색</label><input type="color" id="irisFillColor" value="#ffffff"><input type="text" class="hex-input" data-for="irisFillColor" placeholder="#RRGGBB"></div>
           <div class="row"><label>안광 테두리 색</label><input type="color" id="irisBorderColor" value="#909090"><input type="text" class="hex-input" data-for="irisBorderColor" placeholder="#RRGGBB"></div>
-          <button class="btn secondary" id="resetIris" style="margin-top:6px;">선택 안광 위치/크기 초기화</button>
+          <div class="row">
+            <label>안광 테두리 표시</label>
+            <input type="checkbox" id="irisBorderOn" checked style="display:none;">
+            <div class="mini-toggle" data-for="irisBorderOn">
+              <button type="button" class="mini-toggle-btn" data-val="off">OFF</button>
+              <button type="button" class="mini-toggle-btn active" data-val="on">ON</button>
+            </div>
+          </div>
+          <button class="btn secondary" id="resetIris" style="margin-top:6px;">안광 위치/크기/숨김 초기화</button>
         </div>
         <div class="hint">화면 내에서 안광을 드래그해서 위치 옮기기<br>안광을 더블클릭하면 그 쪽 눈의 안광만 숨겨집니다.</div>
         </div>
@@ -770,6 +778,7 @@ function serializeColumn(colWrap){
       width: iris.style.width, height: iris.style.height,
       fill: iris.style.background || '#ffffff',
       border: iris.style.borderColor || '#909090',
+      borderWidth: iris.style.borderWidth || '3px',
       hidden: iris.classList.contains('hidden')
     }));
   };
@@ -872,6 +881,7 @@ function restoreColumn(data){
       if(d.height) iris.style.height = d.height;
       iris.style.background = d.fill || '#ffffff';
       iris.style.borderColor = d.border || '#909090';
+      iris.style.borderWidth = d.borderWidth || '3px';
       if(d.hidden) iris.classList.add('hidden'); else iris.classList.remove('hidden');
     });
   });
@@ -1138,6 +1148,25 @@ function setupColDrag(colWrap){
 
 function initColumn(colWrap, id){
   setupColDrag(colWrap);
+
+  /* 나이/키/체격 등 메타정보는 2줄까지만 입력 가능 (그 이상은 입력 자체를 막음) */
+  const metaInputEl = colWrap.querySelector('.meta-input');
+  if(metaInputEl){
+    let lastValidMeta = metaInputEl.innerHTML;
+    metaInputEl.addEventListener('input', ()=>{
+      if(metaInputEl.scrollHeight > metaInputEl.clientHeight + 1){
+        metaInputEl.innerHTML = lastValidMeta;
+        const range = document.createRange();
+        range.selectNodeContents(metaInputEl);
+        range.collapse(false);
+        const sel = window.getSelection();
+        sel.removeAllRanges();
+        sel.addRange(range);
+      } else {
+        lastValidMeta = metaInputEl.innerHTML;
+      }
+    });
+  }
 
   colWrap.querySelector('.col-remove').addEventListener('click', ()=>{
     if(columnsWrap.children.length<=1){ alert('최소 한 명은 남아있어야 해요.'); return; }
@@ -1660,8 +1689,24 @@ function syncIrisColorInputs(){
   if(!sw) return;
   const fill = rgbToHex(sw.style.background);
   const border = rgbToHex(sw.style.borderColor);
-  if(fill) document.getElementById('irisFillColor').value = fill;
-  if(border) document.getElementById('irisBorderColor').value = border;
+  if(fill){
+    document.getElementById('irisFillColor').value = fill;
+    const fillHex = document.querySelector('.hex-input[data-for="irisFillColor"]');
+    if(fillHex) fillHex.value = fill;
+  }
+  if(border){
+    document.getElementById('irisBorderColor').value = border;
+    const borderHex = document.querySelector('.hex-input[data-for="irisBorderColor"]');
+    if(borderHex) borderHex.value = border;
+  }
+  const borderOn = parseFloat(sw.style.borderWidth) !== 0;
+  const cb = document.getElementById('irisBorderOn');
+  cb.checked = borderOn;
+  const group = document.querySelector('.mini-toggle[data-for="irisBorderOn"]');
+  if(group){
+    group.querySelector('[data-val="off"]').classList.toggle('active', !borderOn);
+    group.querySelector('[data-val="on"]').classList.toggle('active', borderOn);
+  }
 }
 function refreshIrisPanel(){
   renderIrisSlotToggle();
@@ -1723,6 +1768,7 @@ document.getElementById('resetIris').addEventListener('click', ()=>{
       const iris = sw.querySelector(`.iris[data-slot="${slot}"]`);
       const def = irisDefaults[id][t] && irisDefaults[id][t][slot];
       if(!iris || !def) return;
+      iris.classList.remove('hidden');
       iris.style.left = def.left;
       iris.style.top = def.top;
       iris.style.width = def.width;
@@ -1736,15 +1782,18 @@ function applyIrisColorFromPanel(){
   const slot = document.getElementById('irisSlotSelect').value;
   const fill = document.getElementById('irisFillColor').value;
   const border = document.getElementById('irisBorderColor').value;
+  const borderOn = document.getElementById('irisBorderOn').checked;
   getTargetIds(target).forEach(id=>{
     document.querySelectorAll(`.swatch[data-id="${id}"] .iris[data-slot="${slot}"]`).forEach(i=>{
       i.style.background = fill;
       i.style.borderColor = border;
+      i.style.borderWidth = borderOn ? '3px' : '0px';
     });
   });
 }
 document.getElementById('irisFillColor').addEventListener('input', applyIrisColorFromPanel);
 document.getElementById('irisBorderColor').addEventListener('input', applyIrisColorFromPanel);
+document.getElementById('irisBorderOn').addEventListener('change', applyIrisColorFromPanel);
 
 /* ---------- 동물화 박스 on/off ---------- */
 function setAnimalBoxState(off){
@@ -2060,6 +2109,7 @@ updateSdToggleUI();
 updateCostumeToggleUI();
 setupMiniToggle('irisLink');
 setupMiniToggle('eyeModeLinked');
+setupMiniToggle('irisBorderOn');
 
 /* ---------- 색상 hex 직접입력 (모바일 컬러피커 보완) ---------- */
 function enhanceColorInput(id){
