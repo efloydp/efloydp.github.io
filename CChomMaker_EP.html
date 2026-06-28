@@ -44,7 +44,13 @@ body{ font-family:-apple-system,'Malgun Gothic',sans-serif; background:#e9eaee; 
 .row{ display:flex; align-items:center; gap:8px; margin-bottom:8px; font-size:12px; }
 .row label{ flex:1; color:#444; font-size:14px; }
 label{ font-size:14px; }
-.row input[type=color]{ width:32px;height:24px;border:none;border-radius:4px;cursor:pointer;padding:0; }
+.row input[type=color]{ width:32px;height:24px;border:none;border-radius:4px;cursor:pointer;padding:0; flex-shrink:0; }
+.hex-input{
+  width:84px; font-size:13px; font-family:'SFMono-Regular',Consolas,Menlo,monospace;
+  border:1px solid #ddd; border-radius:6px; padding:5px 7px; text-transform:uppercase; flex-shrink:0;
+}
+.hex-input:focus{ border-color:#c3bce5; outline:none; }
+.hex-input.invalid{ border-color:#e24b4a; color:#e24b4a; }
 .row input[type=range]{ flex:1; }
 .btn{ width:100%; padding:9px; border:none; border-radius:8px; background:#444; color:#fff; font-size:13px; cursor:pointer; margin-top:6px; font-family:inherit; }
 .btn:hover{ background:#222; }
@@ -143,7 +149,7 @@ input[type=file]{ font-size:11px; width:100%; }
 .swatch-row{ display:grid; grid-template-columns:repeat(4,1fr) 150px; gap:30px; align-items:stretch; margin-bottom:10px; }
 .swatch{ width:100%; aspect-ratio:1/1; border:3px solid #909090; border-radius:15px; cursor:pointer; position:relative; overflow:hidden; background:#f3f4f6; }
 .swatch input[type=color]{ position:absolute; inset:0; opacity:0; width:100%; height:100%; cursor:pointer; }
-.swatch .iris{ position:absolute; width:27px; height:27px; border-radius:50%; background:#fff; border:3px solid #909090; cursor:grab; z-index:2; }
+.swatch .iris{ position:absolute; width:27px; height:27px; border-radius:50%; background:#fff; border:3px solid #909090; cursor:grab; z-index:2; touch-action:none; }
 .swatch .iris.hidden{ display:none; }
 .swatch-labels{ display:grid; grid-template-columns:repeat(4,1fr) 150px; gap:30px; font-size:30px; font-weight:500; color:#909090; margin-bottom:39px; line-height:1.3; }
 .swatch-labels span{ text-align:center; min-width:25px;}
@@ -158,11 +164,11 @@ input[type=file]{ font-size:11px; width:100%; }
   position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
   color:#bbb; font-size:25px; font-weight:500; text-align:center; cursor:pointer; line-height:1.5; z-index:1;
 }
-.layer-wrap{ position:absolute; cursor:move; user-select:none; z-index:1000; }
+.layer-wrap{ position:absolute; cursor:move; user-select:none; z-index:1000; touch-action:none; }
 .layer-wrap img{ width:100%; height:100%; display:block; pointer-events:none; }
 .layer-wrap.sticker-wrap{ z-index:2500; }
-.resize-handle{ position:absolute; width:16px; height:16px; background:#778EAE; border:2px solid #fff; border-radius:50%; cursor:se-resize; z-index:50; right:-8px; bottom:-8px; }
-.del-handle{ position:absolute; width:40px; height:40px; background:#e24b4a; color:#fff; border-radius:50%; font-size:18px; display:flex; align-items:center; justify-content:center; cursor:pointer; line-height:1; z-index:50; right:30px; top:30px; }
+.resize-handle{ position:absolute; width:16px; height:16px; background:#778EAE; border:2px solid #fff; border-radius:50%; cursor:se-resize; z-index:50; right:-8px; bottom:-8px; touch-action:none; }
+.del-handle{ position:absolute; width:40px; height:40px; background:#e24b4a; color:#fff; border-radius:50%; font-size:18px; display:flex; align-items:center; justify-content:center; cursor:pointer; line-height:1; z-index:50; right:30px; top:30px; touch-action:none; }
 
 .animal-box{
   position:absolute; z-index:1500; background:#B9C7D2; color:#fff; font-size:28px; font-weight:600;
@@ -332,7 +338,7 @@ input[type=file]{ font-size:11px; width:100%; }
 
         <h3>테마색</h3>
         <div class="row"><label>적용할 인물</label><select id="themeTargetSelect"></select></div>
-        <div class="row"><label>적용할 색상</label><input type="color" id="masterTheme" value="#B9C7D2"></div>
+        <div class="row"><label>적용할 색상</label><input type="color" id="masterTheme" value="#B9C7D2"><input type="text" class="hex-input" data-for="masterTheme" placeholder="#RRGGBB"></div>
         <div class="hint">뱃지(A,B,C...)/테마색/동물화 박스에 적용됩니다.</div>
 
         <h3>머리 색상</h3>
@@ -340,7 +346,7 @@ input[type=file]{ font-size:11px; width:100%; }
         <div class="row"><label>모드</label>
           <select id="hairModeSelect"><option value="solid">단색</option><option value="gradient">그라데이션</option><option value="twotone">투톤(위/아래)</option></select>
         </div>
-        <div class="row" id="hairSubRow"><label>보조색</label><input type="color" id="hairSubColor" value="#cccccc"></div>
+        <div class="row" id="hairSubRow"><label>보조색</label><input type="color" id="hairSubColor" value="#cccccc"><input type="text" class="hex-input" data-for="hairSubColor" placeholder="#RRGGBB"></div>
 
         <h3>눈 색상</h3>
         <div class="row"><label>대상</label><select id="eyeModeTarget"></select></div>
@@ -358,7 +364,7 @@ input[type=file]{ font-size:11px; width:100%; }
         <div class="row"><label>모드</label>
           <select id="eyeModeSelect"><option value="solid">단색</option><option value="gradient">그라데이션</option><option value="twotone">투톤(위/아래)</option></select>
         </div>
-        <div class="row" id="eyeModeSubRow"><label>보조색</label><input type="color" id="eyeModeSub" value="#cccccc"></div>
+        <div class="row" id="eyeModeSubRow"><label>보조색</label><input type="color" id="eyeModeSub" value="#cccccc"><input type="text" class="hex-input" data-for="eyeModeSub" placeholder="#RRGGBB"></div>
 
         <h3>눈 안광</h3>
         <div class="row"><label>대상</label><select id="irisTargetSelect"></select></div>
@@ -395,8 +401,8 @@ input[type=file]{ font-size:11px; width:100%; }
           </div>
           <div class="row"><label>안광 크기</label></div>
           <div class="row"><input type="range" id="irisSizeSlider" min="6" max="90" step="1" value="27"><span id="irisSizeVal" style="width:70px;text-align:right;font-size:12px;">27px(기본)</span></div>
-          <div class="row"><label>안광 색</label><input type="color" id="irisFillColor" value="#ffffff"></div>
-          <div class="row"><label>안광 테두리 색</label><input type="color" id="irisBorderColor" value="#909090"></div>
+          <div class="row"><label>안광 색</label><input type="color" id="irisFillColor" value="#ffffff"><input type="text" class="hex-input" data-for="irisFillColor" placeholder="#RRGGBB"></div>
+          <div class="row"><label>안광 테두리 색</label><input type="color" id="irisBorderColor" value="#909090"><input type="text" class="hex-input" data-for="irisBorderColor" placeholder="#RRGGBB"></div>
           <button class="btn secondary" id="resetIris" style="margin-top:6px;">선택 안광 위치/크기 초기화</button>
         </div>
         <div class="hint">화면 내에서 안광을 드래그해서 위치 옮기기<br>안광을 더블클릭하면 그 쪽 눈의 안광만 숨겨집니다.</div>
@@ -1332,10 +1338,12 @@ function ensureIrisSlots(id, count){
 }
 
 function setupIrisInteraction(iris, id, slotIndex){
+  iris.style.touchAction = 'none';
   iris.addEventListener('dblclick', e=>{ e.stopPropagation(); iris.classList.toggle('hidden'); });
 
-  iris.addEventListener('mousedown', e=>{
+  iris.addEventListener('pointerdown', e=>{
     e.preventDefault(); e.stopPropagation();
+    iris.setPointerCapture && iris.setPointerCapture(e.pointerId);
     const box = iris.parentElement;
     const rect = box.getBoundingClientRect();
 
@@ -1369,13 +1377,15 @@ function setupIrisInteraction(iris, id, slotIndex){
       }
     }
     function up(){
-      document.removeEventListener('mousemove', move);
-      document.removeEventListener('mouseup', up);
+      iris.removeEventListener('pointermove', move);
+      iris.removeEventListener('pointerup', up);
+      iris.removeEventListener('pointercancel', up);
       snapIrisToPoints(iris, rect);
       if(otherIris && otherRect) snapIrisToPoints(otherIris, otherRect);
     }
-    document.addEventListener('mousemove', move);
-    document.addEventListener('mouseup', up);
+    iris.addEventListener('pointermove', move);
+    iris.addEventListener('pointerup', up);
+    iris.addEventListener('pointercancel', up);
   });
 }
 
@@ -1731,8 +1741,10 @@ document.getElementById('stickerInput').addEventListener('change', e=>{
 /* ---------- 드래그 + 비율유지 리사이즈 + 삭제 + 가운데 스냅/앵커 ---------- */
 function makeResizableDraggable(el, addDelete, onDelete, snapCenterX, anchorCenter){
   const container = el.parentElement;
+  el.style.touchAction = 'none';
   const resizeH = document.createElement('div');
   resizeH.className='resize-handle';
+  resizeH.style.touchAction = 'none';
   el.appendChild(resizeH);
 
   let delH = null;
@@ -1741,7 +1753,7 @@ function makeResizableDraggable(el, addDelete, onDelete, snapCenterX, anchorCent
     delH.className='del-handle';
     delH.innerHTML='✕';
     el.appendChild(delH);
-    delH.addEventListener('mousedown', ev=>ev.stopPropagation());
+    delH.addEventListener('pointerdown', ev=>ev.stopPropagation());
     delH.addEventListener('click', ev=>{
       ev.stopPropagation();
       el.remove();
@@ -1749,8 +1761,9 @@ function makeResizableDraggable(el, addDelete, onDelete, snapCenterX, anchorCent
     });
   }
 
-  resizeH.addEventListener('mousedown', ev=>{
+  resizeH.addEventListener('pointerdown', ev=>{
     ev.preventDefault(); ev.stopPropagation();
+    resizeH.setPointerCapture && resizeH.setPointerCapture(ev.pointerId);
     const startX=ev.clientX;
     const startW=el.offsetWidth, startH=el.offsetHeight;
     const startLeft=el.offsetLeft, startTop=el.offsetTop;
@@ -1767,14 +1780,16 @@ function makeResizableDraggable(el, addDelete, onDelete, snapCenterX, anchorCent
         el.style.top = (centerY - h/2)+'px';
       }
     }
-    function up(){ document.removeEventListener('mousemove',move); document.removeEventListener('mouseup',up); }
-    document.addEventListener('mousemove',move);
-    document.addEventListener('mouseup',up);
+    function up(){ resizeH.removeEventListener('pointermove',move); resizeH.removeEventListener('pointerup',up); resizeH.removeEventListener('pointercancel',up); }
+    resizeH.addEventListener('pointermove',move);
+    resizeH.addEventListener('pointerup',up);
+    resizeH.addEventListener('pointercancel',up);
   });
 
-  el.addEventListener('mousedown', ev=>{
+  el.addEventListener('pointerdown', ev=>{
     if(ev.target===resizeH || ev.target===delH) return;
     ev.preventDefault();
+    el.setPointerCapture && el.setPointerCapture(ev.pointerId);
     const startX=ev.clientX, startY=ev.clientY;
     const startL=el.offsetLeft, startT=el.offsetTop;
     function move(e2){
@@ -1783,8 +1798,9 @@ function makeResizableDraggable(el, addDelete, onDelete, snapCenterX, anchorCent
       el.style.top = (startT + dy) + 'px';
     }
     function up(){
-      document.removeEventListener('mousemove',move);
-      document.removeEventListener('mouseup',up);
+      el.removeEventListener('pointermove',move);
+      el.removeEventListener('pointerup',up);
+      el.removeEventListener('pointercancel',up);
       if(snapCenterX){
         const zoneW = container.clientWidth;
         const elCenter = el.offsetLeft + el.offsetWidth/2;
@@ -1795,8 +1811,9 @@ function makeResizableDraggable(el, addDelete, onDelete, snapCenterX, anchorCent
         }
       }
     }
-    document.addEventListener('mousemove',move);
-    document.addEventListener('mouseup',up);
+    el.addEventListener('pointermove',move);
+    el.addEventListener('pointerup',up);
+    el.addEventListener('pointercancel',up);
   });
 }
 
@@ -1869,6 +1886,40 @@ updateSdToggleUI();
 updateCostumeToggleUI();
 setupMiniToggle('irisLink');
 setupMiniToggle('eyeModeLinked');
+
+/* ---------- 색상 hex 직접입력 (모바일 컬러피커 보완) ---------- */
+function enhanceColorInput(id){
+  const colorInput = document.getElementById(id);
+  const hexInput = document.querySelector(`.hex-input[data-for="${id}"]`);
+  if(!colorInput || !hexInput) return;
+  hexInput.value = colorInput.value;
+  function normalize(v){
+    v = v.trim();
+    if(v && v[0] !== '#') v = '#'+v;
+    if(/^#[0-9a-fA-F]{3}$/.test(v)){
+      v = '#' + v.slice(1).split('').map(c=>c+c).join('');
+    }
+    return v;
+  }
+  hexInput.addEventListener('input', ()=>{
+    const v = normalize(hexInput.value);
+    if(/^#[0-9a-fA-F]{6}$/.test(v)){
+      hexInput.classList.remove('invalid');
+      colorInput.value = v;
+      colorInput.dispatchEvent(new Event('input', {bubbles:true}));
+    } else if(hexInput.value){
+      hexInput.classList.add('invalid');
+    } else {
+      hexInput.classList.remove('invalid');
+    }
+  });
+  hexInput.addEventListener('blur', ()=>{
+    hexInput.classList.remove('invalid');
+    hexInput.value = colorInput.value;
+  });
+  colorInput.addEventListener('input', ()=>{ hexInput.value = colorInput.value; });
+}
+['masterTheme','hairSubColor','eyeModeSub','irisFillColor','irisBorderColor'].forEach(enhanceColorInput);
 updateHairSubRowVisibility();
 updateEyeModeSubRowVisibility();
 </script>
