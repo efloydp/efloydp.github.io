@@ -168,7 +168,7 @@ input[type=file]{ font-size:11px; width:100%; }
 .layer-wrap{ position:absolute; cursor:move; user-select:none; z-index:1000; touch-action:none; }
 .layer-wrap img{ width:100%; height:100%; display:block; pointer-events:none; }
 .layer-wrap.sticker-wrap{ z-index:2500; }
-.resize-handle{ position:absolute; width:22px; height:22px; background:#778EAE; border:2px solid #fff; border-radius:50%; cursor:se-resize; z-index:50; right:-8px; bottom:-8px; touch-action:none; }
+.resize-handle{ position:absolute; width:16px; height:16px; background:#778EAE; border:2px solid #fff; border-radius:50%; cursor:se-resize; z-index:50; right:-8px; bottom:-8px; touch-action:none; }
 .del-handle{ position:absolute; width:40px; height:40px; background:#e24b4a; color:#fff; border-radius:50%; font-size:18px; display:flex; align-items:center; justify-content:center; cursor:pointer; line-height:1; z-index:50; right:30px; top:30px; touch-action:none; }
 
 .animal-box{
@@ -291,16 +291,16 @@ body.welcome-active{ overflow:hidden; }
   display:flex; align-items:center; justify-content:center; padding:20px;
 }
 .welcome-modal{
-  background:#fff; border-radius:18px; padding:28px; max-width:440px; width:100%;
+  background:#fff; border-radius:18px; padding:28px; max-width:600px; width:100%;
   max-height:88vh; overflow-y:auto; box-shadow:0 8px 30px rgba(0,0,0,.3);
   font-family:'Paperozi','Malgun Gothic',sans-serif;
 }
 .welcome-title{ font-size:20px; margin:0 0 20px; text-align:center; color:#222; }
 .welcome-section{ margin-bottom:18px; }
-.welcome-section h3{ font-size:14px; color:#8d81c2; margin:0 0 8px; font-weight:800; }
-.welcome-section ol{ margin:0; padding-left:18px; font-size:13px; color:#444; line-height:1.7; }
-.welcome-caution-no{ font-size:13px; color:#e24b4a; font-weight:800; margin:0 0 6px; line-height:1.6; }
-.welcome-caution-yes{ font-size:13px; color:#444; margin:0; line-height:1.6; }
+.welcome-section h3{ font-size:18px; color:#8d81c2; margin:0 0 8px; font-weight:800; }
+.welcome-section ol{ margin:0; padding-left:18px; font-size:15px; color:#444; line-height:1.7; }
+.welcome-caution-no{ font-size:14px; color:#e24b4a; font-weight:800; margin:0 0 6px; line-height:1.6; }
+.welcome-caution-yes{ font-size:14px; color:#444; margin:0; line-height:1.6; }
 .welcome-patchnotes{
   background:#F3F4F6; border-radius:10px; padding:10px 12px; font-size:12px; color:#666;
   max-height:3.4em; overflow-y:auto; line-height:1.7;
@@ -317,27 +317,27 @@ body.welcome-active{ overflow:hidden; }
 
 <div class="welcome-overlay" id="welcomeOverlay">
   <div class="welcome-modal">
-    <h2 class="welcome-title">촘촘 페어틀 메이커 V1</h2>
+    <h2 class="welcome-title">촘촘 페어틀 메이커 by. EP</h2>
 
     <div class="welcome-section">
       <h3>사용법</h3>
       <ol>
-        <li>편집 화면에서 직접 텍스트를 수정하고 이미지를 업로드하세요.</li>
-        <li>디테일한 내용은 왼쪽 아래(모바일은 아래)의 사이드바에서 조정하세요.</li>
-        <li>제작이 완료되면, PNG 또는 JPG로 저장하세요.</li>
-        <li>프리셋 파일(.json)을 저장해서, 이후에도 동일 파일을 불러와 편집할 수 있습니다.</li>
+        <li><b>오른쪽 편집 화면</b>(모바일:상단)에서 직접 텍스트를 수정하고 이미지를 업로드하세요.</li>
+        <li><b>왼쪽 하단의 사이드바</b>(모바일:하단)에서 디테일을 조정하세요.</li>
+        <li>제작이 완료되면, 왼쪽 상단(모바일:저장하기 탭)에서 PNG 또는 JPG로 저장하세요.</li>
+        <li><b>프리셋 파일(.json)</b>을 저장해서, 이후에도 동일 파일을 불러와 편집할 수 있습니다.</li>
       </ol>
     </div>
 
     <div class="welcome-section">
       <h3>주의사항</h3>
       <p class="welcome-caution-no">X 재배포 &amp; 상업 이용 · 자작 발언 · 이미지 내 카피라이트 삭제 금지</p>
-      <p class="welcome-caution-yes">O 개인 사용 · 커미션 오픈시 페어틀 제작 추천 사이트로 링크 걸기</p>
+      <p class="welcome-caution-yes">O 개인 사용 · 악의 없는 리터칭 · 커미션 오픈시 페어틀 제작 추천 사이트로 링크 걸기</p>
     </div>
 
     <div class="welcome-section">
       <h3>패치 노트</h3>
-      <div class="welcome-patchnotes">v1. 2026.06.28 오픈 - 이 서비스는 Claude의 도움을 받아 제작하였습니다.</div>
+      <div class="welcome-patchnotes">v1. 2026.06.28 배포 - 이 서비스는 Claude의 도움을 받아 제작하였습니다.</div>
     </div>
 
     <button class="welcome-start-btn" id="welcomeStartBtn" type="button">시작하기</button>
@@ -888,7 +888,7 @@ function restoreColumn(data){
     wrap.style.left = data.mainImage.left; wrap.style.top = data.mainImage.top;
     wrap.style.width = data.mainImage.width; wrap.style.height = data.mainImage.height;
     canvasBox.insertBefore(wrap, q('[data-role="animalbox"]'));
-    makeResizableDraggable(wrap, true, ()=>{ canvasBox.querySelector('.placeholder').style.display='flex'; }, false, true);
+    makeResizableDraggable(wrap, true, ()=>{ canvasBox.querySelector('.placeholder').style.display='flex'; }, false, true, true);
   }
   const sdZone = q('[data-role="sdzone"]');
   if(data.sdImage && data.sdImage.src){
@@ -899,7 +899,7 @@ function restoreColumn(data){
     wrap.style.left = data.sdImage.left; wrap.style.top = data.sdImage.top;
     wrap.style.width = data.sdImage.width; wrap.style.height = data.sdImage.height;
     sdZone.appendChild(wrap);
-    makeResizableDraggable(wrap, true, ()=>{ sdZone.querySelector('.sd-placeholder').style.display='flex'; }, true, true);
+    makeResizableDraggable(wrap, true, ()=>{ sdZone.querySelector('.sd-placeholder').style.display='flex'; }, true, true, true);
   }
   (data.stickers || []).forEach(s=>{
     if(!s || !s.src) return;
@@ -1178,7 +1178,7 @@ function initColumn(colWrap, id){
         wrap.style.left = ((627-targetW)/2)+'px';
         wrap.style.top = '20px';
         canvasBox.insertBefore(wrap, canvasBox.querySelector('[data-role="animalbox"]'));
-        makeResizableDraggable(wrap, true, ()=>{ placeholder.style.display='flex'; }, false, true);
+        makeResizableDraggable(wrap, true, ()=>{ placeholder.style.display='flex'; }, false, true, true);
       };
     };
     reader.readAsDataURL(f);
@@ -1208,7 +1208,7 @@ function initColumn(colWrap, id){
         wrap.style.left = ((627-targetW)/2)+'px';
         wrap.style.top = ((465-targetH)/2)+'px';
         sdZone.appendChild(wrap);
-        makeResizableDraggable(wrap, true, ()=>{ sdPlaceholder.style.display='flex'; }, true, true);
+        makeResizableDraggable(wrap, true, ()=>{ sdPlaceholder.style.display='flex'; }, true, true, true);
       };
     };
     reader.readAsDataURL(f);
@@ -1903,7 +1903,7 @@ document.getElementById('stickerInput').addEventListener('change', e=>{
 });
 
 /* ---------- 드래그 + 비율유지 리사이즈 + 삭제 + 가운데 스냅/앵커 ---------- */
-function makeResizableDraggable(el, addDelete, onDelete, snapCenterX, anchorCenter){
+function makeResizableDraggable(el, addDelete, onDelete, snapCenterX, anchorCenter, autoDeleteOutside){
   const container = el.parentElement;
   el.style.touchAction = 'none';
   const resizeH = document.createElement('div');
@@ -1972,6 +1972,16 @@ function makeResizableDraggable(el, addDelete, onDelete, snapCenterX, anchorCent
         const threshold = zoneW*0.15;
         if(Math.abs(elCenter - zoneCenter) < threshold){
           el.style.left = (zoneW/2 - el.offsetWidth/2) + 'px';
+        }
+      }
+      if(autoDeleteOutside){
+        const contW = container.clientWidth, contH = container.clientHeight;
+        const l = el.offsetLeft, t = el.offsetTop, w = el.offsetWidth, h = el.offsetHeight;
+        /* 박스(overflow:hidden)와 한 픽셀도 겹치지 않으면 화면에 안 보여서 다시 잡을 수 없으므로 자동 삭제 */
+        const fullyOutside = (l+w<=0) || (t+h<=0) || (l>=contW) || (t>=contH);
+        if(fullyOutside){
+          el.remove();
+          if(onDelete) onDelete();
         }
       }
     }
@@ -2057,7 +2067,10 @@ function enhanceColorInput(id){
   const hexInput = document.querySelector(`.hex-input[data-for="${id}"]`);
   if(!colorInput || !hexInput) return;
   hexInput.value = colorInput.value;
-  function normalize(v){
+  hexInput.setAttribute('autocomplete','off');
+  hexInput.setAttribute('autocapitalize','off');
+  hexInput.setAttribute('spellcheck','false');
+  function expandShorthand(v){
     v = v.trim();
     if(v && v[0] !== '#') v = '#'+v;
     if(/^#[0-9a-fA-F]{3}$/.test(v)){
@@ -2065,8 +2078,11 @@ function enhanceColorInput(id){
     }
     return v;
   }
+  /* 타이핑 중에는 '완성된 6자리 hex'일 때만 반영. 3자리 축약형 자동 확장은 입력을 방해하므로
+     blur(편집 종료) 시점에만 적용한다 */
   hexInput.addEventListener('input', ()=>{
-    const v = normalize(hexInput.value);
+    let v = hexInput.value.trim();
+    if(v && v[0] !== '#') v = '#'+v;
     if(/^#[0-9a-fA-F]{6}$/.test(v)){
       hexInput.classList.remove('invalid');
       colorInput.value = v;
@@ -2078,10 +2094,17 @@ function enhanceColorInput(id){
     }
   });
   hexInput.addEventListener('blur', ()=>{
+    const v = expandShorthand(hexInput.value);
+    if(/^#[0-9a-fA-F]{6}$/.test(v)){
+      colorInput.value = v;
+      colorInput.dispatchEvent(new Event('input', {bubbles:true}));
+    }
     hexInput.classList.remove('invalid');
     hexInput.value = colorInput.value;
   });
-  colorInput.addEventListener('input', ()=>{ hexInput.value = colorInput.value; });
+  colorInput.addEventListener('input', ()=>{
+    if(document.activeElement !== hexInput) hexInput.value = colorInput.value;
+  });
 }
 ['masterTheme','hairSubColor','eyeModeSub','irisFillColor','irisBorderColor','hairMainColor','eyeMainColor','skinMainColor'].forEach(enhanceColorInput);
 updateHairSubRowVisibility();
