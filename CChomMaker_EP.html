@@ -1,0 +1,1876 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>[EP] 촘촘 페어틀 메이커</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='22' cy='32' r='17' fill='%23b9c7d2'/%3E%3Ccircle cx='42' cy='32' r='17' fill='%23c3bce5'/%3E%3C/svg%3E">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<style>
+@font-face{ font-family:'Paperozi'; src:url('https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-1Thin.woff2') format('woff2'); font-weight:100; font-display:swap; }
+@font-face{ font-family:'Paperozi'; src:url('https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-2ExtraLight.woff2') format('woff2'); font-weight:200; font-display:swap; }
+@font-face{ font-family:'Paperozi'; src:url('https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-3Light.woff2') format('woff2'); font-weight:300; font-display:swap; }
+@font-face{ font-family:'Paperozi'; src:url('https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-4Regular.woff2') format('woff2'); font-weight:400; font-display:swap; }
+@font-face{ font-family:'Paperozi'; src:url('https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-5Medium.woff2') format('woff2'); font-weight:500; font-display:swap; }
+@font-face{ font-family:'Paperozi'; src:url('https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-6SemiBold.woff2') format('woff2'); font-weight:600; font-display:swap; }
+@font-face{ font-family:'Paperozi'; src:url('https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-7Bold.woff2') format('woff2'); font-weight:700; font-display:swap; }
+@font-face{ font-family:'Paperozi'; src:url('https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-8ExtraBold.woff2') format('woff2'); font-weight:800; font-display:swap; }
+@font-face{ font-family:'Paperozi'; src:url('https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-9Black.woff2') format('woff2'); font-weight:900; font-display:swap; }
+
+*{box-sizing:border-box;word-break:keep-all !important;  letter-spacing:-0.8px;}
+body{ font-family:-apple-system,'Malgun Gothic',sans-serif; background:#e9eaee; margin:0; padding:24px; color:#222; }
+.app-wrap{ display:flex; gap:24px; align-items:flex-start; max-width:1300px; margin:0 auto; }
+
+.sidebar{
+  width:300px; flex-shrink:0; position:sticky; top:24px; display:flex; flex-direction:column; gap:14px;
+  max-height:calc(100vh - 48px);
+  font-family:'Paperozi','Malgun Gothic',sans-serif;
+}
+.export-box{
+  background:#fff; border-radius:14px; padding:18px; flex-shrink:0;
+}
+.export-box h2{ font-size:20px; margin:0 0 10px; color:#b9c7d2;}
+.export-box h3{ font-size:16px; margin:0 0 10px; color:#c3bce5; }
+
+.panel{
+  width:100%; flex-shrink:1; min-height:0; background:#fff; border-radius:14px; padding:0;
+  overflow-y:auto;
+  font-family:'Paperozi','Malgun Gothic',sans-serif;
+}
+.panel-body{ padding:0 18px 18px; }
+.panel h2{ font-size:18px; margin:0 0 10px; }
+.panel h3{ font-size:16px; margin:18px 0 8px; color:#555; border-top:1px solid #eee; padding-top:14px; }
+.panel h3:first-of-type{ border-top:none; padding-top:0; }
+.row{ display:flex; align-items:center; gap:8px; margin-bottom:8px; font-size:12px; }
+.row label{ flex:1; color:#444; font-size:14px; }
+label{ font-size:14px; }
+.row input[type=color]{ width:32px;height:24px;border:none;border-radius:4px;cursor:pointer;padding:0; }
+.row input[type=range]{ flex:1; }
+.btn{ width:100%; padding:9px; border:none; border-radius:8px; background:#444; color:#fff; font-size:13px; cursor:pointer; margin-top:6px; font-family:inherit; }
+.btn:hover{ background:#222; }
+.btn.blue {background:#b9c7d2; color:#333;font-weight:bold;}
+.btn.purple {background:#c3bce5; color:#333;font-weight:bold;}
+.btn.secondary{ background:#eee; color:#333; }
+.btn.secondary:hover{ background:#ddd; }
+.btn-row{ display:flex; gap:6px; }
+.btn-row .btn{ margin-top:0; }
+select{ font-size:12px; border-radius:6px; border:1px solid #ddd; padding:3px 4px; font-family:inherit; }
+input[type=range], input[type=color], input[type=checkbox]{ font-family:inherit; }
+.hint{ font-size:12px; color:#999; margin-top:4px; line-height:1.5;}
+input[type=file]{ font-size:11px; width:100%; }
+.charcount{ font-size:12px; color:#666; margin-bottom:6px; }
+.tab-buttons{
+  position:sticky; top:0; z-index:20; background:#fff;
+  display:flex;  margin:0 0 16px 0;
+  border-bottom:2px solid #eee; border-radius:14px 14px 0 0;
+}
+.tab-btn{
+  flex:1; padding:10px 4px; border:none; border-radius:10px 10px 0 0;
+  background:transparent; color:#aaa; font-size:14px; font-family:inherit; cursor:pointer; font-weight:700;
+  letter-spacing:-0.3px; transition:background-color .15s, color .15s;
+}
+.tab-btn:hover{ background:#f3f1fb; color:#8d81c2; }
+.tab-btn.active{ background:#c3bce5; color:#333; }
+.tab-btn.active:hover{ background:#c3bce5; }
+.tab-content{ display:none; }
+.tab-content.active{ display:block; }
+.tab-content h3:first-of-type{ border-top:none; padding-top:0; margin-top:0; }
+.sheet-outer-wrap{ position:relative; flex:1; min-width:0; }
+.nav-btn{
+  position:absolute; top:50%; transform:translateY(-50%); width:38px; height:38px; border-radius:50%;
+  background:rgba(0,0,0,.55); color:#fff; border:none; font-size:16px; cursor:pointer; z-index:10;
+  display:flex; align-items:center; justify-content:center; padding:0; line-height:1;
+}
+.nav-btn:hover{ background:rgba(0,0,0,.75); }
+.nav-left{ left:6px; }
+.nav-right{ right:6px; }
+.zoom-controls{
+  position:fixed; top:50px; right:50px; z-index:3500;
+  display:flex; flex-direction:column; align-items:center; gap:8px;
+}
+.zoom-btn{
+  width:38px; height:38px; border-radius:50%; background:#fff; border:1px solid #ddd;
+  box-shadow:0 1px 4px rgba(0,0,0,.18); display:flex; align-items:center; justify-content:center;
+  cursor:pointer; color:#666; padding:0;
+}
+.zoom-btn:hover{ background:#f3f1fb; color:#8d81c2; }
+.zoom-reset-btn{
+  margin-top:2px; padding:7px 12px; border-radius:14px; background:#fff; border:1px solid #ddd;
+  box-shadow:0 1px 4px rgba(0,0,0,.18); font-size:11px; color:#666; cursor:pointer; font-family:inherit;
+  white-space:nowrap;
+}
+.zoom-reset-btn:hover{ background:#f3f1fb; color:#8d81c2; }
+
+.sheet-outer{ flex:1; min-width:0; overflow-x:auto; overflow-y:hidden; }
+.sheet{
+  font-family:'Paperozi','Malgun Gothic',sans-serif;
+  letter-spacing:-0.02em;
+  background:#fff;
+  width:max-content;
+  position:relative;
+  padding:0 80px 80px 80px;
+  transform-origin:top left;
+}
+.topbar{
+  display:flex; justify-content:space-between; align-items:center;
+  background:#f3f4f6; padding:24px 32px; margin:0; border-radius:0 0 15px 15px;
+}
+.topbar [contenteditable]{ outline:none; min-width:40px; line-height:1.3;}
+.topbar [contenteditable]:focus{ color:#333; }
+
+#pairNameField {font-size:26px;color:#909090;font-weight:700;}
+#pairDescField {font-size:26px;color:#909090;}
+
+.columns{ display:flex; flex-wrap:nowrap; }
+.col-wrap{ position:relative; width:627px; flex-shrink:0; margin-right:70px; }
+.col-wrap:last-child{ margin-right:0; }
+.col-wrap.dragging{ opacity:0.4; }
+.col{ padding-top:41px; }
+
+.char-head{ position:relative; height:74px; margin-bottom:27px; }
+.badge{ position:absolute; left:0; top:0; font-size:60px; font-weight:900; line-height:1.15; white-space:nowrap; }
+.name-input{ position:absolute; left: 68px;px; top:17px; font-size:30px; font-weight:700; border:none; outline:none; background:transparent; width:160px; font-family:inherit; letter-spacing:inherit; line-height:1.3; white-space:nowrap; overflow:visible;color:#666666; }
+.meta-input{
+  position:absolute; right:0; top:20px; width:320px; font-size:26px; font-weight:600; color:#909090; border:none; outline:none;
+  background:transparent; text-align:right; font-family:inherit; letter-spacing:inherit; line-height:1.3; white-space:nowrap; overflow:visible;
+}
+.meta-input:focus{ color:#555; }
+
+.info-box{ border:3px solid #212121; border-radius:15px; padding:14px 24px; margin-bottom:27px; }
+.info-line{ outline:none; font-size:28px;  font-weight:600; padding:10px 0; line-height:1.6;letter-spacing:-1px; }
+.info-divider{ border-bottom:1px solid #ddd; margin:2px 0; }
+
+.swatch-row{ display:grid; grid-template-columns:repeat(4,1fr) 150px; gap:30px; align-items:stretch; margin-bottom:10px; }
+.swatch{ width:100%; aspect-ratio:1/1; border:3px solid #909090; border-radius:15px; cursor:pointer; position:relative; overflow:hidden; background:#f3f4f6; }
+.swatch input[type=color]{ position:absolute; inset:0; opacity:0; width:100%; height:100%; cursor:pointer; }
+.swatch .iris{ position:absolute; width:27px; height:27px; border-radius:50%; background:#fff; border:3px solid #909090; cursor:grab; z-index:2; }
+.swatch .iris.hidden{ display:none; }
+.swatch-labels{ display:grid; grid-template-columns:repeat(4,1fr) 150px; gap:30px; font-size:30px; font-weight:500; color:#909090; margin-bottom:39px; line-height:1.3; }
+.swatch-labels span{ text-align:center; min-width:25px;}
+.theme-btn{
+  width:100%; height:100%; border-radius:15px; border:3px solid #909090;
+  color:#fff; font-weight:600; font-size:30px; font-family:inherit; cursor:pointer; position:relative; overflow:hidden; line-height:1.3;
+}
+.theme-btn input[type=color]{ position:absolute; inset:0; opacity:0; width:100%; height:100%; cursor:pointer; }
+
+.canvas-box{ background:#f3f4f6; border-radius:15px; width:627px; height:994px; position:relative; overflow:hidden; }
+.canvas-box .placeholder{
+  position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+  color:#bbb; font-size:25px; font-weight:500; text-align:center; cursor:pointer; line-height:1.5; z-index:1;
+}
+.layer-wrap{ position:absolute; cursor:move; user-select:none; z-index:1000; }
+.layer-wrap img{ width:100%; height:100%; display:block; pointer-events:none; }
+.layer-wrap.sticker-wrap{ z-index:2500; }
+.resize-handle{ position:absolute; width:16px; height:16px; background:#778EAE; border:2px solid #fff; border-radius:50%; cursor:se-resize; z-index:50; right:-8px; bottom:-8px; }
+.del-handle{ position:absolute; width:40px; height:40px; background:#e24b4a; color:#fff; border-radius:50%; font-size:18px; display:flex; align-items:center; justify-content:center; cursor:pointer; line-height:1; z-index:50; right:30px; top:30px; }
+
+.animal-box{
+  position:absolute; z-index:1500; background:#B9C7D2; color:#fff; font-size:28px; font-weight:600;
+  padding:0 32px 0 36px; height:61px; display:flex; align-items:center; line-height:1.3;
+}
+.animal-box.pos-bl{ left:0; bottom:-1px; top:auto; right:auto; border-radius:0 15px 0 0; }
+.animal-box.pos-br{ right:0; bottom:-1px; top:auto; left:auto; border-radius:15px 0 0 0; }
+.animal-box.pos-tl{ left:0; top:-1px; bottom:auto; right:auto; border-radius:0 0 15px 0; }
+.animal-box.pos-tr{ right:0; top:-1px; bottom:auto; left:auto; border-radius:0 0 0 15px; }
+.animal-box.off{ display:none; }
+.sd-zone.off{ display:none; }
+.topbar.off{ display:none; }
+.costume-box.off{ display:none; }
+.toggle-group{ display:inline-flex; border-radius:8px; overflow:hidden; margin-top:6px; border:1px solid #ddd; }
+.toggle-btn{ padding:5px 14px; border:none; background:#f5f5f5; color:#999; font-size:11px; font-family:inherit; cursor:pointer; font-weight:700; }
+.toggle-btn.active{ background:#c3bce5; color:#fff; }
+.toggle-btn + .toggle-btn{ border-left:1px solid #ddd; }
+.iris-slot-toggle{ display:flex; gap:6px; background:#fff; border-radius:15px; padding:6px; margin-bottom:8px; }
+.iris-slot-btn{ flex:1; padding:7px 4px; border:none; border-radius:10px; background:transparent; color:#8d81c2; font-size:13px; font-family:inherit; cursor:pointer; font-weight:700; }
+.iris-slot-btn.active{ background:#c3bce5; color:#fff; box-shadow:0 1px 3px rgba(0,0,0,.12); }
+.iris-edit-group{ background:#f6f4ff; border-radius:15px; padding:14px; margin-top:10px; }
+.iris-edit-group .hint{ margin-bottom:0; }
+.mini-toggle{ display:inline-flex; border-radius:8px; overflow:hidden; border:1px solid #ddd; flex-shrink:0; }
+.mini-toggle-btn{ padding:5px 12px; border:none; background:#f5f5f5; color:#999; font-size:11px; font-family:inherit; cursor:pointer; font-weight:700; }
+.mini-toggle-btn.active{ background:#c3bce5; color:#fff; }
+.mini-toggle-btn + .mini-toggle-btn{ border-left:1px solid #ddd; }
+.animal-box [contenteditable]{ outline:none; }
+.source-text{ outline:none; text-align:right; font-size:17px; font-weight:500; color:#909090; margin:10px 0 15px; line-height:1.3; }
+
+.sd-zone{ position:relative; width:627px; height:465px; overflow:hidden; background:transparent; }
+.sd-zone .sd-placeholder{
+  position:absolute; inset:0; background:#fafafa; border:3px solid #ccc; border-radius:15px;
+  display:flex; align-items:center; justify-content:center; font-size:25px; color:#bbb; font-weight:500; cursor:pointer; text-align:center; line-height:1.5; z-index:1;
+}
+
+.costume-box{
+  background:#f3f4f6; border-radius:15px; padding:16px; text-align:center; font-size:28px; font-weight:500; color:#666666;
+  outline:none; margin-top:24px; line-height:1.5;
+}
+.costume-box:focus{ color:#222; }
+
+.design-credit{ position:absolute; right:80px; bottom:24px; text-align:right; font-size:12px; font-weight:400; color:#ccc; line-height:1.3; user-select:none; }
+
+.col-remove, .col-drag{
+  position:absolute; top:0; width:34px; height:34px; border-radius:50%; background:#ddd; color:#666;
+  font-size:18px; display:flex; align-items:center; justify-content:center; cursor:pointer; z-index:3000;
+}
+.col-remove{ right:0; }
+.col-drag{ right:40px; cursor:grab; }
+
+.highlight-btn{
+  position:fixed; z-index:5000; background:#1a1a1a; color:#fff; font-size:12px; font-weight:500;
+  padding:6px 12px; border-radius:8px; cursor:pointer; display:none; font-family:-apple-system,sans-serif;
+  box-shadow:0 2px 8px rgba(0,0,0,.25);
+}
+
+/* ===== 장평 94% (글자 가로폭 압축) ===== */
+#pairNameField, #pairDescField, .badge, .name-input, .info-line{
+  transform: scaleX(0.94); transform-origin: left top;
+}
+.animal-box span{
+  display:inline-block; transform: scaleX(0.96); transform-origin: left top;
+}
+.meta-input, .source-text, .design-credit{
+  transform: scaleX(0.94); transform-origin: right top;
+}
+.swatch-labels span{
+  transform: scaleX(0.94);
+}
+.theme-btn .btn-text{
+  display:inline-block; transform: scaleX(0.94);
+}
+/* ===== 모바일 반응형 ===== */
+.tab-btn[data-tab="save"]{ display:none; }
+.sidebar-top-bar{ display:none; }
+.zoom-controls.mobile-row{
+  display:flex; position:static; flex-direction:row; justify-content:flex-end; align-items:center; gap:14px;
+}
+.zoom-controls.mobile-row .zoom-reset-btn{ margin-top:0; }
+@media (max-width: 860px){
+  body{ padding:0; }
+  .app-wrap{ flex-direction:column; gap:0; max-width:100%; }
+  .sheet-outer-wrap{ width:100%; padding:10px; }
+  .sidebar{
+    position:fixed; left:0; right:0; bottom:0; top:auto; width:100%;
+    max-height:75vh; z-index:4000; gap:0;
+    background:transparent; box-shadow:none; border-radius:0;
+  }
+  .panel{
+    max-height:50vh; border-radius:16px 16px 0 0; background:#fff;
+    box-shadow:0 -4px 18px rgba(0,0,0,.18);
+  }
+  .export-box{ display:none; }
+  #saveTabContent .export-box{ display:block; }
+  .tab-btn[data-tab="save"]{ display:flex; align-items:center; justify-content:center; }
+  .sidebar-top-bar{
+    display:flex; align-items:center; justify-content:space-between; gap:10px;
+    padding:8px 10px;
+  }
+  .sidebar-collapse-btn{
+    display:flex; align-items:center; justify-content:center; gap:4px; flex-shrink:0;
+    height:30px; padding:0 14px; border-radius:15px;
+    background:#fff; color:#8d81c2; border:none; font-size:13px; font-weight:700; cursor:pointer;
+    box-shadow:0 1px 4px rgba(0,0,0,.18); font-family:inherit; white-space:nowrap;
+  }
+  .sidebar-zoom-slot{ display:block; flex:1; min-width:0; }
+  .sidebar.collapsed .sidebar-zoom-slot,
+  .sidebar.collapsed .panel{ display:none; }
+}
+</style>
+</head>
+<body>
+
+<div class="app-wrap">
+
+  <div class="sidebar" id="sidebar">
+    <div class="sidebar-top-bar" id="sidebarTopBar">
+      <button class="sidebar-collapse-btn" id="sidebarCollapseBtn" type="button" title="편집 컨트롤 접기/펼치기">▾ 접기</button>
+      <div class="sidebar-zoom-slot" id="sidebarZoomSlot"></div>
+    </div>
+    <div class="export-box" id="exportBox">
+      <h2>촘촘 페어틀 메이커 v1</h2>
+      <div class="btn-row">
+        <button class="btn blue" id="exportPng">PNG로 저장</button>
+        <button class="btn secondary" id="exportJpg">JPG로 저장</button>
+      </div>
+      <div class="hint">made by EP <a href="https://x.com/efloydp_cms" target="_blank">@efloydp_cms</a></div>
+
+      <h3 style="margin-top:16px;">프리셋 (내 기기에 저장)</h3>
+      <div class="row"><input type="text" id="presetNameInput" placeholder="파일 이름 (예: 페어명_날짜)" style="flex:1;padding:5px 7px;border:1px solid #ddd;border-radius:6px;font-size:12px;font-family:inherit;"></div>
+      <button class="btn purple" id="savePresetBtn">프리셋 파일 저장 (.json)</button>
+      <input type="file" id="presetFileInput" accept=".json,application/json" style="display:none;">
+      <button class="btn secondary" id="loadPresetBtn" style="margin-top:6px;">프리셋 파일 불러오기</button>
+      <div class="hint">※ 이미지를 포함한 전체 구성이 .json 파일 하나로 내 기기에 저장됩니다. 그 파일을 다시 불러오면 그대로 데이터가 복원됩니다.</div>
+    </div>
+
+    <div class="panel">
+      <div class="tab-buttons">
+        <button class="tab-btn active" data-tab="add">인물 추가</button>
+        <button class="tab-btn" data-tab="settings">캐릭터 설정</button>
+        <button class="tab-btn" data-tab="images">캐릭터 이미지</button>
+        <button class="tab-btn" data-tab="save" id="saveTabBtn">저장하기</button>
+      </div>
+
+      <div class="panel-body">
+      <div class="tab-content active" data-tab-content="add">
+        <h3>인물 추가</h3>
+        <div class="charcount" id="charCount">현재 2명 (최대 8명)</div>
+        <div class="row" style="margin-top:6px;">
+          <label>인물 수</label>
+          <div class="btn-row" style="flex:1;align-items:center;">
+            <button class="btn secondary" id="charCountMinus" style="width:30px;flex:0 0 30px;padding:6px;">-</button>
+            <span id="charCountStepperVal" style="flex:1;text-align:center;font-size:14px;">2</span>
+            <button class="btn secondary" id="charCountPlus" style="width:30px;flex:0 0 30px;padding:6px;">+</button>
+          </div>
+        </div>
+        <div class="hint">⠿ 핸들을 다른 캐릭터 위로 드래그하면 순서가 바뀌고<br>A,B,C...이 자동 재배열됩니다.</div>
+      </div>
+
+      <div class="tab-content" data-tab-content="settings">
+        <h3>상단 정보 (페어명 / 설명)</h3>
+        <div class="toggle-group">
+          <button class="toggle-btn" id="topbarOffBtn">OFF</button>
+          <button class="toggle-btn active" id="topbarOnBtn">ON</button>
+        </div>
+        <div class="hint">시트 맨 위 페어명/설명 영역을 숨기거나 보여줍니다.</div>
+
+        <h3>테마색</h3>
+        <div class="row"><label>적용할 인물</label><select id="themeTargetSelect"></select></div>
+        <div class="row"><label>적용할 색상</label><input type="color" id="masterTheme" value="#B9C7D2"></div>
+        <div class="hint">뱃지(A,B,C...)/테마색/동물화 박스에 적용됩니다.</div>
+
+        <h3>머리 색상</h3>
+        <div class="row"><label>대상</label><select id="hairTargetSelect"></select></div>
+        <div class="row"><label>모드</label>
+          <select id="hairModeSelect"><option value="solid">단색</option><option value="gradient">그라데이션</option><option value="twotone">투톤(위/아래)</option></select>
+        </div>
+        <div class="row" id="hairSubRow"><label>보조색</label><input type="color" id="hairSubColor" value="#cccccc"></div>
+
+        <h3>눈 색상</h3>
+        <div class="row"><label>대상</label><select id="eyeModeTarget"></select></div>
+        <div class="row">
+          <label>두 눈 일괄 적용</label>
+          <input type="checkbox" id="eyeModeLinked" checked style="display:none;">
+          <div class="mini-toggle" data-for="eyeModeLinked">
+            <button type="button" class="mini-toggle-btn" data-val="off">OFF</button>
+            <button type="button" class="mini-toggle-btn active" data-val="on">ON</button>
+          </div>
+        </div>
+        <div class="row" id="eyeWhichRow" style="display:none;"><label>적용할 눈</label>
+          <select id="eyeModeWhich"><option value="L">왼쪽눈</option><option value="R">오른쪽눈</option></select>
+        </div>
+        <div class="row"><label>모드</label>
+          <select id="eyeModeSelect"><option value="solid">단색</option><option value="gradient">그라데이션</option><option value="twotone">투톤(위/아래)</option></select>
+        </div>
+        <div class="row" id="eyeModeSubRow"><label>보조색</label><input type="color" id="eyeModeSub" value="#cccccc"></div>
+
+        <h3>눈 안광</h3>
+        <div class="row"><label>대상</label><select id="irisTargetSelect"></select></div>
+        <div class="row">
+          <label>안광 표시</label>
+          <div class="toggle-group">
+            <button class="toggle-btn active" id="irisDisplayOffBtn">OFF</button>
+            <button class="toggle-btn" id="irisDisplayOnBtn">ON</button>
+          </div>
+        </div>
+
+        <div id="irisLowerSection" style="display:none;">
+        <div class="row"><label>안광 개수(양쪽 공통)</label>
+          <div class="btn-row" style="flex:1;align-items:center;">
+            <button class="btn secondary" id="irisCountMinus" style="width:30px;flex:0 0 30px;padding:6px;">-</button>
+            <span id="irisCountVal" style="flex:1;text-align:center;font-size:13px;">1</span>
+            <button class="btn secondary" id="irisCountPlus" style="width:30px;flex:0 0 30px;padding:6px;">+</button>
+          </div>
+        </div>
+
+        <div class="iris-edit-group">
+          <div id="irisSlotSection">
+            <div class="row"><label>편집할 안광 번호</label></div>
+            <div class="iris-slot-toggle" id="irisSlotToggle"></div>
+            <select id="irisSlotSelect" style="display:none;"><option value="0">1번</option></select>
+          </div>
+          <div class="row">
+            <label>안광 양쪽 함께 이동</label>
+            <input type="checkbox" id="irisLink" checked style="display:none;">
+            <div class="mini-toggle" data-for="irisLink">
+              <button type="button" class="mini-toggle-btn" data-val="off">OFF</button>
+              <button type="button" class="mini-toggle-btn active" data-val="on">ON</button>
+            </div>
+          </div>
+          <div class="row"><label>안광 크기</label></div>
+          <div class="row"><input type="range" id="irisSizeSlider" min="6" max="90" step="1" value="27"><span id="irisSizeVal" style="width:70px;text-align:right;font-size:12px;">27px(기본)</span></div>
+          <div class="row"><label>안광 색</label><input type="color" id="irisFillColor" value="#ffffff"></div>
+          <div class="row"><label>안광 테두리 색</label><input type="color" id="irisBorderColor" value="#909090"></div>
+          <button class="btn secondary" id="resetIris" style="margin-top:6px;">선택 안광 위치/크기 초기화</button>
+        </div>
+        <div class="hint">화면 내에서 안광을 드래그해서 위치 옮기기<br>안광을 더블클릭하면 그 쪽 눈의 안광만 숨겨집니다.</div>
+        </div>
+
+      </div>
+
+      <div class="tab-content" data-tab-content="images">
+        <h3>메인 이미지 세로 길이</h3>
+        <div class="row"><input type="range" id="canvasHeightSlider" min="400" max="1400" step="2" value="994"><span id="canvasHeightVal" style="width:46px;text-align:right;">기본</span></div>
+
+        <h3>스티커 추가</h3>
+        <div class="row"><label>붙일 위치</label><select id="stickerTarget"></select></div>
+        <input type="file" id="stickerInput" accept="image/*">
+        <div class="hint">항상 모든 요소의 맨 위에 붙여져요.</div>
+
+        <h3>동물화 박스</h3>
+        <div class="row"><label>대상</label><select id="animalTargetSelect"></select></div>
+        <div class="toggle-group">
+          <button class="toggle-btn" id="animalOffBtn">OFF</button>
+          <button class="toggle-btn active" id="animalOnBtn">ON</button>
+        </div>
+        <div class="row" style="margin-top:8px;"><label>위치</label>
+          <select id="animalPositionSelect">
+            <option value="bl">왼쪽 아래</option>
+            <option value="br">오른쪽 아래</option>
+            <option value="tl">왼쪽 위</option>
+            <option value="tr">오른쪽 위</option>
+          </select>
+        </div>
+        <div class="hint">메인 이미지 박스의 네 모서리 중 한 곳에 위치합니다 (기본: 왼쪽 아래).</div>
+
+        <h3>SD 이미지</h3>
+        <div class="toggle-group">
+          <button class="toggle-btn" id="sdOffBtn">OFF</button>
+          <button class="toggle-btn active" id="sdOnBtn">ON</button>
+        </div>
+        <div class="hint">모든 인물에 일괄 적용됩니다.</div>
+
+        <h3>의상&표정 관련 묘사</h3>
+        <div class="toggle-group">
+          <button class="toggle-btn" id="costumeOffBtn">OFF</button>
+          <button class="toggle-btn active" id="costumeOnBtn">ON</button>
+        </div>
+        <div class="hint">모든 인물에 일괄 적용됩니다.</div>
+      </div>
+
+      <div class="tab-content" data-tab-content="save" id="saveTabContent"></div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="sheet-outer-wrap">
+    <div class="sheet-outer" id="sheetOuter">
+      <div class="sheet" id="sheet">
+        <div class="topbar">
+          <div contenteditable="true" id="pairNameField">페어명 / Pair Name </div>
+          <div contenteditable="true" id="pairDescField">페어 관련 설명을 적어주세요.</div>
+        </div>
+        <div class="columns" id="columnsWrap"></div>
+        <div class="design-credit">ChomChom-MAKER @efloydp</div>
+      </div>
+    </div>
+    <button class="nav-btn nav-left" id="navLeft" type="button">◀</button>
+    <button class="nav-btn nav-right" id="navRight" type="button">▶</button>
+    <div class="zoom-controls">
+      <button class="zoom-btn" id="zoomInBtn" type="button" title="화면 확대">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <circle cx="10" cy="10" r="7"></circle>
+          <line x1="20" y1="20" x2="15.2" y2="15.2"></line>
+          <line x1="10" y1="7" x2="10" y2="13"></line>
+          <line x1="7" y1="10" x2="13" y2="10"></line>
+        </svg>
+      </button>
+      <button class="zoom-btn" id="zoomOutBtn" type="button" title="화면 축소">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <circle cx="10" cy="10" r="7"></circle>
+          <line x1="20" y1="20" x2="15.2" y2="15.2"></line>
+          <line x1="7" y1="10" x2="13" y2="10"></line>
+        </svg>
+      </button>
+      <button class="zoom-reset-btn" id="zoomResetBtn" type="button">기본 사이즈로 보기</button>
+    </div>
+  </div>
+</div>
+
+<div class="highlight-btn" id="highlightBtn">강조</div>
+
+<template id="colTemplate">
+  <div class="col-wrap">
+    <div class="col-drag">⠿</div>
+    <div class="col-remove">✕</div>
+    <div class="col">
+      <div class="char-head">
+        <div class="badge" data-role="badge">A</div>
+        <div class="name-input" contenteditable="true">이름</div>
+        <div class="meta-input" contenteditable="true">나이 / 키 / 체격 / 기타사항</div>
+      </div>
+      <div class="info-box">
+        <div class="info-line" contenteditable="true" data-role="line1">머리색+눈색 / 눈매 / 안광 O / 눈썹 두께</div>
+        <div class="info-divider"></div>
+        <div class="info-line" contenteditable="true" data-role="line2">머리스타일+기장 / 포인트1 / 포인트2 / 포인트3</div>
+      </div>
+      <div class="swatch-row">
+        <div class="swatch" data-part="hair"><input type="color" value="#F3F4F6"></div>
+        <div class="swatch" data-part="eyeL"><input type="color" value="#F3F4F6"></div>
+        <div class="swatch" data-part="eyeR"><input type="color" value="#F3F4F6"></div>
+        <div class="swatch" data-part="skin"><input type="color" value="#F3F4F6"></div>
+        <button class="theme-btn" data-role="themebtn" style="background:#B9C7D2;"><span class="btn-text">테마색</span><input type="color" value="#B9C7D2"></button>
+      </div>
+      <div class="swatch-labels"><span>머리</span><span>왼쪽눈</span><span>오른쪽눈</span><span>피부</span><span></span></div>
+      <div class="canvas-box" data-role="canvasbox">
+        <div class="placeholder">클릭해서 메인 이미지 업로드<br>(테두리 잡고 드래그/리사이즈)</div>
+        <input type="file" accept="image/*" class="main-file-input" style="display:none;">
+        <div class="animal-box pos-bl" data-role="animalbox" style="background:#B9C7D2;"><span contenteditable="true">동물화 : 동물명</span></div>
+      </div>
+      <div class="source-text" contenteditable="true">@커미션 출처 (필요 없을 경우 삭제)</div>
+      <div class="sd-zone" data-role="sdzone">
+        <div class="sd-placeholder">클릭해서 SD 이미지 업로드</div>
+        <input type="file" accept="image/*" class="sd-file-input" style="display:none;">
+      </div>
+      <div class="costume-box" contenteditable="true">의상 관련 묘사 or 표정 묘사</div>
+    </div>
+  </div>
+</template>
+
+<script>
+let SCALE = 0.6;
+const SCALE_DEFAULT = 0.6, SCALE_MIN = 0.35, SCALE_MAX = 0.8, SCALE_STEP = 0.05;
+const LETTERS = ['A','B','C','D','E','F','G','H'];
+const DEFAULT_COLORS = ['#b9c7d2','#c3bce5','#778EAE','#F3DD92','#58B6CB','#8B9096','#ACAE5A','#D3BCD4'];
+let idCounter = 0;
+
+const columnsWrap = document.getElementById('columnsWrap');
+const colTpl = document.getElementById('colTemplate');
+const sheet = document.getElementById('sheet');
+const sheetOuter = document.getElementById('sheetOuter');
+
+new ResizeObserver(()=>{
+  sheetOuter.style.height = (sheet.offsetHeight*SCALE)+'px';
+}).observe(sheet);
+
+function applySheetScale(){
+  sheet.style.transform = `scale(${SCALE})`;
+  sheetOuter.style.height = (sheet.offsetHeight*SCALE)+'px';
+}
+if(window.matchMedia('(max-width: 860px)').matches){
+  SCALE = 0.4;
+}
+applySheetScale();
+
+/* ---------- 화면 확대/축소 ---------- */
+document.getElementById('zoomInBtn').addEventListener('click', ()=>{
+  SCALE = Math.min(SCALE_MAX, Math.round((SCALE + SCALE_STEP)*100)/100);
+  applySheetScale();
+});
+document.getElementById('zoomOutBtn').addEventListener('click', ()=>{
+  SCALE = Math.max(SCALE_MIN, Math.round((SCALE - SCALE_STEP)*100)/100);
+  applySheetScale();
+});
+document.getElementById('zoomResetBtn').addEventListener('click', ()=>{
+  SCALE = SCALE_DEFAULT;
+  applySheetScale();
+});
+
+/* 좌우 네비게이션: .col 단위로 이동 (현재 줌 배율 기준으로 매번 계산) */
+document.getElementById('navLeft').addEventListener('click', ()=> sheetOuter.scrollBy({left:-(627+70)*SCALE, behavior:'smooth'}));
+document.getElementById('navRight').addEventListener('click', ()=> sheetOuter.scrollBy({left:(627+70)*SCALE, behavior:'smooth'}));
+
+/* ---------- 모바일 반응형: 저장박스/줌컨트롤을 화면 크기에 따라 이동 ---------- */
+const exportBox = document.getElementById('exportBox');
+const sidebarEl = document.getElementById('sidebar');
+const saveTabContent = document.getElementById('saveTabContent');
+const panelEl = document.querySelector('.panel');
+const zoomControlsEl = document.querySelector('.zoom-controls');
+const zoomOriginalParent = zoomControlsEl.parentElement;
+const sidebarZoomSlot = document.getElementById('sidebarZoomSlot');
+const mobileQuery = window.matchMedia('(max-width: 860px)');
+
+function relayoutExportBox(){
+  if(mobileQuery.matches){
+    if(exportBox.parentElement !== saveTabContent) saveTabContent.appendChild(exportBox);
+  } else {
+    if(exportBox.parentElement !== sidebarEl) sidebarEl.insertBefore(exportBox, panelEl);
+  }
+}
+function relayoutZoomControls(){
+  if(mobileQuery.matches){
+    if(zoomControlsEl.parentElement !== sidebarZoomSlot) sidebarZoomSlot.appendChild(zoomControlsEl);
+    zoomControlsEl.classList.add('mobile-row');
+  } else {
+    if(zoomControlsEl.parentElement !== zoomOriginalParent) zoomOriginalParent.appendChild(zoomControlsEl);
+    zoomControlsEl.classList.remove('mobile-row');
+  }
+}
+function relayoutMobile(){
+  relayoutExportBox();
+  relayoutZoomControls();
+  updateMobileBodyPadding();
+}
+relayoutMobile();
+if(mobileQuery.addEventListener) mobileQuery.addEventListener('change', relayoutMobile);
+else if(mobileQuery.addListener) mobileQuery.addListener(relayoutMobile);
+window.addEventListener('resize', relayoutMobile);
+
+/* 편집 컨트롤(사이드바) 접기/펼치기 */
+const sidebarCollapseBtn = document.getElementById('sidebarCollapseBtn');
+sidebarCollapseBtn.addEventListener('click', ()=>{
+  const collapsed = sidebarEl.classList.toggle('collapsed');
+  sidebarCollapseBtn.textContent = collapsed ? '▴ 펼치기' : '▾ 접기';
+  updateMobileBodyPadding();
+});
+
+/* 모바일에서 하단에 fixed된 사이드바 높이만큼 본문에 여백을 줘서,
+   편집 화면을 위로 스크롤했을 때 사이드바에 가려지지 않도록 함 */
+function updateMobileBodyPadding(){
+  if(mobileQuery.matches){
+    document.body.style.paddingBottom = (sidebarEl.offsetHeight + 16) + 'px';
+  } else {
+    document.body.style.paddingBottom = '';
+  }
+}
+new ResizeObserver(updateMobileBodyPadding).observe(sidebarEl);
+updateMobileBodyPadding();
+
+function createCharacter(color){
+  const id = 'c'+(++idCounter);
+  const frag = colTpl.content.cloneNode(true);
+  const colWrap = frag.querySelector('.col-wrap');
+  colWrap.dataset.id = id;
+  const themeBtn = colWrap.querySelector('[data-role="themebtn"]');
+  themeBtn.style.background = color;
+  themeBtn.querySelector('input[type=color]').value = color;
+  colWrap.querySelector('[data-role="animalbox"]').style.background = color;
+  colWrap.querySelectorAll('[data-part]').forEach(sw=>sw.dataset.id = id);
+  columnsWrap.appendChild(colWrap);
+  initColumn(colWrap, id);
+  applyThemeTextColor(id, color);
+  return colWrap;
+}
+
+function removeCharacter(id){
+  const colWrap = columnsWrap.querySelector(`.col-wrap[data-id="${id}"]`);
+  if(colWrap) colWrap.remove();
+  relabelAll();
+}
+
+function addCharacter(){
+  const count = columnsWrap.children.length;
+  if(count>=8){ alert('최대 8명까지 추가할 수 있어요.'); return; }
+  const color = DEFAULT_COLORS[count % DEFAULT_COLORS.length];
+  createCharacter(color);
+  relabelAll();
+}
+
+/* ================= 프리셋 저장/불러오기 (내 컴퓨터에 파일로) ================= */
+
+function wrapToData(wrap){
+  if(!wrap) return null;
+  const img = wrap.querySelector('img');
+  return {
+    src: img ? img.src : '',
+    left: wrap.style.left, top: wrap.style.top,
+    width: wrap.style.width, height: wrap.style.height
+  };
+}
+
+function serializeColumn(colWrap){
+  const id = colWrap.dataset.id;
+  const q = sel => colWrap.querySelector(sel);
+  const swatchColor = part => {
+    const sw = q(`.swatch[data-part="${part}"]`);
+    return sw.dataset.maincolor || sw.querySelector('input[type=color]').value;
+  };
+  const canvasBox = q('[data-role="canvasbox"]');
+  const sdZone = q('[data-role="sdzone"]');
+  const animalBox = q('[data-role="animalbox"]');
+  const mainImgWrap = canvasBox.querySelector('.layer-wrap');
+  const sdImgWrap = sdZone.querySelector('.layer-wrap');
+  const stickerWraps = Array.from(colWrap.children).filter(c=> c.classList && c.classList.contains('sticker-wrap'));
+  const irisSlotsData = side=>{
+    const part = side==='L' ? 'eyeL' : 'eyeR';
+    const sw = q(`.swatch[data-part="${part}"]`);
+    const irises = Array.from(sw.querySelectorAll('.iris')).sort((a,b)=> (+a.dataset.slot)-(+b.dataset.slot));
+    return irises.map(iris=>({
+      left: iris.style.left, top: iris.style.top,
+      width: iris.style.width, height: iris.style.height,
+      fill: iris.style.background || '#ffffff',
+      border: iris.style.borderColor || '#909090',
+      hidden: iris.classList.contains('hidden')
+    }));
+  };
+  return {
+    themeColor: q('[data-role="themebtn"] input[type=color]').value,
+    name: q('.name-input').innerHTML,
+    meta: q('.meta-input').innerHTML,
+    line1: q('[data-role="line1"]').innerHTML,
+    line2: q('[data-role="line2"]').innerHTML,
+    animalText: animalBox.querySelector('span').innerHTML,
+    animalOff: animalBox.classList.contains('off'),
+    animalPosition: ['bl','br','tl','tr'].find(p=> animalBox.classList.contains('pos-'+p)) || 'bl',
+    sourceText: q('.source-text').innerHTML,
+    costumeText: q('.costume-box').innerHTML,
+    swatchColors: { hair:swatchColor('hair'), eyeL:swatchColor('eyeL'), eyeR:swatchColor('eyeR'), skin:swatchColor('skin') },
+    hairSetting: hairSettings[id] || {mode:'solid', sub:'#cccccc'},
+    eyeSettingsData: eyeSettings[id] || {L:{mode:'solid',sub:'#cccccc'}, R:{mode:'solid',sub:'#cccccc'}},
+    eyeLinkUsedFlag: !!eyeLinkUsed[id],
+    canvasHeight: parseInt(canvasBox.style.height, 10) || 994,
+    irisCount: irisCount[id] || 1,
+    irisSlots: { L: irisSlotsData('L'), R: irisSlotsData('R') },
+    mainImage: wrapToData(mainImgWrap),
+    sdImage: wrapToData(sdImgWrap),
+    stickers: stickerWraps.map(wrapToData)
+  };
+}
+
+function serializeSheet(){
+  return {
+    version: 1,
+    pairName: document.getElementById('pairNameField').innerHTML,
+    pairDesc: document.getElementById('pairDescField').innerHTML,
+    sdZoneOff: sdZoneGloballyOff,
+    topbarOff: topbarOff,
+    costumeBoxOff: costumeBoxOff,
+    columns: Array.from(columnsWrap.children).map(serializeColumn)
+  };
+}
+
+function restoreColumn(data){
+  const id = 'c'+(++idCounter);
+  const frag = colTpl.content.cloneNode(true);
+  const colWrap = frag.querySelector('.col-wrap');
+  colWrap.dataset.id = id;
+  colWrap.querySelectorAll('[data-part]').forEach(sw=> sw.dataset.id = id);
+  columnsWrap.appendChild(colWrap);
+
+  const q = sel => colWrap.querySelector(sel);
+  q('.name-input').innerHTML = data.name ?? '이름';
+  q('.meta-input').innerHTML = data.meta ?? '나이 / 키 / 체격 / 기타사항';
+  q('[data-role="line1"]').innerHTML = data.line1 ?? '';
+  q('[data-role="line2"]').innerHTML = data.line2 ?? '';
+  q('[data-role="animalbox"] span').innerHTML = data.animalText ?? '동물명';
+  if(data.animalOff) q('[data-role="animalbox"]').classList.add('off');
+  q('[data-role="animalbox"]').classList.remove('pos-bl','pos-br','pos-tl','pos-tr');
+  q('[data-role="animalbox"]').classList.add('pos-'+(data.animalPosition || 'bl'));
+  q('.source-text').innerHTML = data.sourceText ?? '@커미션 출처 (필요 없을 경우 삭제)';
+  q('.costume-box').innerHTML = data.costumeText ?? '의상 관련 묘사 or 표정 묘사';
+
+  const themeBtn = q('[data-role="themebtn"]');
+  const color = data.themeColor || '#B9C7D2';
+  themeBtn.style.background = color;
+  themeBtn.querySelector('input[type=color]').value = color;
+  q('[data-role="animalbox"]').style.background = color;
+
+  ['hair','eyeL','eyeR','skin'].forEach(part=>{
+    const sw = q(`.swatch[data-part="${part}"]`);
+    const c = (data.swatchColors && data.swatchColors[part]) || '#F3F4F6';
+    sw.dataset.maincolor = c;
+    sw.querySelector('input[type=color]').value = c;
+  });
+
+  q('[data-role="canvasbox"]').style.height = (data.canvasHeight || 994)+'px';
+
+  /* 핸들/이벤트 연결 (이 과정에서 안광은 기본 중앙 위치로 1차 세팅됨) */
+  initColumn(colWrap, id);
+
+  /* 저장된 머리/눈 모드, 색상 복원 */
+  hairSettings[id] = data.hairSetting || {mode:'solid', sub:'#cccccc'};
+  eyeSettings[id] = data.eyeSettingsData || {L:{mode:'solid',sub:'#cccccc'}, R:{mode:'solid',sub:'#cccccc'}};
+  eyeLinkUsed[id] = !!data.eyeLinkUsedFlag;
+  const hairSw = q('.swatch[data-part="hair"]');
+  hairSw.style.background = buildBg(hairSw.dataset.maincolor, hairSettings[id].mode, hairSettings[id].sub);
+  repaintEye(id, 'L');
+  repaintEye(id, 'R');
+
+  /* 안광 개수/위치/크기/색/표시여부 복원 (initColumn이 만든 기본값을 덮어씀) */
+  ensureIrisSlots(id, data.irisCount || 1);
+  ['L','R'].forEach(side=>{
+    const part = side==='L' ? 'eyeL' : 'eyeR';
+    const sw = q(`.swatch[data-part="${part}"]`);
+    let slots = (data.irisSlots && data.irisSlots[side]) ? data.irisSlots[side] : null;
+    if(!slots && data.iris && data.iris[side]) slots = [data.iris[side]]; // 구버전 프리셋 호환
+    if(!slots) return;
+    slots.forEach((d, i)=>{
+      const iris = sw.querySelector(`.iris[data-slot="${i}"]`);
+      if(!iris || !d) return;
+      if(d.left) iris.style.left = d.left;
+      if(d.top) iris.style.top = d.top;
+      if(d.width) iris.style.width = d.width;
+      if(d.height) iris.style.height = d.height;
+      iris.style.background = d.fill || '#ffffff';
+      iris.style.borderColor = d.border || '#909090';
+      if(d.hidden) iris.classList.add('hidden'); else iris.classList.remove('hidden');
+    });
+  });
+
+  applyThemeTextColor(id, color);
+
+  /* 이미지 레이어 복원 */
+  const canvasBox = q('[data-role="canvasbox"]');
+  if(data.mainImage && data.mainImage.src){
+    canvasBox.querySelector('.placeholder').style.display = 'none';
+    const wrap = document.createElement('div');
+    wrap.className = 'layer-wrap';
+    wrap.innerHTML = `<img src="${data.mainImage.src}">`;
+    wrap.style.left = data.mainImage.left; wrap.style.top = data.mainImage.top;
+    wrap.style.width = data.mainImage.width; wrap.style.height = data.mainImage.height;
+    canvasBox.insertBefore(wrap, q('[data-role="animalbox"]'));
+    makeResizableDraggable(wrap, true, ()=>{ canvasBox.querySelector('.placeholder').style.display='flex'; }, false, true);
+  }
+  const sdZone = q('[data-role="sdzone"]');
+  if(data.sdImage && data.sdImage.src){
+    sdZone.querySelector('.sd-placeholder').style.display = 'none';
+    const wrap = document.createElement('div');
+    wrap.className = 'layer-wrap';
+    wrap.innerHTML = `<img src="${data.sdImage.src}">`;
+    wrap.style.left = data.sdImage.left; wrap.style.top = data.sdImage.top;
+    wrap.style.width = data.sdImage.width; wrap.style.height = data.sdImage.height;
+    sdZone.appendChild(wrap);
+    makeResizableDraggable(wrap, true, ()=>{ sdZone.querySelector('.sd-placeholder').style.display='flex'; }, true, true);
+  }
+  (data.stickers || []).forEach(s=>{
+    if(!s || !s.src) return;
+    const wrap = document.createElement('div');
+    wrap.className = 'layer-wrap sticker-wrap';
+    wrap.innerHTML = `<img src="${s.src}">`;
+    wrap.style.left = s.left; wrap.style.top = s.top;
+    wrap.style.width = s.width; wrap.style.height = s.height;
+    colWrap.appendChild(wrap);
+    makeResizableDraggable(wrap, true, null, false, true);
+  });
+
+  return colWrap;
+}
+
+function loadSheetData(data){
+  columnsWrap.innerHTML = '';
+  Object.keys(hairSettings).forEach(k=> delete hairSettings[k]);
+  Object.keys(eyeSettings).forEach(k=> delete eyeSettings[k]);
+  Object.keys(eyeLinkUsed).forEach(k=> delete eyeLinkUsed[k]);
+  Object.keys(irisDefaults).forEach(k=> delete irisDefaults[k]);
+
+  document.getElementById('pairNameField').innerHTML = data.pairName ?? '페어명';
+  document.getElementById('pairDescField').innerHTML = data.pairDesc ?? '페어 관련 설명';
+  sdZoneGloballyOff = !!data.sdZoneOff;
+  updateSdToggleUI();
+  topbarOff = !!data.topbarOff;
+  setTopbarState(topbarOff);
+  costumeBoxOff = !!data.costumeBoxOff;
+  updateCostumeToggleUI();
+
+  (data.columns || []).forEach(colData => restoreColumn(colData));
+  if(columnsWrap.children.length===0){
+    createCharacter(DEFAULT_COLORS[0]);
+  }
+  relabelAll();
+}
+
+function refreshPresetList(){ /* 더 이상 사용하지 않지만 다른 코드에서 참조해도 안전하도록 빈 함수로 유지 */ }
+
+document.getElementById('savePresetBtn').addEventListener('click', ()=>{
+  const nameInput = document.getElementById('presetNameInput');
+  let name = nameInput.value.trim();
+  if(!name) name = 'character-sheet-preset';
+  const safeName = name.replace(/[\\/:*?"<>|]/g, '_');
+  const data = serializeSheet();
+  let json;
+  try{
+    json = JSON.stringify(data);
+  } catch(e){
+    alert('저장에 실패했어요.');
+    return;
+  }
+  const blob = new Blob([json], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = safeName + '_CChomMakerEP' + '.json';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  setTimeout(()=> URL.revokeObjectURL(url), 1000);
+});
+
+document.getElementById('loadPresetBtn').addEventListener('click', ()=>{
+  document.getElementById('presetFileInput').click();
+});
+
+document.getElementById('presetFileInput').addEventListener('change', e=>{
+  const f = e.target.files[0];
+  if(!f) return;
+  const reader = new FileReader();
+  reader.onload = ev=>{
+    let data;
+    try{
+      data = JSON.parse(ev.target.result);
+    } catch(err){
+      alert('올바른 프리셋 파일(.json)이 아니에요.');
+      e.target.value='';
+      return;
+    }
+    if(!confirm('이 파일을 불러올까요? 현재 화면의 작업 내용은 사라져요.')){
+      e.target.value='';
+      return;
+    }
+    loadSheetData(data);
+    const base = f.name.replace(/\.json$/i, '');
+    document.getElementById('presetNameInput').value = base;
+    e.target.value='';
+  };
+  reader.onerror = ()=>{ alert('파일을 읽는 중 오류가 발생했어요.'); e.target.value=''; };
+  reader.readAsText(f);
+});
+
+function relabelAll(){
+  const cols = Array.from(columnsWrap.children);
+  cols.forEach((col,i)=>{
+    col.querySelector('[data-role="badge"]').textContent = LETTERS[i] || '?';
+  });
+  document.getElementById('charCount').textContent = `현재 ${cols.length}명 (최대 8명)`;
+  document.getElementById('charCountStepperVal').textContent = cols.length;
+  const showNav = cols.length >= 3;
+  document.getElementById('navLeft').style.display = showNav ? 'flex' : 'none';
+  document.getElementById('navRight').style.display = showNav ? 'flex' : 'none';
+  applySdZoneState();
+  applyCostumeBoxState();
+  refreshSelectors();
+}
+
+/* ---------- SD 이미지 박스 전체 일괄 on/off ---------- */
+let sdZoneGloballyOff = false;
+function applySdZoneState(){
+  document.querySelectorAll('.sd-zone').forEach(z=> z.classList.toggle('off', sdZoneGloballyOff));
+}
+function updateSdToggleUI(){
+  document.getElementById('sdOffBtn').classList.toggle('active', sdZoneGloballyOff);
+  document.getElementById('sdOnBtn').classList.toggle('active', !sdZoneGloballyOff);
+}
+document.getElementById('sdOffBtn').addEventListener('click', ()=>{
+  sdZoneGloballyOff = true; applySdZoneState(); updateSdToggleUI();
+});
+document.getElementById('sdOnBtn').addEventListener('click', ()=>{
+  sdZoneGloballyOff = false; applySdZoneState(); updateSdToggleUI();
+});
+
+/* ---------- 상단 정보(topbar) on/off ---------- */
+let topbarOff = false;
+function setTopbarState(off){
+  topbarOff = off;
+  document.querySelector('.topbar').classList.toggle('off', off);
+  document.getElementById('topbarOffBtn').classList.toggle('active', off);
+  document.getElementById('topbarOnBtn').classList.toggle('active', !off);
+}
+document.getElementById('topbarOffBtn').addEventListener('click', ()=> setTopbarState(true));
+document.getElementById('topbarOnBtn').addEventListener('click', ()=> setTopbarState(false));
+
+/* ---------- 의상 관련 묘사 박스 전체 일괄 on/off ---------- */
+let costumeBoxOff = false;
+function applyCostumeBoxState(){
+  document.querySelectorAll('.costume-box').forEach(c=> c.classList.toggle('off', costumeBoxOff));
+}
+function updateCostumeToggleUI(){
+  document.getElementById('costumeOffBtn').classList.toggle('active', costumeBoxOff);
+  document.getElementById('costumeOnBtn').classList.toggle('active', !costumeBoxOff);
+}
+document.getElementById('costumeOffBtn').addEventListener('click', ()=>{
+  costumeBoxOff = true; applyCostumeBoxState(); updateCostumeToggleUI();
+});
+document.getElementById('costumeOnBtn').addEventListener('click', ()=>{
+  costumeBoxOff = false; applyCostumeBoxState(); updateCostumeToggleUI();
+});
+
+function getTargetIds(value){
+  const cols = Array.from(columnsWrap.children);
+  if(value === '__all__') return cols.map(c=>c.dataset.id);
+  return value ? [value] : [];
+}
+
+function refreshSelectors(){
+  const cols = Array.from(columnsWrap.children);
+  const letterOpts = cols.map((col,i)=>`<option value="${col.dataset.id}">${LETTERS[i] || '?'}</option>`).join('');
+  const optsNoAll = letterOpts;
+  const optsAllAtBottom = letterOpts + '<option value="__all__">전체</option>';
+  const noAllSels = [
+    document.getElementById('themeTargetSelect'),
+    document.getElementById('stickerTarget')
+  ];
+  const withAllSels = [
+    document.getElementById('irisTargetSelect'),
+    document.getElementById('hairTargetSelect'),
+    document.getElementById('eyeModeTarget'),
+    document.getElementById('animalTargetSelect')
+  ];
+  noAllSels.forEach(sel=>{
+    if(!sel) return;
+    const prev = sel.value;
+    sel.innerHTML = optsNoAll;
+    if(cols.some(c=>c.dataset.id===prev)) sel.value = prev;
+  });
+  withAllSels.forEach(sel=>{
+    if(!sel) return;
+    const prev = sel.value;
+    sel.innerHTML = optsAllAtBottom;
+    if(prev === '__all__' || cols.some(c=>c.dataset.id===prev)) sel.value = prev;
+  });
+}
+
+/* ---------- 컬럼 드래그 정렬 ---------- */
+let dragSrcEl = null;
+function setupColDrag(colWrap){
+  const handle = colWrap.querySelector('.col-drag');
+  handle.addEventListener('mousedown', e=> e.stopPropagation());
+  handle.draggable = true;
+  handle.addEventListener('dragstart', e=>{
+    dragSrcEl = colWrap;
+    colWrap.classList.add('dragging');
+    e.dataTransfer.effectAllowed = 'move';
+    e.dataTransfer.setData('text/plain', colWrap.dataset.id);
+  });
+  handle.addEventListener('dragend', ()=> colWrap.classList.remove('dragging'));
+  colWrap.addEventListener('dragover', e=>{ e.preventDefault(); });
+  colWrap.addEventListener('drop', e=>{
+    e.preventDefault();
+    if(!dragSrcEl || dragSrcEl===colWrap) return;
+    const all = Array.from(columnsWrap.children);
+    const srcIdx = all.indexOf(dragSrcEl);
+    const tgtIdx = all.indexOf(colWrap);
+    if(srcIdx < tgtIdx) colWrap.after(dragSrcEl);
+    else colWrap.before(dragSrcEl);
+    relabelAll();
+  });
+}
+
+function initColumn(colWrap, id){
+  setupColDrag(colWrap);
+
+  colWrap.querySelector('.col-remove').addEventListener('click', ()=>{
+    if(columnsWrap.children.length<=1){ alert('최소 한 명은 남아있어야 해요.'); return; }
+    removeCharacter(id);
+  });
+
+  colWrap.querySelectorAll('.swatch').forEach(sw=>{
+    sw.querySelector('input[type=color]').addEventListener('input', e=>{
+      onSwatchColorInput(sw, e.target.value, id);
+    });
+  });
+
+  ensureIrisSlots(id, 1);
+
+  colWrap.querySelector('[data-role="themebtn"] input[type=color]').addEventListener('input', e=>{
+    applyThemeToId(id, e.target.value);
+  });
+
+  const canvasBox = colWrap.querySelector('[data-role="canvasbox"]');
+  const fileInput = canvasBox.querySelector('.main-file-input');
+  const placeholder = canvasBox.querySelector('.placeholder');
+  placeholder.addEventListener('click', ()=> fileInput.click());
+  fileInput.addEventListener('change', e=>{
+    const f = e.target.files[0];
+    if(!f) return;
+    const reader = new FileReader();
+    reader.onload = ev=>{
+      placeholder.style.display='none';
+      const wrap = document.createElement('div');
+      wrap.className = 'layer-wrap';
+      wrap.innerHTML = `<img src="${ev.target.result}">`;
+      const img = wrap.querySelector('img');
+      img.onload = ()=>{
+        const ratio = img.naturalHeight/img.naturalWidth;
+        const targetW = Math.min(627*0.6, 400);
+        wrap.style.width = targetW+'px';
+        wrap.style.height = (targetW*ratio)+'px';
+        wrap.style.left = ((627-targetW)/2)+'px';
+        wrap.style.top = '20px';
+        canvasBox.insertBefore(wrap, canvasBox.querySelector('[data-role="animalbox"]'));
+        makeResizableDraggable(wrap, true, ()=>{ placeholder.style.display='flex'; }, false, true);
+      };
+    };
+    reader.readAsDataURL(f);
+    fileInput.value='';
+  });
+
+  const sdZone = colWrap.querySelector('[data-role="sdzone"]');
+  const sdFileInput = sdZone.querySelector('.sd-file-input');
+  const sdPlaceholder = sdZone.querySelector('.sd-placeholder');
+  sdPlaceholder.addEventListener('click', ()=> sdFileInput.click());
+  sdFileInput.addEventListener('change', e=>{
+    const f = e.target.files[0];
+    if(!f) return;
+    const reader = new FileReader();
+    reader.onload = ev=>{
+      sdPlaceholder.style.display='none';
+      const wrap = document.createElement('div');
+      wrap.className = 'layer-wrap';
+      wrap.innerHTML = `<img src="${ev.target.result}">`;
+      const img = wrap.querySelector('img');
+      img.onload = ()=>{
+        const ratio = img.naturalHeight/img.naturalWidth;
+        const targetW = 400;
+        const targetH = targetW*ratio;
+        wrap.style.width = targetW+'px';
+        wrap.style.height = targetH+'px';
+        wrap.style.left = ((627-targetW)/2)+'px';
+        wrap.style.top = ((465-targetH)/2)+'px';
+        sdZone.appendChild(wrap);
+        makeResizableDraggable(wrap, true, ()=>{ sdPlaceholder.style.display='flex'; }, true, true);
+      };
+    };
+    reader.readAsDataURL(f);
+    sdFileInput.value='';
+  });
+}
+
+/* ---------- 색상 적용 (머리/눈/피부) ---------- */
+const hairSettings = {};
+const eyeSettings = {}; // id -> {L:{mode,sub}, R:{mode,sub}}
+const eyeLinkUsed = {}; // id -> bool (1회 일괄 사용 여부)
+
+function getEyeSetting(id, side){
+  if(!eyeSettings[id]) eyeSettings[id] = {L:{mode:'solid',sub:'#cccccc'}, R:{mode:'solid',sub:'#cccccc'}};
+  return eyeSettings[id][side];
+}
+function buildBg(color, mode, sub){
+  if(mode==='gradient') return `linear-gradient(180deg, ${color}, ${sub})`;
+  if(mode==='twotone') return `linear-gradient(180deg, ${color} 50%, ${sub} 50%)`;
+  return color;
+}
+function repaintEye(id, side){
+  const part = side==='L' ? 'eyeL' : 'eyeR';
+  const sw = document.querySelector(`.swatch[data-part="${part}"][data-id="${id}"]`);
+  if(!sw) return;
+  const color = sw.dataset.maincolor || '#F3F4F6';
+  const s = getEyeSetting(id, side);
+  sw.style.background = buildBg(color, s.mode, s.sub);
+}
+
+function onSwatchColorInput(swatchEl, color, id){
+  const part = swatchEl.dataset.part;
+  if(part==='hair'){
+    swatchEl.dataset.maincolor = color;
+    const s = hairSettings[id] || {mode:'solid', sub:'#cccccc'};
+    swatchEl.style.background = buildBg(color, s.mode, s.sub);
+  } else if(part==='eyeL' || part==='eyeR'){
+    const side = part==='eyeL' ? 'L' : 'R';
+    swatchEl.dataset.maincolor = color;
+    repaintEye(id, side);
+    if(!eyeLinkUsed[id]){
+      eyeLinkUsed[id] = true;
+      const otherPart = side==='L' ? 'eyeR' : 'eyeL';
+      const otherSw = document.querySelector(`.swatch[data-part="${otherPart}"][data-id="${id}"]`);
+      if(otherSw){
+        otherSw.dataset.maincolor = color;
+        otherSw.querySelector('input[type=color]').value = color;
+        repaintEye(id, side==='L' ? 'R' : 'L');
+      }
+    }
+  } else {
+    swatchEl.style.background = color;
+  }
+}
+
+function updateHairSubRowVisibility(){
+  const mode = document.getElementById('hairModeSelect').value;
+  document.getElementById('hairSubRow').style.display = mode === 'solid' ? 'none' : 'flex';
+}
+document.getElementById('hairModeSelect').addEventListener('change', updateHairSubRowVisibility);
+document.getElementById('hairModeSelect').addEventListener('change', refreshHairFromPanel);
+document.getElementById('hairSubColor').addEventListener('input', refreshHairFromPanel);
+document.getElementById('hairTargetSelect').addEventListener('change', ()=>{
+  const id = document.getElementById('hairTargetSelect').value;
+  if(id === '__all__') return;
+  const s = hairSettings[id] || {mode:'solid', sub:'#cccccc'};
+  document.getElementById('hairModeSelect').value = s.mode;
+  document.getElementById('hairSubColor').value = s.sub;
+  updateHairSubRowVisibility();
+});
+function refreshHairFromPanel(){
+  const target = document.getElementById('hairTargetSelect').value;
+  const mode = document.getElementById('hairModeSelect').value;
+  const sub = document.getElementById('hairSubColor').value;
+  getTargetIds(target).forEach(id=>{
+    hairSettings[id] = {mode, sub};
+    const sw = document.querySelector(`.swatch[data-part="hair"][data-id="${id}"]`);
+    if(!sw) return;
+    const color = sw.dataset.maincolor || '#F3F4F6';
+    sw.style.background = buildBg(color, mode, sub);
+  });
+}
+
+/* ---------- 체크박스를 작은 OFF/ON 토글버튼으로 ---------- */
+function setupMiniToggle(checkboxId){
+  const cb = document.getElementById(checkboxId);
+  const group = document.querySelector(`.mini-toggle[data-for="${checkboxId}"]`);
+  if(!cb || !group) return;
+  const offBtn = group.querySelector('[data-val="off"]');
+  const onBtn = group.querySelector('[data-val="on"]');
+  function sync(){
+    offBtn.classList.toggle('active', !cb.checked);
+    onBtn.classList.toggle('active', cb.checked);
+  }
+  offBtn.addEventListener('click', ()=>{ cb.checked = false; sync(); cb.dispatchEvent(new Event('change')); });
+  onBtn.addEventListener('click', ()=>{ cb.checked = true; sync(); cb.dispatchEvent(new Event('change')); });
+  sync();
+}
+
+/* ---------- 눈 색상 모드 패널 ---------- */
+const eyeWhichRow = document.getElementById('eyeWhichRow');
+document.getElementById('eyeModeLinked').addEventListener('change', e=>{
+  eyeWhichRow.style.display = e.target.checked ? 'none' : 'flex';
+});
+document.getElementById('eyeModeTarget').addEventListener('change', loadEyeModePanel);
+document.getElementById('eyeModeWhich').addEventListener('change', loadEyeModePanel);
+function updateEyeModeSubRowVisibility(){
+  const mode = document.getElementById('eyeModeSelect').value;
+  document.getElementById('eyeModeSubRow').style.display = mode === 'solid' ? 'none' : 'flex';
+}
+function loadEyeModePanel(){
+  const id = document.getElementById('eyeModeTarget').value;
+  if(!id || id === '__all__') return;
+  const which = document.getElementById('eyeModeWhich').value;
+  const s = getEyeSetting(id, which);
+  document.getElementById('eyeModeSelect').value = s.mode;
+  document.getElementById('eyeModeSub').value = s.sub;
+  updateEyeModeSubRowVisibility();
+}
+function applyEyeModeFromPanel(){
+  const target = document.getElementById('eyeModeTarget').value;
+  const mode = document.getElementById('eyeModeSelect').value;
+  const sub = document.getElementById('eyeModeSub').value;
+  const linked = document.getElementById('eyeModeLinked').checked;
+  const which = document.getElementById('eyeModeWhich').value;
+  getTargetIds(target).forEach(id=>{
+    if(!eyeSettings[id]) eyeSettings[id] = {L:{mode:'solid',sub:'#cccccc'}, R:{mode:'solid',sub:'#cccccc'}};
+    if(linked){
+      eyeSettings[id].L = {mode, sub};
+      eyeSettings[id].R = {mode, sub};
+      repaintEye(id,'L'); repaintEye(id,'R');
+    } else {
+      eyeSettings[id][which] = {mode, sub};
+      repaintEye(id, which);
+    }
+  });
+}
+document.getElementById('eyeModeSelect').addEventListener('change', updateEyeModeSubRowVisibility);
+document.getElementById('eyeModeSelect').addEventListener('change', applyEyeModeFromPanel);
+document.getElementById('eyeModeSub').addEventListener('input', applyEyeModeFromPanel);
+
+/* ---------- 회색 박스 세로 크기 (전체 일괄 + 넓은 스냅) ---------- */
+document.getElementById('canvasHeightSlider').addEventListener('input', e=>{
+  let h = parseInt(e.target.value,10);
+  if(Math.abs(h-994)<35) h=994;
+  if(Math.abs(h-627)<35) h=627;
+  let label = h===627 ? '1:1' : (h===994 ? '기본' : h+'px');
+  document.getElementById('canvasHeightVal').textContent = label;
+  document.querySelectorAll('.canvas-box').forEach(box=> box.style.height = h+'px');
+});
+
+/* ---------- 안광 ---------- */
+const irisDefaults = {};
+const SWATCH_BORDER = 3; /* .swatch border-width(px), 안광 좌표 계산시 보정용 */
+function snapIrisToPoints(irisEl, r){
+  const w = r.width/SCALE - SWATCH_BORDER*2, h = r.height/SCALE - SWATCH_BORDER*2;
+  const size = irisEl.offsetWidth || 27;
+  const half = size/2;
+  const cx = w/2-half, cy = h/2-half;
+  const edge = size*0.05; /* 가장자리 배치시 5%만 가려지도록 */
+  const points = [
+    {x:cx, y:cy},
+    {x:cx, y:-edge},
+    {x:cx, y:h-size+edge},
+    {x:-edge, y:cy},
+    {x:w-size+edge, y:cy}
+  ];
+  const curX = parseFloat(irisEl.style.left)||0;
+  const curY = parseFloat(irisEl.style.top)||0;
+  let best=null, bestDist=Infinity;
+  points.forEach(p=>{
+    const d = Math.hypot(p.x-curX, p.y-curY);
+    if(d<bestDist){ bestDist=d; best=p; }
+  });
+  const THRESH = 16;
+  if(best && bestDist<THRESH){
+    irisEl.style.left = best.x+'px';
+    irisEl.style.top = best.y+'px';
+  }
+}
+const irisCount = {}; // id -> 1~3 (양쪽 눈 공통 개수)
+
+function positionIrisDefault(iris, sw, slotIndex){
+  const w = sw.clientWidth, h = sw.clientHeight;
+  let size = 27, ox = 0, oy = 0;
+  if(slotIndex===1){ ox = -18; oy = -18; }
+  if(slotIndex===2){ ox = 18; oy = 18; }
+  iris.style.width = size+'px';
+  iris.style.height = size+'px';
+  const cx = w/2 - size/2 + ox;
+  const cy = h/2 - size/2 + oy;
+  iris.style.left = cx+'px';
+  iris.style.top = cy+'px';
+  iris.classList.add('hidden'); /* 안광 표시 기본값 OFF */
+  const id = sw.dataset.id;
+  const eyeType = sw.dataset.part==='eyeL' ? 'L' : 'R';
+  if(!irisDefaults[id]) irisDefaults[id] = {};
+  if(!irisDefaults[id][eyeType]) irisDefaults[id][eyeType] = {};
+  irisDefaults[id][eyeType][slotIndex] = {left:iris.style.left, top:iris.style.top, width:iris.style.width, height:iris.style.height};
+}
+
+function ensureIrisSlots(id, count){
+  count = Math.max(1, Math.min(3, count));
+  irisCount[id] = count;
+  ['eyeL','eyeR'].forEach(part=>{
+    const sw = document.querySelector(`.swatch[data-part="${part}"][data-id="${id}"]`);
+    if(!sw) return;
+    let existing = Array.from(sw.querySelectorAll('.iris'));
+    while(existing.length > count){
+      existing.pop().remove();
+    }
+    for(let i=existing.length; i<count; i++){
+      const iris = document.createElement('div');
+      iris.className = 'iris';
+      iris.dataset.slot = i;
+      sw.appendChild(iris);
+      positionIrisDefault(iris, sw, i);
+      setupIrisInteraction(iris, id, i);
+      /* 현재 안광 표시 상태(슬롯0 기준)를 새로 만든 슬롯에도 동일하게 적용 */
+      const slot0 = sw.querySelector('.iris[data-slot="0"]');
+      if(slot0 && !slot0.classList.contains('hidden')){
+        iris.classList.remove('hidden');
+      }
+    }
+  });
+}
+
+function setupIrisInteraction(iris, id, slotIndex){
+  iris.addEventListener('dblclick', e=>{ e.stopPropagation(); iris.classList.toggle('hidden'); });
+
+  iris.addEventListener('mousedown', e=>{
+    e.preventDefault(); e.stopPropagation();
+    const box = iris.parentElement;
+    const rect = box.getBoundingClientRect();
+
+    const eyeType = box.dataset.part === 'eyeL' ? 'L' : 'R';
+    const linked = document.getElementById('irisLink').checked;
+    let otherIris = null, otherRect = null;
+    if(linked){
+      const otherType = eyeType==='L' ? 'eyeR' : 'eyeL';
+      const otherBox = box.parentElement.querySelector(`.swatch[data-part="${otherType}"][data-id="${id}"]`);
+      if(otherBox){ otherIris = otherBox.querySelector(`.iris[data-slot="${slotIndex}"]`); otherRect = otherBox.getBoundingClientRect(); }
+    }
+    const startLeft = parseFloat(iris.style.left)||0;
+    const startTop = parseFloat(iris.style.top)||0;
+    const otherStartLeft = otherIris ? (parseFloat(otherIris.style.left)||0) : 0;
+    const otherStartTop = otherIris ? (parseFloat(otherIris.style.top)||0) : 0;
+    const startX = e.clientX, startY = e.clientY;
+    const size = iris.offsetWidth;
+    const boxW = rect.width/SCALE - SWATCH_BORDER*2, boxH = rect.height/SCALE - SWATCH_BORDER*2;
+
+    function move(ev){
+      const dx = (ev.clientX - startX)/SCALE, dy = (ev.clientY - startY)/SCALE;
+      let nx = Math.max(-size/2+3, Math.min(boxW-size/2-3, startLeft+dx));
+      let ny = Math.max(-size/2+3, Math.min(boxH-size/2-3, startTop+dy));
+      iris.style.left = nx+'px'; iris.style.top = ny+'px';
+      if(otherIris && otherRect){
+        const osize = otherIris.offsetWidth;
+        const oBoxW = otherRect.width/SCALE - SWATCH_BORDER*2, oBoxH = otherRect.height/SCALE - SWATCH_BORDER*2;
+        let ox = Math.max(-osize/2+3, Math.min(oBoxW-osize/2-3, otherStartLeft+dx));
+        let oy = Math.max(-osize/2+3, Math.min(oBoxH-osize/2-3, otherStartTop+dy));
+        otherIris.style.left = ox+'px'; otherIris.style.top = oy+'px';
+      }
+    }
+    function up(){
+      document.removeEventListener('mousemove', move);
+      document.removeEventListener('mouseup', up);
+      snapIrisToPoints(iris, rect);
+      if(otherIris && otherRect) snapIrisToPoints(otherIris, otherRect);
+    }
+    document.addEventListener('mousemove', move);
+    document.addEventListener('mouseup', up);
+  });
+}
+
+function defaultSizeForSlot(slot){ return 27; }
+
+function syncIrisCountDisplay(){
+  const target = document.getElementById('irisTargetSelect').value;
+  const ids = getTargetIds(target);
+  const c = ids.length ? (irisCount[ids[0]]||1) : 1;
+  document.getElementById('irisCountVal').textContent = c;
+}
+
+function renderIrisSlotToggle(){
+  const target = document.getElementById('irisTargetSelect').value;
+  const ids = getTargetIds(target);
+  const maxCount = ids.length ? Math.max(...ids.map(id=> irisCount[id]||1)) : 1;
+  const sel = document.getElementById('irisSlotSelect');
+  let curVal = sel.value || '0';
+  if(parseInt(curVal,10) >= maxCount) curVal = '0';
+  sel.innerHTML = '';
+  for(let i=0;i<maxCount;i++){
+    const o = document.createElement('option');
+    o.value = i; o.textContent = (i+1)+'번';
+    sel.appendChild(o);
+  }
+  sel.value = curVal;
+  const container = document.getElementById('irisSlotToggle');
+  container.innerHTML = '';
+  for(let i=0;i<maxCount;i++){
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'iris-slot-btn' + (String(i)===sel.value ? ' active' : '');
+    btn.dataset.slot = i;
+    btn.textContent = (i+1)+'번';
+    btn.addEventListener('click', ()=>{
+      sel.value = i;
+      container.querySelectorAll('.iris-slot-btn').forEach(b=> b.classList.remove('active'));
+      btn.classList.add('active');
+      sel.dispatchEvent(new Event('change'));
+    });
+    container.appendChild(btn);
+  }
+}
+
+function refreshIrisSizeSliderDisplay(){
+  const target = document.getElementById('irisTargetSelect').value;
+  const slot = parseInt(document.getElementById('irisSlotSelect').value,10) || 0;
+  const ids = getTargetIds(target);
+  let size = defaultSizeForSlot(slot);
+  if(ids.length){
+    const sw = document.querySelector(`.swatch[data-id="${ids[0]}"][data-part="eyeL"] .iris[data-slot="${slot}"]`);
+    if(sw) size = sw.offsetWidth;
+  }
+  document.getElementById('irisSizeSlider').value = size;
+  updateIrisSizeLabel(size, slot);
+}
+function updateIrisSizeLabel(size, slot){
+  const def = defaultSizeForSlot(slot);
+  document.getElementById('irisSizeVal').textContent = size+'px' + (size===def ? ' (기본)' : '');
+}
+document.getElementById('irisSizeSlider').addEventListener('input', e=>{
+  let size = parseInt(e.target.value,10);
+  const target = document.getElementById('irisTargetSelect').value;
+  const slot = parseInt(document.getElementById('irisSlotSelect').value,10) || 0;
+  const def = defaultSizeForSlot(slot);
+  if(Math.abs(size-def) < 3) size = def;
+  e.target.value = size;
+  updateIrisSizeLabel(size, slot);
+  getTargetIds(target).forEach(id=>{
+    ['eyeL','eyeR'].forEach(part=>{
+      const sw = document.querySelector(`.swatch[data-part="${part}"][data-id="${id}"]`);
+      if(!sw) return;
+      const iris = sw.querySelector(`.iris[data-slot="${slot}"]`);
+      if(!iris) return;
+      const curW = iris.offsetWidth || size;
+      const left = parseFloat(iris.style.left)||0, top = parseFloat(iris.style.top)||0;
+      const cx = left + curW/2, cy = top + curW/2;
+      iris.style.width = size+'px';
+      iris.style.height = size+'px';
+      iris.style.left = (cx-size/2)+'px';
+      iris.style.top = (cy-size/2)+'px';
+    });
+  });
+});
+
+function updateIrisSlotSectionVisibility(){
+  const target = document.getElementById('irisTargetSelect').value;
+  const ids = getTargetIds(target);
+  const maxCount = ids.length ? Math.max(...ids.map(id=> irisCount[id]||1)) : 1;
+  document.getElementById('irisSlotSection').style.display = maxCount >= 2 ? '' : 'none';
+}
+
+function rgbToHex(str){
+  if(!str) return null;
+  str = str.trim();
+  if(str.startsWith('#')) return str.length===4
+    ? '#'+[...str.slice(1)].map(c=>c+c).join('')
+    : str;
+  const m = str.match(/rgba?\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)/i);
+  if(!m) return null;
+  return '#' + [m[1],m[2],m[3]].map(x=> (+x).toString(16).padStart(2,'0')).join('');
+}
+function syncIrisColorInputs(){
+  const target = document.getElementById('irisTargetSelect').value;
+  if(target === '__all__') return;
+  const slot = document.getElementById('irisSlotSelect').value;
+  const sw = document.querySelector(`.swatch[data-id="${target}"][data-part="eyeL"] .iris[data-slot="${slot}"]`);
+  if(!sw) return;
+  const fill = rgbToHex(sw.style.background);
+  const border = rgbToHex(sw.style.borderColor);
+  if(fill) document.getElementById('irisFillColor').value = fill;
+  if(border) document.getElementById('irisBorderColor').value = border;
+}
+function refreshIrisPanel(){
+  renderIrisSlotToggle();
+  refreshIrisSizeSliderDisplay();
+  updateIrisDisplayToggleUI();
+  updateIrisSlotSectionVisibility();
+  syncIrisColorInputs();
+}
+document.getElementById('irisTargetSelect').addEventListener('change', ()=>{
+  syncIrisCountDisplay();
+  refreshIrisPanel();
+});
+document.getElementById('irisSlotSelect').addEventListener('change', refreshIrisPanel);
+document.getElementById('irisCountMinus').addEventListener('click', ()=>{
+  const target = document.getElementById('irisTargetSelect').value;
+  getTargetIds(target).forEach(id=> ensureIrisSlots(id, (irisCount[id]||1)-1));
+  syncIrisCountDisplay();
+  refreshIrisPanel();
+});
+document.getElementById('irisCountPlus').addEventListener('click', ()=>{
+  const target = document.getElementById('irisTargetSelect').value;
+  getTargetIds(target).forEach(id=> ensureIrisSlots(id, (irisCount[id]||1)+1));
+  syncIrisCountDisplay();
+  refreshIrisPanel();
+});
+
+/* 안광 표시 on/off (대상의 모든 안광에 일괄 + 하단 설정 섹션 표시여부) */
+function setIrisDisplayState(off){
+  const target = document.getElementById('irisTargetSelect').value;
+  getTargetIds(target).forEach(id=>{
+    document.querySelectorAll(`.swatch[data-id="${id}"] .iris`).forEach(i=> i.classList.toggle('hidden', off));
+  });
+  updateIrisDisplayToggleUI();
+}
+function updateIrisDisplayToggleUI(){
+  const target = document.getElementById('irisTargetSelect').value;
+  const ids = getTargetIds(target);
+  let off = false;
+  if(ids.length){
+    const sw = document.querySelector(`.swatch[data-id="${ids[0]}"][data-part="eyeL"] .iris[data-slot="0"]`);
+    off = sw ? sw.classList.contains('hidden') : false;
+  }
+  document.getElementById('irisDisplayOffBtn').classList.toggle('active', off);
+  document.getElementById('irisDisplayOnBtn').classList.toggle('active', !off);
+  document.getElementById('irisLowerSection').style.display = off ? 'none' : '';
+}
+document.getElementById('irisDisplayOffBtn').addEventListener('click', ()=> setIrisDisplayState(true));
+document.getElementById('irisDisplayOnBtn').addEventListener('click', ()=> setIrisDisplayState(false));
+
+document.getElementById('resetIris').addEventListener('click', ()=>{
+  const target = document.getElementById('irisTargetSelect').value;
+  const slot = document.getElementById('irisSlotSelect').value;
+  getTargetIds(target).forEach(id=>{
+    if(!irisDefaults[id]) return;
+    ['L','R'].forEach(t=>{
+      const part = t==='L' ? 'eyeL' : 'eyeR';
+      const sw = document.querySelector(`.swatch[data-part="${part}"][data-id="${id}"]`);
+      if(!sw) return;
+      const iris = sw.querySelector(`.iris[data-slot="${slot}"]`);
+      const def = irisDefaults[id][t] && irisDefaults[id][t][slot];
+      if(!iris || !def) return;
+      iris.style.left = def.left;
+      iris.style.top = def.top;
+      iris.style.width = def.width;
+      iris.style.height = def.height;
+    });
+  });
+  updateIrisDisplayToggleUI();
+});
+function applyIrisColorFromPanel(){
+  const target = document.getElementById('irisTargetSelect').value;
+  const slot = document.getElementById('irisSlotSelect').value;
+  const fill = document.getElementById('irisFillColor').value;
+  const border = document.getElementById('irisBorderColor').value;
+  getTargetIds(target).forEach(id=>{
+    document.querySelectorAll(`.swatch[data-id="${id}"] .iris[data-slot="${slot}"]`).forEach(i=>{
+      i.style.background = fill;
+      i.style.borderColor = border;
+    });
+  });
+}
+document.getElementById('irisFillColor').addEventListener('input', applyIrisColorFromPanel);
+document.getElementById('irisBorderColor').addEventListener('input', applyIrisColorFromPanel);
+
+/* ---------- 동물화 박스 on/off ---------- */
+function setAnimalBoxState(off){
+  const target = document.getElementById('animalTargetSelect').value;
+  getTargetIds(target).forEach(id=>{
+    const box = columnsWrap.querySelector(`.col-wrap[data-id="${id}"] [data-role="animalbox"]`);
+    if(box) box.classList.toggle('off', off);
+  });
+  updateAnimalToggleUI();
+}
+function updateAnimalToggleUI(){
+  const target = document.getElementById('animalTargetSelect').value;
+  const ids = getTargetIds(target);
+  let off = false;
+  if(ids.length){
+    const box = columnsWrap.querySelector(`.col-wrap[data-id="${ids[0]}"] [data-role="animalbox"]`);
+    off = box ? box.classList.contains('off') : false;
+  }
+  document.getElementById('animalOffBtn').classList.toggle('active', off);
+  document.getElementById('animalOnBtn').classList.toggle('active', !off);
+}
+document.getElementById('animalOffBtn').addEventListener('click', ()=> setAnimalBoxState(true));
+document.getElementById('animalOnBtn').addEventListener('click', ()=> setAnimalBoxState(false));
+function syncAnimalPositionSelect(){
+  const target = document.getElementById('animalTargetSelect').value;
+  if(target === '__all__') return;
+  const box = columnsWrap.querySelector(`.col-wrap[data-id="${target}"] [data-role="animalbox"]`);
+  if(!box) return;
+  const posClass = ['bl','br','tl','tr'].find(p=> box.classList.contains('pos-'+p)) || 'bl';
+  document.getElementById('animalPositionSelect').value = posClass;
+}
+function applyAnimalPositionFromPanel(){
+  const target = document.getElementById('animalTargetSelect').value;
+  const pos = document.getElementById('animalPositionSelect').value;
+  getTargetIds(target).forEach(id=>{
+    const box = columnsWrap.querySelector(`.col-wrap[data-id="${id}"] [data-role="animalbox"]`);
+    if(!box) return;
+    box.classList.remove('pos-bl','pos-br','pos-tl','pos-tr');
+    box.classList.add('pos-'+pos);
+  });
+}
+document.getElementById('animalPositionSelect').addEventListener('change', applyAnimalPositionFromPanel);
+document.getElementById('animalTargetSelect').addEventListener('change', ()=>{
+  updateAnimalToggleUI();
+  syncAnimalPositionSelect();
+});
+
+
+/* ---------- 테마색 적용 ---------- */
+function relLuminance(hex){
+  const c = hex.replace('#','');
+  const r=parseInt(c.substr(0,2),16)/255, g=parseInt(c.substr(2,2),16)/255, b=parseInt(c.substr(4,2),16)/255;
+  const f=v=> v<=0.03928 ? v/12.92 : Math.pow((v+0.055)/1.055,2.4);
+  return 0.2126*f(r)+0.7152*f(g)+0.0722*f(b);
+}
+function applyThemeTextColor(id, color){
+  const colWrap = columnsWrap.querySelector(`.col-wrap[data-id="${id}"]`);
+  if(!colWrap) return;
+  const lum = relLuminance(color);
+  const textColor = lum > 0.65 ? '#909090' : '#ffffff';
+  colWrap.querySelector('[data-role="themebtn"]').style.color = textColor;
+  colWrap.querySelector('[data-role="animalbox"]').style.color = textColor;
+  const isWhite = color.toLowerCase()==='#ffffff' || color.toLowerCase()==='#fff';
+  colWrap.querySelector('[data-role="badge"]').style.color = isWhite ? '#909090' : color;
+}
+function applyThemeToId(id, color){
+  const colWrap = columnsWrap.querySelector(`.col-wrap[data-id="${id}"]`);
+  if(!colWrap) return;
+  const themeBtn = colWrap.querySelector('[data-role="themebtn"]');
+  themeBtn.style.background = color;
+  themeBtn.querySelector('input[type=color]').value = color;
+  colWrap.querySelector('[data-role="animalbox"]').style.background = color;
+  applyThemeTextColor(id, color);
+}
+function applyThemeFromPanel(){
+  const target = document.getElementById('themeTargetSelect').value;
+  const color = document.getElementById('masterTheme').value;
+  getTargetIds(target).forEach(id=> applyThemeToId(id, color));
+}
+document.getElementById('masterTheme').addEventListener('input', applyThemeFromPanel);
+document.getElementById('themeTargetSelect').addEventListener('change', ()=>{
+  const id = document.getElementById('themeTargetSelect').value;
+  if(id === '__all__') return;
+  const colWrap = columnsWrap.querySelector(`.col-wrap[data-id="${id}"]`);
+  if(!colWrap) return;
+  const themeInput = colWrap.querySelector('[data-role="themebtn"] input[type=color]');
+  if(themeInput) document.getElementById('masterTheme').value = themeInput.value;
+});
+
+/* ---------- 텍스트 강조 (토글) ---------- */
+const highlightBtn = document.getElementById('highlightBtn');
+document.addEventListener('selectionchange', ()=>{
+  const sel = window.getSelection();
+  if(!sel || sel.isCollapsed || sel.rangeCount===0){ highlightBtn.style.display='none'; return; }
+  const anchor = sel.anchorNode;
+  const el = anchor && anchor.nodeType===3 ? anchor.parentElement : anchor;
+  if(!el || !el.closest || !el.closest('[contenteditable="true"]') || !el.closest('#sheet')){
+    highlightBtn.style.display='none';
+    return;
+  }
+  const range = sel.getRangeAt(0);
+  const rect = range.getBoundingClientRect();
+  if(rect.width===0 && rect.height===0){ highlightBtn.style.display='none'; return; }
+  highlightBtn.style.left = (rect.left + rect.width/2 - 24) + 'px';
+  highlightBtn.style.top = (rect.top - 38 + window.scrollY) + 'px';
+  highlightBtn.style.display = 'block';
+});
+highlightBtn.addEventListener('mousedown', e=>{
+  e.preventDefault();
+  const sel = window.getSelection();
+  if(!sel.rangeCount) return;
+  const range = sel.getRangeAt(0);
+  const startNode = range.startContainer.nodeType===3 ? range.startContainer.parentElement : range.startContainer;
+  const currentColor = getComputedStyle(startNode).color;
+  const container = startNode.closest('[contenteditable="true"]');
+  document.execCommand('styleWithCSS', false, true);
+  if(currentColor === 'rgb(0, 64, 255)'){
+    const baseColor = container ? getComputedStyle(container).color : '#222222';
+    document.execCommand('foreColor', false, baseColor);
+  } else {
+    document.execCommand('foreColor', false, '#0040ff');
+  }
+  highlightBtn.style.display='none';
+});
+
+/* ---------- 스티커 업로드 (컬럼 전체 어디든 자유 이동, 최상위) ---------- */
+document.getElementById('stickerInput').addEventListener('change', e=>{
+  const f = e.target.files[0];
+  if(!f) return;
+  const target = document.getElementById('stickerTarget').value;
+  const ids = getTargetIds(target);
+  if(!ids.length) return;
+  const reader = new FileReader();
+  reader.onload = ev=>{
+    ids.forEach(id=>{
+      const colWrap = columnsWrap.querySelector(`.col-wrap[data-id="${id}"]`);
+      if(!colWrap) return;
+      const wrap = document.createElement('div');
+      wrap.className = 'layer-wrap sticker-wrap';
+      wrap.innerHTML = `<img src="${ev.target.result}">`;
+      const img = wrap.querySelector('img');
+      img.onload = ()=>{
+        const ratio = img.naturalHeight/img.naturalWidth;
+        const w = 280;
+        wrap.style.width = w+'px';
+        wrap.style.height = (w*ratio)+'px';
+        wrap.style.left = '40px';
+        wrap.style.top = '160px';
+        colWrap.appendChild(wrap);
+        makeResizableDraggable(wrap, true, null, false, true);
+      };
+    });
+  };
+  reader.readAsDataURL(f);
+  e.target.value='';
+});
+
+/* ---------- 드래그 + 비율유지 리사이즈 + 삭제 + 가운데 스냅/앵커 ---------- */
+function makeResizableDraggable(el, addDelete, onDelete, snapCenterX, anchorCenter){
+  const container = el.parentElement;
+  const resizeH = document.createElement('div');
+  resizeH.className='resize-handle';
+  el.appendChild(resizeH);
+
+  let delH = null;
+  if(addDelete){
+    delH = document.createElement('div');
+    delH.className='del-handle';
+    delH.innerHTML='✕';
+    el.appendChild(delH);
+    delH.addEventListener('mousedown', ev=>ev.stopPropagation());
+    delH.addEventListener('click', ev=>{
+      ev.stopPropagation();
+      el.remove();
+      if(onDelete) onDelete();
+    });
+  }
+
+  resizeH.addEventListener('mousedown', ev=>{
+    ev.preventDefault(); ev.stopPropagation();
+    const startX=ev.clientX;
+    const startW=el.offsetWidth, startH=el.offsetHeight;
+    const startLeft=el.offsetLeft, startTop=el.offsetTop;
+    const centerX = startLeft+startW/2, centerY = startTop+startH/2;
+    const ratio = startH/startW;
+    function move(e2){
+      const dx = (e2.clientX-startX)/SCALE;
+      const w = Math.max(24, startW + dx);
+      const h = w*ratio;
+      el.style.width = w+'px';
+      el.style.height = h+'px';
+      if(anchorCenter){
+        el.style.left = (centerX - w/2)+'px';
+        el.style.top = (centerY - h/2)+'px';
+      }
+    }
+    function up(){ document.removeEventListener('mousemove',move); document.removeEventListener('mouseup',up); }
+    document.addEventListener('mousemove',move);
+    document.addEventListener('mouseup',up);
+  });
+
+  el.addEventListener('mousedown', ev=>{
+    if(ev.target===resizeH || ev.target===delH) return;
+    ev.preventDefault();
+    const startX=ev.clientX, startY=ev.clientY;
+    const startL=el.offsetLeft, startT=el.offsetTop;
+    function move(e2){
+      const dx=(e2.clientX-startX)/SCALE, dy=(e2.clientY-startY)/SCALE;
+      el.style.left = (startL + dx) + 'px';
+      el.style.top = (startT + dy) + 'px';
+    }
+    function up(){
+      document.removeEventListener('mousemove',move);
+      document.removeEventListener('mouseup',up);
+      if(snapCenterX){
+        const zoneW = container.clientWidth;
+        const elCenter = el.offsetLeft + el.offsetWidth/2;
+        const zoneCenter = zoneW/2;
+        const threshold = zoneW*0.15;
+        if(Math.abs(elCenter - zoneCenter) < threshold){
+          el.style.left = (zoneW/2 - el.offsetWidth/2) + 'px';
+        }
+      }
+    }
+    document.addEventListener('mousemove',move);
+    document.addEventListener('mouseup',up);
+  });
+}
+
+/* ---------- 내보내기: 화면에 영향받지 않는 별도 클론을 만들어 캡처 ---------- */
+function exportSheet(format){
+  document.querySelectorAll('.resize-handle,.del-handle,.col-remove,.col-drag').forEach(h=>h.style.visibility='hidden');
+
+  /* input의 현재 값(.value)을 속성에 반영 - cloneNode는 속성만 복제하기 때문 */
+  sheet.querySelectorAll('input').forEach(inp=>{
+    inp.setAttribute('value', inp.value);
+  });
+
+  const clone = sheet.cloneNode(true);
+  clone.style.transform = 'none';
+  clone.style.position = 'fixed';
+  clone.style.top = '0';
+  clone.style.left = '-99999px';
+  clone.style.zIndex = '-1';
+  clone.querySelectorAll('.sd-zone').forEach(zone=>{
+    const hasImg = !!zone.querySelector('.layer-wrap img');
+    if(!hasImg) zone.classList.add('off');
+  });
+  document.body.appendChild(clone);
+
+  html2canvas(clone, {scale:1, backgroundColor:'#ffffff', useCORS:true, windowWidth:clone.scrollWidth, windowHeight:clone.scrollHeight}).then(canvas=>{
+    document.body.removeChild(clone);
+    document.querySelectorAll('.resize-handle,.del-handle,.col-remove,.col-drag').forEach(h=>h.style.visibility='visible');
+    const link = document.createElement('a');
+    link.download = 'character-sheet.' + (format==='jpg'?'jpg':'png');
+    link.href = canvas.toDataURL(format==='jpg' ? 'image/jpeg' : 'image/png', 0.95);
+    link.click();
+  }).catch(()=>{
+    if(clone.parentNode) document.body.removeChild(clone);
+    document.querySelectorAll('.resize-handle,.del-handle,.col-remove,.col-drag').forEach(h=>h.style.visibility='visible');
+  });
+}
+document.getElementById('exportPng').addEventListener('click', ()=>exportSheet('png'));
+document.getElementById('exportJpg').addEventListener('click', ()=>exportSheet('jpg'));
+document.getElementById('charCountPlus').addEventListener('click', addCharacter);
+document.getElementById('charCountMinus').addEventListener('click', ()=>{
+  if(columnsWrap.children.length<=1){ alert('최소 한 명은 남아있어야 해요.'); return; }
+  const last = columnsWrap.lastElementChild;
+  removeCharacter(last.dataset.id);
+});
+
+/* ---------- 탭 전환 ---------- */
+document.querySelectorAll('.tab-btn').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    document.querySelectorAll('.tab-btn').forEach(b=> b.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(c=> c.classList.remove('active'));
+    btn.classList.add('active');
+    const target = document.querySelector(`.tab-content[data-tab-content="${btn.dataset.tab}"]`);
+    if(target) target.classList.add('active');
+  });
+});
+
+/* ---------- 초기 2명 ---------- */
+createCharacter(DEFAULT_COLORS[0]);
+createCharacter(DEFAULT_COLORS[1]);
+const animalSpans = columnsWrap.querySelectorAll('[data-role="animalbox"] span');
+animalSpans[0].textContent='동물화 : 강아지';
+animalSpans[1].textContent='동물화 : 고양이';
+relabelAll();
+sheetOuter.style.height = (sheet.offsetHeight*SCALE)+'px';
+refreshPresetList();
+syncIrisCountDisplay();
+refreshIrisPanel();
+updateAnimalToggleUI();
+updateSdToggleUI();
+updateCostumeToggleUI();
+setupMiniToggle('irisLink');
+setupMiniToggle('eyeModeLinked');
+updateHairSubRowVisibility();
+updateEyeModeSubRowVisibility();
+</script>
+</body>
+</html>
