@@ -81,6 +81,7 @@ input[type=file]{ font-size:11px; width:100%; }
 .tab-content{ display:none; }
 .tab-content.active{ display:block; }
 .tab-content h3:first-of-type{ border-top:none; padding-top:0; margin-top:0; }
+#skinColorSection h3{ border-top:1px solid #eee; padding-top:14px; margin:18px 0 8px; }
 .sheet-outer-wrap{ position:relative; flex:1; min-width:0; }
 .nav-btn{
   position:absolute; top:50%; transform:translateY(-50%); width:38px; height:38px; border-radius:50%;
@@ -167,7 +168,7 @@ input[type=file]{ font-size:11px; width:100%; }
 .layer-wrap{ position:absolute; cursor:move; user-select:none; z-index:1000; touch-action:none; }
 .layer-wrap img{ width:100%; height:100%; display:block; pointer-events:none; }
 .layer-wrap.sticker-wrap{ z-index:2500; }
-.resize-handle{ position:absolute; width:16px; height:16px; background:#778EAE; border:2px solid #fff; border-radius:50%; cursor:se-resize; z-index:50; right:-8px; bottom:-8px; touch-action:none; }
+.resize-handle{ position:absolute; width:22px; height:22px; background:#778EAE; border:2px solid #fff; border-radius:50%; cursor:se-resize; z-index:50; right:-8px; bottom:-8px; touch-action:none; }
 .del-handle{ position:absolute; width:40px; height:40px; background:#e24b4a; color:#fff; border-radius:50%; font-size:18px; display:flex; align-items:center; justify-content:center; cursor:pointer; line-height:1; z-index:50; right:30px; top:30px; touch-action:none; }
 
 .animal-box{
@@ -198,7 +199,7 @@ input[type=file]{ font-size:11px; width:100%; }
 .animal-box [contenteditable]{ outline:none; }
 .source-text{ outline:none; text-align:right; font-size:17px; font-weight:500; color:#909090; margin:10px 0 15px; line-height:1.3; }
 
-.sd-zone{ position:relative; width:627px; height:465px; overflow:hidden; background:transparent; }
+.sd-zone{ position:relative; width:627px; height:465px; overflow:hidden; background:transparent; border-radius:15px; }
 .sd-zone .sd-placeholder{
   position:absolute; inset:0; background:#fafafa; border:3px solid #ccc; border-radius:15px;
   display:flex; align-items:center; justify-content:center; font-size:25px; color:#bbb; font-weight:500; cursor:pointer; text-align:center; line-height:1.5; z-index:1;
@@ -244,11 +245,16 @@ input[type=file]{ font-size:11px; width:100%; }
 /* ===== 모바일 반응형 ===== */
 .tab-btn[data-tab="save"]{ display:none; }
 .sidebar-top-bar{ display:none; }
+.mobile-only-row{ display:none; }
+.mobile-only-block{ display:none; }
 .zoom-controls.mobile-row{
   display:flex; position:static; flex-direction:row; justify-content:flex-end; align-items:center; gap:14px;
 }
 .zoom-controls.mobile-row .zoom-reset-btn{ margin-top:0; }
 @media (max-width: 860px){
+  .mobile-only-row{ display:flex; }
+  .mobile-only-block{ display:block; }
+  .resize-handle{ width:40px; height:40px; right:-20px; bottom:-20px; border-width:3px; }
   body{ padding:0; }
   .app-wrap{ flex-direction:column; gap:0; max-width:100%; }
   .sheet-outer-wrap{ width:100%; padding:10px; }
@@ -278,9 +284,65 @@ input[type=file]{ font-size:11px; width:100%; }
   .sidebar.collapsed .sidebar-zoom-slot,
   .sidebar.collapsed .panel{ display:none; }
 }
+/* ===== 시작 모달 ===== */
+body.welcome-active{ overflow:hidden; }
+.welcome-overlay{
+  position:fixed; inset:0; background:rgba(0,0,0,.55); z-index:9999;
+  display:flex; align-items:center; justify-content:center; padding:20px;
+}
+.welcome-modal{
+  background:#fff; border-radius:18px; padding:28px; max-width:440px; width:100%;
+  max-height:88vh; overflow-y:auto; box-shadow:0 8px 30px rgba(0,0,0,.3);
+  font-family:'Paperozi','Malgun Gothic',sans-serif;
+}
+.welcome-title{ font-size:20px; margin:0 0 20px; text-align:center; color:#222; }
+.welcome-section{ margin-bottom:18px; }
+.welcome-section h3{ font-size:14px; color:#8d81c2; margin:0 0 8px; font-weight:800; }
+.welcome-section ol{ margin:0; padding-left:18px; font-size:13px; color:#444; line-height:1.7; }
+.welcome-caution-no{ font-size:13px; color:#e24b4a; font-weight:800; margin:0 0 6px; line-height:1.6; }
+.welcome-caution-yes{ font-size:13px; color:#444; margin:0; line-height:1.6; }
+.welcome-patchnotes{
+  background:#F3F4F6; border-radius:10px; padding:10px 12px; font-size:12px; color:#666;
+  max-height:3.4em; overflow-y:auto; line-height:1.7;
+}
+.welcome-start-btn{
+  width:100%; padding:12px; border:none; border-radius:10px; background:#c3bce5; color:#fff;
+  font-size:15px; font-weight:700; cursor:pointer; margin-top:6px; font-family:inherit;
+}
+.welcome-start-btn:hover{ background:#a99bd9; }
+.welcome-modal, .welcome-modal *{ letter-spacing:-0.2px; }
 </style>
 </head>
-<body>
+<body class="welcome-active">
+
+<div class="welcome-overlay" id="welcomeOverlay">
+  <div class="welcome-modal">
+    <h2 class="welcome-title">촘촘 페어틀 메이커 V1</h2>
+
+    <div class="welcome-section">
+      <h3>사용법</h3>
+      <ol>
+        <li>편집 화면에서 직접 텍스트를 수정하고 이미지를 업로드하세요.</li>
+        <li>디테일한 내용은 왼쪽 아래(모바일은 아래)의 사이드바에서 조정하세요.</li>
+        <li>제작이 완료되면, PNG 또는 JPG로 저장하세요.</li>
+        <li>프리셋 파일(.json)을 저장해서, 이후에도 동일 파일을 불러와 편집할 수 있습니다.</li>
+      </ol>
+    </div>
+
+    <div class="welcome-section">
+      <h3>주의사항</h3>
+      <p class="welcome-caution-no">X 재배포 &amp; 상업 이용 · 자작 발언 · 이미지 내 카피라이트 삭제 금지</p>
+      <p class="welcome-caution-yes">O 개인 사용 · 커미션 오픈시 페어틀 제작 추천 사이트로 링크 걸기</p>
+    </div>
+
+    <div class="welcome-section">
+      <h3>패치 노트</h3>
+      <div class="welcome-patchnotes">v1. 2026.06.28 오픈 - 이 서비스는 Claude의 도움을 받아 제작하였습니다.</div>
+    </div>
+
+    <button class="welcome-start-btn" id="welcomeStartBtn" type="button">시작하기</button>
+  </div>
+</div>
 
 <div class="app-wrap">
 
@@ -343,6 +405,7 @@ input[type=file]{ font-size:11px; width:100%; }
 
         <h3>머리 색상</h3>
         <div class="row"><label>대상</label><select id="hairTargetSelect"></select></div>
+        <div class="row" id="hairMainColorRow"><label>기본색</label><input type="color" id="hairMainColor" value="#dddddd"><input type="text" class="hex-input" data-for="hairMainColor" placeholder="#RRGGBB"></div>
         <div class="row"><label>모드</label>
           <select id="hairModeSelect"><option value="solid">단색</option><option value="gradient">그라데이션</option><option value="twotone">투톤(위/아래)</option></select>
         </div>
@@ -352,15 +415,16 @@ input[type=file]{ font-size:11px; width:100%; }
         <div class="row"><label>대상</label><select id="eyeModeTarget"></select></div>
         <div class="row">
           <label>두 눈 일괄 적용</label>
-          <input type="checkbox" id="eyeModeLinked" checked style="display:none;">
+          <input type="checkbox" id="eyeModeLinked" style="display:none;">
           <div class="mini-toggle" data-for="eyeModeLinked">
-            <button type="button" class="mini-toggle-btn" data-val="off">OFF</button>
-            <button type="button" class="mini-toggle-btn active" data-val="on">ON</button>
+            <button type="button" class="mini-toggle-btn active" data-val="off">OFF</button>
+            <button type="button" class="mini-toggle-btn" data-val="on">ON</button>
           </div>
         </div>
-        <div class="row" id="eyeWhichRow" style="display:none;"><label>적용할 눈</label>
+        <div class="row" id="eyeWhichRow"><label>적용할 눈</label>
           <select id="eyeModeWhich"><option value="L">왼쪽눈</option><option value="R">오른쪽눈</option></select>
         </div>
+        <div class="row" id="eyeMainColorRow"><label>기본색</label><input type="color" id="eyeMainColor" value="#dddddd"><input type="text" class="hex-input" data-for="eyeMainColor" placeholder="#RRGGBB"></div>
         <div class="row"><label>모드</label>
           <select id="eyeModeSelect"><option value="solid">단색</option><option value="gradient">그라데이션</option><option value="twotone">투톤(위/아래)</option></select>
         </div>
@@ -408,6 +472,12 @@ input[type=file]{ font-size:11px; width:100%; }
         <div class="hint">화면 내에서 안광을 드래그해서 위치 옮기기<br>안광을 더블클릭하면 그 쪽 눈의 안광만 숨겨집니다.</div>
         </div>
 
+        <div id="skinColorSection">
+          <h3>피부 색상</h3>
+          <div class="row"><label>대상</label><select id="skinTargetSelect"></select></div>
+          <div class="row"><label>기본색</label><input type="color" id="skinMainColor" value="#dddddd"><input type="text" class="hex-input" data-for="skinMainColor" placeholder="#RRGGBB"></div>
+        </div>
+
       </div>
 
       <div class="tab-content" data-tab-content="images">
@@ -434,6 +504,13 @@ input[type=file]{ font-size:11px; width:100%; }
           </select>
         </div>
         <div class="hint">메인 이미지 박스의 네 모서리 중 한 곳에 위치합니다 (기본: 왼쪽 아래).</div>
+
+        <h3>커미션 출처</h3>
+        <div class="toggle-group">
+          <button class="toggle-btn" id="sourceOffBtn">OFF</button>
+          <button class="toggle-btn active" id="sourceOnBtn">ON</button>
+        </div>
+        <div class="hint">모든 인물에 일괄 적용됩니다. 특정 인물만 삭제할 경우 편집 화면에서 텍스트를 지워주세요.</div>
 
         <h3>SD 이미지</h3>
         <div class="toggle-group">
@@ -710,7 +787,6 @@ function serializeColumn(colWrap){
     swatchColors: { hair:swatchColor('hair'), eyeL:swatchColor('eyeL'), eyeR:swatchColor('eyeR'), skin:swatchColor('skin') },
     hairSetting: hairSettings[id] || {mode:'solid', sub:'#cccccc'},
     eyeSettingsData: eyeSettings[id] || {L:{mode:'solid',sub:'#cccccc'}, R:{mode:'solid',sub:'#cccccc'}},
-    eyeLinkUsedFlag: !!eyeLinkUsed[id],
     canvasHeight: parseInt(canvasBox.style.height, 10) || 994,
     irisCount: irisCount[id] || 1,
     irisSlots: { L: irisSlotsData('L'), R: irisSlotsData('R') },
@@ -728,6 +804,7 @@ function serializeSheet(){
     sdZoneOff: sdZoneGloballyOff,
     topbarOff: topbarOff,
     costumeBoxOff: costumeBoxOff,
+    sourceTextOff: sourceTextOff,
     columns: Array.from(columnsWrap.children).map(serializeColumn)
   };
 }
@@ -773,7 +850,6 @@ function restoreColumn(data){
   /* 저장된 머리/눈 모드, 색상 복원 */
   hairSettings[id] = data.hairSetting || {mode:'solid', sub:'#cccccc'};
   eyeSettings[id] = data.eyeSettingsData || {L:{mode:'solid',sub:'#cccccc'}, R:{mode:'solid',sub:'#cccccc'}};
-  eyeLinkUsed[id] = !!data.eyeLinkUsedFlag;
   const hairSw = q('.swatch[data-part="hair"]');
   hairSw.style.background = buildBg(hairSw.dataset.maincolor, hairSettings[id].mode, hairSettings[id].sub);
   repaintEye(id, 'L');
@@ -843,7 +919,6 @@ function loadSheetData(data){
   columnsWrap.innerHTML = '';
   Object.keys(hairSettings).forEach(k=> delete hairSettings[k]);
   Object.keys(eyeSettings).forEach(k=> delete eyeSettings[k]);
-  Object.keys(eyeLinkUsed).forEach(k=> delete eyeLinkUsed[k]);
   Object.keys(irisDefaults).forEach(k=> delete irisDefaults[k]);
 
   document.getElementById('pairNameField').innerHTML = data.pairName ?? '페어명';
@@ -854,6 +929,8 @@ function loadSheetData(data){
   setTopbarState(topbarOff);
   costumeBoxOff = !!data.costumeBoxOff;
   updateCostumeToggleUI();
+  sourceTextOff = !!data.sourceTextOff;
+  updateSourceToggleUI();
 
   (data.columns || []).forEach(colData => restoreColumn(colData));
   if(columnsWrap.children.length===0){
@@ -930,6 +1007,7 @@ function relabelAll(){
   document.getElementById('navRight').style.display = showNav ? 'flex' : 'none';
   applySdZoneState();
   applyCostumeBoxState();
+  applySourceTextState();
   refreshSelectors();
 }
 
@@ -976,6 +1054,22 @@ document.getElementById('costumeOnBtn').addEventListener('click', ()=>{
   costumeBoxOff = false; applyCostumeBoxState(); updateCostumeToggleUI();
 });
 
+/* ---------- 커미션 출처(.source-text) 전체 일괄 on/off ---------- */
+let sourceTextOff = false;
+function applySourceTextState(){
+  document.querySelectorAll('.source-text').forEach(s=> s.style.opacity = sourceTextOff ? '0' : '1');
+}
+function updateSourceToggleUI(){
+  document.getElementById('sourceOffBtn').classList.toggle('active', sourceTextOff);
+  document.getElementById('sourceOnBtn').classList.toggle('active', !sourceTextOff);
+}
+document.getElementById('sourceOffBtn').addEventListener('click', ()=>{
+  sourceTextOff = true; applySourceTextState(); updateSourceToggleUI();
+});
+document.getElementById('sourceOnBtn').addEventListener('click', ()=>{
+  sourceTextOff = false; applySourceTextState(); updateSourceToggleUI();
+});
+
 function getTargetIds(value){
   const cols = Array.from(columnsWrap.children);
   if(value === '__all__') return cols.map(c=>c.dataset.id);
@@ -995,6 +1089,7 @@ function refreshSelectors(){
     document.getElementById('irisTargetSelect'),
     document.getElementById('hairTargetSelect'),
     document.getElementById('eyeModeTarget'),
+    document.getElementById('skinTargetSelect'),
     document.getElementById('animalTargetSelect')
   ];
   noAllSels.forEach(sel=>{
@@ -1007,7 +1102,11 @@ function refreshSelectors(){
     if(!sel) return;
     const prev = sel.value;
     sel.innerHTML = optsAllAtBottom;
-    if(prev === '__all__' || cols.some(c=>c.dataset.id===prev)) sel.value = prev;
+    if(prev === '__all__' || cols.some(c=>c.dataset.id===prev)){
+      sel.value = prev;
+    } else if(sel.id === 'animalTargetSelect'){
+      sel.value = '__all__'; /* 동물화 박스는 기본값을 전체로 */
+    }
   });
 }
 
@@ -1120,7 +1219,7 @@ function initColumn(colWrap, id){
 /* ---------- 색상 적용 (머리/눈/피부) ---------- */
 const hairSettings = {};
 const eyeSettings = {}; // id -> {L:{mode,sub}, R:{mode,sub}}
-const eyeLinkUsed = {}; // id -> bool (1회 일괄 사용 여부)
+// (1회 한정 눈동자 색 동기화 기능은 삭제됨 - 이제 '두 눈 일괄 적용' 체크박스로 항상 제어)
 
 function getEyeSetting(id, side){
   if(!eyeSettings[id]) eyeSettings[id] = {L:{mode:'solid',sub:'#cccccc'}, R:{mode:'solid',sub:'#cccccc'}};
@@ -1150,8 +1249,8 @@ function onSwatchColorInput(swatchEl, color, id){
     const side = part==='eyeL' ? 'L' : 'R';
     swatchEl.dataset.maincolor = color;
     repaintEye(id, side);
-    if(!eyeLinkUsed[id]){
-      eyeLinkUsed[id] = true;
+    const linked = document.getElementById('eyeModeLinked').checked;
+    if(linked){
       const otherPart = side==='L' ? 'eyeR' : 'eyeL';
       const otherSw = document.querySelector(`.swatch[data-part="${otherPart}"][data-id="${id}"]`);
       if(otherSw){
@@ -1179,7 +1278,25 @@ document.getElementById('hairTargetSelect').addEventListener('change', ()=>{
   document.getElementById('hairModeSelect').value = s.mode;
   document.getElementById('hairSubColor').value = s.sub;
   updateHairSubRowVisibility();
+  const sw = document.querySelector(`.swatch[data-part="hair"][data-id="${id}"]`);
+  if(sw){
+    const mainColor = sw.dataset.maincolor || sw.querySelector('input[type=color]').value;
+    document.getElementById('hairMainColor').value = mainColor;
+    const hex = document.querySelector('.hex-input[data-for="hairMainColor"]');
+    if(hex) hex.value = mainColor;
+  }
 });
+function applyHairMainColorFromPanel(){
+  const target = document.getElementById('hairTargetSelect').value;
+  const color = document.getElementById('hairMainColor').value;
+  getTargetIds(target).forEach(id=>{
+    const sw = document.querySelector(`.swatch[data-part="hair"][data-id="${id}"]`);
+    if(!sw) return;
+    sw.querySelector('input[type=color]').value = color;
+    onSwatchColorInput(sw, color, id);
+  });
+}
+document.getElementById('hairMainColor').addEventListener('input', applyHairMainColorFromPanel);
 function refreshHairFromPanel(){
   const target = document.getElementById('hairTargetSelect').value;
   const mode = document.getElementById('hairModeSelect').value;
@@ -1216,6 +1333,29 @@ document.getElementById('eyeModeLinked').addEventListener('change', e=>{
 });
 document.getElementById('eyeModeTarget').addEventListener('change', loadEyeModePanel);
 document.getElementById('eyeModeWhich').addEventListener('change', loadEyeModePanel);
+
+/* ---------- 피부 색상 패널 ---------- */
+document.getElementById('skinTargetSelect').addEventListener('change', ()=>{
+  const id = document.getElementById('skinTargetSelect').value;
+  if(id === '__all__') return;
+  const sw = document.querySelector(`.swatch[data-part="skin"][data-id="${id}"]`);
+  if(!sw) return;
+  const mainColor = sw.dataset.maincolor || sw.querySelector('input[type=color]').value;
+  document.getElementById('skinMainColor').value = mainColor;
+  const hex = document.querySelector('.hex-input[data-for="skinMainColor"]');
+  if(hex) hex.value = mainColor;
+});
+function applySkinMainColorFromPanel(){
+  const target = document.getElementById('skinTargetSelect').value;
+  const color = document.getElementById('skinMainColor').value;
+  getTargetIds(target).forEach(id=>{
+    const sw = document.querySelector(`.swatch[data-part="skin"][data-id="${id}"]`);
+    if(!sw) return;
+    sw.querySelector('input[type=color]').value = color;
+    onSwatchColorInput(sw, color, id);
+  });
+}
+document.getElementById('skinMainColor').addEventListener('input', applySkinMainColorFromPanel);
 function updateEyeModeSubRowVisibility(){
   const mode = document.getElementById('eyeModeSelect').value;
   document.getElementById('eyeModeSubRow').style.display = mode === 'solid' ? 'none' : 'flex';
@@ -1228,7 +1368,31 @@ function loadEyeModePanel(){
   document.getElementById('eyeModeSelect').value = s.mode;
   document.getElementById('eyeModeSub').value = s.sub;
   updateEyeModeSubRowVisibility();
+  const part = which==='L' ? 'eyeL' : 'eyeR';
+  const sw = document.querySelector(`.swatch[data-part="${part}"][data-id="${id}"]`);
+  if(sw){
+    const mainColor = sw.dataset.maincolor || sw.querySelector('input[type=color]').value;
+    document.getElementById('eyeMainColor').value = mainColor;
+    const hex = document.querySelector('.hex-input[data-for="eyeMainColor"]');
+    if(hex) hex.value = mainColor;
+  }
 }
+function applyEyeMainColorFromPanel(){
+  const target = document.getElementById('eyeModeTarget').value;
+  const color = document.getElementById('eyeMainColor').value;
+  const linked = document.getElementById('eyeModeLinked').checked;
+  const which = document.getElementById('eyeModeWhich').value;
+  getTargetIds(target).forEach(id=>{
+    const parts = linked ? ['eyeL','eyeR'] : [which==='L' ? 'eyeL' : 'eyeR'];
+    parts.forEach(part=>{
+      const sw = document.querySelector(`.swatch[data-part="${part}"][data-id="${id}"]`);
+      if(!sw) return;
+      sw.querySelector('input[type=color]').value = color;
+      onSwatchColorInput(sw, color, id);
+    });
+  });
+}
+document.getElementById('eyeMainColor').addEventListener('input', applyEyeMainColorFromPanel);
 function applyEyeModeFromPanel(){
   const target = document.getElementById('eyeModeTarget').value;
   const mode = document.getElementById('eyeModeSelect').value;
@@ -1919,9 +2083,16 @@ function enhanceColorInput(id){
   });
   colorInput.addEventListener('input', ()=>{ hexInput.value = colorInput.value; });
 }
-['masterTheme','hairSubColor','eyeModeSub','irisFillColor','irisBorderColor'].forEach(enhanceColorInput);
+['masterTheme','hairSubColor','eyeModeSub','irisFillColor','irisBorderColor','hairMainColor','eyeMainColor','skinMainColor'].forEach(enhanceColorInput);
 updateHairSubRowVisibility();
 updateEyeModeSubRowVisibility();
+updateSourceToggleUI();
+
+/* ---------- 시작 모달 ---------- */
+document.getElementById('welcomeStartBtn').addEventListener('click', ()=>{
+  document.getElementById('welcomeOverlay').remove();
+  document.body.classList.remove('welcome-active');
+});
 </script>
 </body>
 </html>
