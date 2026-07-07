@@ -415,7 +415,7 @@ body.welcome-active{ overflow:hidden; }
     <div class="welcome-section">
       <h3>패치 노트</h3>
       <div class="welcome-patchnotes">
-        <b>v1.1</b> 2026.07.07 - 커스텀 컬러피커 추가 / 눈 안광 모드 추가 / 일부 드래그 버그 픽스 및 사용성 개선<br>
+        <b>v1.1</b> 2026.07.07 - 커스텀 컬러피커 추가, 일부 드래그 버그 픽스 및 사용성 개선<br>
         <b>v1</b> 2026.06.28 배포 - 이 서비스는 Claude의 도움을 받아 제작하였습니다.
       </div>
     </div>
@@ -506,7 +506,7 @@ body.welcome-active{ overflow:hidden; }
         </div>
         <div class="row" id="eyeMainColorRow"><label>기본색</label><input type="color" id="eyeMainColor" value="#dddddd"><input type="text" class="hex-input" data-for="eyeMainColor" placeholder="#RRGGBB"></div>
         <div class="row"><label>모드</label>
-          <select id="eyeModeSelect"><option value="solid">단색</option><option value="gradient">그라데이션</option><option value="twotone">투톤(위/아래)</option><option value="none">눈 없음</option></select>
+          <select id="eyeModeSelect"><option value="solid">단색</option><option value="gradient">그라데이션</option><option value="twotone">투톤(위/아래)</option><option value="none">없음</option></select>
         </div>
         <div class="row" id="eyeModeSubRow"><label>보조색</label><input type="color" id="eyeModeSub" value="#cccccc"><input type="text" class="hex-input" data-for="eyeModeSub" placeholder="#RRGGBB"></div>
 
@@ -2209,8 +2209,15 @@ document.addEventListener('selectionchange', ()=>{
   const range = sel.getRangeAt(0);
   const rect = range.getBoundingClientRect();
   if(rect.width===0 && rect.height===0){ highlightBtn.style.display='none'; return; }
-  highlightBtn.style.left = (rect.left + rect.width/2 - 24) + 'px';
-  highlightBtn.style.top = (rect.top - 38 + window.scrollY) + 'px';
+  const BTN_H = 38, MARGIN = 10;
+  /* 모바일에서는 상단 시스템 UI(주소창/선택 툴바 등)에 가려지므로 항상 텍스트 아래쪽에 배치.
+     데스크톱에서도 위쪽 공간이 부족하면 자동으로 아래쪽으로 반전. */
+  const placeBelow = mobileQuery.matches || rect.top < (BTN_H + MARGIN);
+  const top = placeBelow ? (rect.bottom + MARGIN + window.scrollY) : (rect.top - BTN_H + window.scrollY);
+  let left = rect.left + rect.width/2 - 24;
+  left = Math.max(4, Math.min(left, window.innerWidth - 52));
+  highlightBtn.style.left = left + 'px';
+  highlightBtn.style.top = top + 'px';
   highlightBtn.style.display = 'block';
 });
 highlightBtn.addEventListener('mousedown', e=>{
