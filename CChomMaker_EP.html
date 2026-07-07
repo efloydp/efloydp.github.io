@@ -17,8 +17,19 @@
 @font-face{ font-family:'Paperozi'; src:url('https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-8ExtraBold.woff2') format('woff2'); font-weight:800; font-display:swap; }
 @font-face{ font-family:'Paperozi'; src:url('https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-9Black.woff2') format('woff2'); font-weight:900; font-display:swap; }
 
+@font-face{ font-family:'Pretendard'; src:url('https://cdn.jsdelivr.net/gh/projectnoonnu/pretendard@1.0/Pretendard-Thin.woff2') format('woff2'); font-weight:100; font-display:swap; }
+@font-face{ font-family:'Pretendard'; src:url('https://cdn.jsdelivr.net/gh/projectnoonnu/pretendard@1.0/Pretendard-ExtraLight.woff2') format('woff2'); font-weight:200; font-display:swap; }
+@font-face{ font-family:'Pretendard'; src:url('https://cdn.jsdelivr.net/gh/projectnoonnu/pretendard@1.0/Pretendard-Light.woff2') format('woff2'); font-weight:300; font-display:swap; }
+@font-face{ font-family:'Pretendard'; src:url('https://cdn.jsdelivr.net/gh/projectnoonnu/pretendard@1.0/Pretendard-Regular.woff2') format('woff2'); font-weight:400; font-display:swap; }
+@font-face{ font-family:'Pretendard'; src:url('https://cdn.jsdelivr.net/gh/projectnoonnu/pretendard@1.0/Pretendard-Medium.woff2') format('woff2'); font-weight:500; font-display:swap; }
+@font-face{ font-family:'Pretendard'; src:url('https://cdn.jsdelivr.net/gh/projectnoonnu/pretendard@1.0/Pretendard-SemiBold.woff2') format('woff2'); font-weight:600; font-display:swap; }
+@font-face{ font-family:'Pretendard'; src:url('https://cdn.jsdelivr.net/gh/projectnoonnu/pretendard@1.0/Pretendard-Bold.woff2') format('woff2'); font-weight:700; font-display:swap; }
+@font-face{ font-family:'Pretendard'; src:url('https://cdn.jsdelivr.net/gh/projectnoonnu/pretendard@1.0/Pretendard-ExtraBold.woff2') format('woff2'); font-weight:800; font-display:swap; }
+@font-face{ font-family:'Pretendard'; src:url('https://cdn.jsdelivr.net/gh/projectnoonnu/pretendard@1.0/Pretendard-Black.woff2') format('woff2'); font-weight:900; font-display:swap; }
+
 *{box-sizing:border-box;word-break:keep-all !important;  letter-spacing:-0.8px;}
-body{ font-family:-apple-system,'Malgun Gothic',sans-serif; background:#e9eaee; margin:0; padding:24px; color:#222; }
+body{ font-family:'Pretendard',-apple-system,'Malgun Gothic',sans-serif; background:#e9eaee; margin:0; padding:24px; color:#222; }
+h1, h2, h3{ font-family:'Paperozi','Malgun Gothic',sans-serif; }
 
 /* ===== 커스텀 스크롤바 (연보라) ===== */
 html{ scrollbar-width:thin; scrollbar-color:#c3bce5 #f3f1fb; }
@@ -33,24 +44,37 @@ html{ scrollbar-width:thin; scrollbar-color:#c3bce5 #f3f1fb; }
 .sidebar{
   width:300px; flex-shrink:0; position:sticky; top:24px; display:flex; flex-direction:column; gap:14px;
   max-height:calc(100vh - 48px);
-  font-family:'Paperozi','Malgun Gothic',sans-serif;
+  font-family:'Pretendard','Malgun Gothic',sans-serif;
 }
 .export-box{
   background:#fff; border-radius:14px; padding:18px; flex-shrink:0;
 }
-.export-box h2{ font-size:20px; margin:0 0 10px; color:#b9c7d2;}
+.export-box h2{ font-size:20px; margin:0; color:#b9c7d2;}
+.export-box-title-row{ display:flex; align-items:center; gap:8px; margin:0 0 10px; }
+.version-badge{
+    font-size: 11px;
+    font-weight: 700;
+    color: #B9C7D2;
+    background: #F1F5F8;
+    white-space: nowrap;
+    /* border: 1px solid #eee; */
+    padding: 5px 10px;
+    border-radius: 100px;
+}
 .export-box h3{ font-size:16px; margin:0 0 10px; color:#c3bce5; }
 
 .panel{
   width:100%; flex-shrink:1; min-height:0; background:#fff; border-radius:14px; padding:0;
   overflow-y:scroll;
-  font-family:'Paperozi','Malgun Gothic',sans-serif;
+  font-family:'Pretendard','Malgun Gothic',sans-serif;
 }
 .panel-body{ padding:0 18px 18px; }
 .panel h2{ font-size:18px; margin:0 0 10px; }
-.panel h3{ font-size:16px; margin:18px 0 8px; color:#555; border-top:1px solid #eee; padding-top:14px; }
+.panel h3{ font-size:16px; margin:18px 0 12px; color:#555; border-top:1px solid #eee; padding-top:14px; }
 .panel h3:first-of-type{ border-top:none; padding-top:0; }
 .row{ display:flex; align-items:center; gap:8px; margin-bottom:8px; font-size:12px; }
+.row-target{ background:#F3F4F6; padding:5px 15px; border-radius:100px; }
+.row-target select{ width:56px; flex:0 0 56px; }
 .row label{ flex:1; color:#444; font-size:14px; }
 label{ font-size:14px; }
 .row input[type=color]{ width:32px;height:24px;border:none;border-radius:4px;cursor:pointer;padding:0; flex-shrink:0; }
@@ -61,11 +85,31 @@ label{ font-size:14px; }
 .hex-input:focus{ border-color:#c3bce5; outline:none; }
 .hex-input.invalid{ border-color:#e24b4a; color:#e24b4a; }
 .row input[type=range]{ flex:1; }
+input[type=range]{
+  -webkit-appearance:none; appearance:none;
+  width:100%; height:6px; border-radius:3px; outline:none; cursor:pointer;
+  background:#F3F4F6;
+}
+input[type=range]::-webkit-slider-runnable-track{ height:6px; border-radius:3px; background:transparent; }
+input[type=range]::-webkit-slider-thumb{
+  -webkit-appearance:none; appearance:none;
+  width:16px; height:16px; border-radius:50%; margin-top:-5px;
+  background:#B9C7D2; border:2px solid #fff; box-shadow:0 1px 3px rgba(0,0,0,.25); cursor:pointer;
+}
+input[type=range]::-moz-range-track{ height:6px; border-radius:3px; background:#F3F4F6; }
+input[type=range]::-moz-range-progress{ height:6px; border-radius:3px; background:#B9C7D2; }
+input[type=range]::-moz-range-thumb{
+  width:16px; height:16px; border-radius:50%;
+  background:#B9C7D2; border:2px solid #fff; box-shadow:0 1px 3px rgba(0,0,0,.25); cursor:pointer;
+}
+#irisSizeSlider{ background:#fff; }
+#irisSizeSlider::-moz-range-track{ background:#fff; }
 .btn{ width:100%; padding:9px; border:none; border-radius:8px; background:#444; color:#fff; font-size:13px; cursor:pointer; margin-top:6px; font-family:inherit; }
 .btn:hover{ background:#222; }
 .btn.blue {background:#b9c7d2; color:#333;font-weight:bold;}
 .btn.purple {background:#c3bce5; color:#333;font-weight:bold;}
 .btn.secondary{ background:#eee; color:#333; }
+.btn.secondary:disabled{ background:#f5f5f5; color:#ccc; cursor:not-allowed; }
 .btn.secondary:hover{ background:#ddd; }
 .btn-row{ display:flex; gap:6px; }
 .btn-row .btn{ margin-top:0; }
@@ -113,8 +157,9 @@ input[type=file]{ font-size:11px; width:100%; }
 .zoom-reset-btn{
   margin-top:2px; padding:7px 12px; border-radius:14px; background:#fff; border:1px solid #ddd;
   box-shadow:0 1px 4px rgba(0,0,0,.18); font-size:11px; color:#666; cursor:pointer; font-family:inherit;
-  white-space:nowrap;
+  white-space:nowrap; transition:opacity .15s ease, visibility .15s ease;
 }
+.zoom-reset-btn.zrb-hidden{ opacity:0; visibility:hidden; pointer-events:none; }
 .zoom-reset-btn:hover{ background:#f3f1fb; color:#8d81c2; }
 
 .sheet-outer{ flex:1; min-width:0; overflow-x:auto; overflow-y:hidden; }
@@ -215,10 +260,6 @@ input[type=file]{ font-size:11px; width:100%; }
 .sd-zone.off{ display:none; }
 .topbar.off{ display:none; }
 .costume-box.off{ display:none; }
-.toggle-group{ display:inline-flex; border-radius:8px; overflow:hidden; margin-top:6px; border:1px solid #ddd; }
-.toggle-btn{ padding:5px 14px; border:none; background:#f5f5f5; color:#999; font-size:11px; font-family:inherit; cursor:pointer; font-weight:700; }
-.toggle-btn.active{ background:#c3bce5; color:#fff; }
-.toggle-btn + .toggle-btn{ border-left:1px solid #ddd; }
 .iris-slot-toggle{ display:flex; gap:6px; background:#fff; border-radius:15px; padding:6px; margin-bottom:8px; }
 .iris-slot-btn{ flex:1; padding:7px 4px; border:none; border-radius:10px; background:transparent; color:#8d81c2; font-size:13px; font-family:inherit; cursor:pointer; font-weight:700; }
 .iris-slot-btn.active{ background:#c3bce5; color:#fff; box-shadow:0 1px 3px rgba(0,0,0,.12); }
@@ -282,7 +323,7 @@ input[type=file]{ font-size:11px; width:100%; }
 .zoom-controls.mobile-row{
   display:flex; position:static; flex-direction:row; justify-content:flex-end; align-items:center; gap:14px;
 }
-.zoom-controls.mobile-row .zoom-reset-btn{ margin-top:0; }
+.zoom-controls.mobile-row .zoom-reset-btn{ margin-top:0; order:-1; }
 @media (max-width: 860px){
   .mobile-only-row{ display:flex; }
   .mobile-only-block{ display:block; }
@@ -300,7 +341,7 @@ input[type=file]{ font-size:11px; width:100%; }
     box-shadow:0 -4px 18px rgba(0,0,0,.18);
   }
   .export-box{ display:none; }
-  #saveTabContent .export-box{ display:block; }
+  #saveTabContent .export-box{ display:block; padding:0px;}
   .tab-btn[data-tab="save"]{ display:flex; align-items:center; justify-content:center; }
   .sidebar-top-bar{
     display:flex; align-items:center; justify-content:space-between; gap:10px;
@@ -318,6 +359,19 @@ input[type=file]{ font-size:11px; width:100%; }
   .col-remove, .col-drag{ width:51px; height:51px; font-size:27px; }
   .col-drag{ right:60px; }
 }
+/* ===== 로딩 오버레이 (프리셋 저장/불러오기 등 무거운 작업용) ===== */
+.loading-overlay{
+  position:fixed; inset:0; background:rgba(255,255,255,.75); z-index:9500;
+  display:none; flex-direction:column; align-items:center; justify-content:center; gap:14px;
+  font-family:'Pretendard','Malgun Gothic',sans-serif;
+}
+.loading-spinner{
+  width:40px; height:40px; border-radius:50%;
+  border:4px solid #e7e2f7; border-top-color:#c3bce5;
+  animation: cchom-spin 0.8s linear infinite;
+}
+.loading-text{ font-size:15px; font-weight:700; color:#8d81c2; }
+@keyframes cchom-spin{ to{ transform:rotate(360deg); } }
 /* ===== 시작 모달 ===== */
 body.welcome-active{ overflow:hidden; }
 .welcome-overlay{
@@ -327,14 +381,14 @@ body.welcome-active{ overflow:hidden; }
 .welcome-modal{
   background:#fff; border-radius:18px; padding:28px; max-width:600px; width:100%;
   max-height:88vh; overflow-y:auto; box-shadow:0 8px 30px rgba(0,0,0,.3);
-  font-family:'Paperozi','Malgun Gothic',sans-serif;
+  font-family:'Pretendard','Malgun Gothic',sans-serif;
 }
-.welcome-title{ font-size:20px; margin:0 0 20px; text-align:center; color:#222; }
+.welcome-title{ font-size:22px; margin:0 0 10px; text-align:center; color:#B9C7D2; }
 .welcome-section{ margin-bottom:18px; }
 .welcome-section h3{ font-size:18px; color:#8d81c2; margin:0 0 8px; font-weight:800; }
 .welcome-section ol{ margin:0; padding-left:18px; font-size:15px; color:#444; line-height:1.7; }
-.welcome-caution-no{ font-size:14px; color:#e24b4a; font-weight:800; margin:0 0 6px; line-height:1.6; }
-.welcome-caution-yes{ font-size:14px; color:#444; margin:0; line-height:1.6; }
+.welcome-caution-no{ font-size:15px; color:#e24b4a; font-weight:800; margin:0 0 6px; line-height:1.6; }
+.welcome-caution-yes{ font-size:15px; color:#444; margin:0; line-height:1.6; }
 .welcome-patchnotes{
   background:#F3F4F6; border-radius:10px; padding:10px 12px; font-size:12px; color:#666;
   max-height:3.4em; overflow-y:auto; line-height:1.7;
@@ -351,7 +405,7 @@ body.welcome-active{ overflow:hidden; }
   position:fixed;z-index:8001;background:#fff;border-radius:16px;
   padding:14px;box-shadow:0 6px 28px rgba(0,0,0,.22);
   width:284px;display:none;touch-action:none;
-  font-family:'Paperozi','Malgun Gothic',sans-serif;
+  font-family:'Pretendard','Malgun Gothic',sans-serif;
 }
 .ccp-gradient-wrap{
   position:relative;width:256px;height:160px;
@@ -394,7 +448,10 @@ body.welcome-active{ overflow:hidden; }
 
 <div class="welcome-overlay" id="welcomeOverlay">
   <div class="welcome-modal">
-    <h2 class="welcome-title">촘촘 페어틀 메이커 by. EP</h2>
+    <h2 class="welcome-title">촘촘 페어틀 메이커 <span class="version-badge">v1.2</span>
+</h2>
+          <div class="hint" style="text-align:center;">made by EP <a href="https://x.com/efloydp_cms" target="_blank">@efloydp_cms</a></div>
+
 
     <div class="welcome-section">
       <h3>사용법</h3>
@@ -414,14 +471,16 @@ body.welcome-active{ overflow:hidden; }
 
     <div class="welcome-section">
       <h3>패치 노트</h3>
-      <div class="welcome-patchnotes">
-        <b>v1.1</b> 2026.07.07 - 커스텀 컬러피커 추가, 일부 드래그 버그 픽스 및 사용성 개선<br>
-        <b>v1</b> 2026.06.28 배포 - 이 서비스는 Claude의 도움을 받아 제작하였습니다.
-      </div>
+      <div class="welcome-patchnotes"><b>v1.2</b> 2026.07.08 - 새로고침시 경고창 표시, .json 파일 다른 이름으로 저장, 인터페이스 사용성 개선 및 폰트 변경<br><b>v1.1</b> 2026.07.07 - 커스텀 컬러피커 추가, 일부 드래그 버그 픽스 및 사용성 개선<br><b>v1</b> 2026.06.28 배포 - 이 서비스는 Claude의 도움을 받아 제작하였습니다.</div>
     </div>
 
     <button class="welcome-start-btn" id="welcomeStartBtn" type="button">시작하기</button>
   </div>
+</div>
+
+<div class="loading-overlay" id="loadingOverlay">
+  <div class="loading-spinner"></div>
+  <div class="loading-text" id="loadingText">불러오는 중...</div>
 </div>
 
 <div class="app-wrap">
@@ -432,19 +491,22 @@ body.welcome-active{ overflow:hidden; }
       <div class="sidebar-zoom-slot" id="sidebarZoomSlot"></div>
     </div>
     <div class="export-box" id="exportBox">
-      <h2>촘촘 페어틀 메이커 v1.1</h2>
+      <div class="export-box-title-row">
+        <h2>촘촘 페어틀 메이커</h2>
+        <span class="version-badge">v1.2</span>
+      </div>
       <div class="btn-row">
         <button class="btn blue" id="exportPng">PNG로 저장</button>
         <button class="btn secondary" id="exportJpg">JPG로 저장</button>
       </div>
-      <div class="hint">made by EP <a href="https://x.com/efloydp_cms" target="_blank">@efloydp_cms</a></div>
 
-      <h3 style="margin-top:16px;">프리셋 (내 기기에 저장)</h3>
+      <h3 style="margin-top:16px;">프리셋 내보내기</h3>
       <div class="row"><input type="text" id="presetNameInput" placeholder="파일 이름 (예: 페어명_날짜)" style="flex:1;padding:5px 7px;border:1px solid #ddd;border-radius:6px;font-size:12px;font-family:inherit;"></div>
       <button class="btn purple" id="savePresetBtn">프리셋 파일 저장 (.json)</button>
       <input type="file" id="presetFileInput" accept=".json,application/json" style="display:none;">
       <button class="btn secondary" id="loadPresetBtn" style="margin-top:6px;">프리셋 파일 불러오기</button>
-      <div class="hint">※ 이미지를 포함한 전체 구성이 .json 파일 하나로 내 기기에 저장됩니다. 그 파일을 다시 불러오면 그대로 데이터가 복원됩니다.</div>
+      <div class="hint">이미지를 포함한 전체 구성이 .json 파일 하나로 내 기기에 저장되고, 파일을 다시 불러와서 편집할 수 있습니다.</div>
+
     </div>
 
     <div class="panel">
@@ -472,19 +534,23 @@ body.welcome-active{ overflow:hidden; }
 
       <div class="tab-content" data-tab-content="settings">
         <h3 id="topbarHeading">상단 정보 (페어명 / 설명)</h3>
-        <div class="toggle-group">
-          <button class="toggle-btn" id="topbarOffBtn">OFF</button>
-          <button class="toggle-btn active" id="topbarOnBtn">ON</button>
+        <div class="row">
+          <label>표시</label>
+          <input type="checkbox" id="topbarShow" checked style="display:none;">
+          <div class="mini-toggle" data-for="topbarShow">
+            <button type="button" class="mini-toggle-btn" data-val="off">OFF</button>
+            <button type="button" class="mini-toggle-btn active" data-val="on">ON</button>
+          </div>
         </div>
         <div class="hint">시트 맨 위 페어명/설명 영역을 숨기거나 보여줍니다.</div>
 
         <h3 id="themeColorHeading">테마색</h3>
-        <div class="row"><label>적용할 캐릭터</label><select id="themeTargetSelect"></select></div>
+        <div class="row row-target"><label>대상</label><select id="themeTargetSelect"></select></div>
         <div class="row"><label>적용할 색상</label><input type="color" id="masterTheme" value="#B9C7D2"><input type="text" class="hex-input" data-for="masterTheme" placeholder="#RRGGBB"></div>
         <div class="hint">뱃지(A,B,C...)/테마색/동물화 박스에 적용됩니다.</div>
 
         <h3 id="hairColorHeading">머리 색상</h3>
-        <div class="row"><label>대상</label><select id="hairTargetSelect"></select></div>
+        <div class="row row-target"><label>대상</label><select id="hairTargetSelect"></select></div>
         <div class="row" id="hairMainColorRow"><label>기본색</label><input type="color" id="hairMainColor" value="#dddddd"><input type="text" class="hex-input" data-for="hairMainColor" placeholder="#RRGGBB"></div>
         <div class="row"><label>모드</label>
           <select id="hairModeSelect"><option value="solid">단색</option><option value="gradient">그라데이션</option><option value="twotone">투톤(위/아래)</option></select>
@@ -492,7 +558,7 @@ body.welcome-active{ overflow:hidden; }
         <div class="row" id="hairSubRow"><label>보조색</label><input type="color" id="hairSubColor" value="#cccccc"><input type="text" class="hex-input" data-for="hairSubColor" placeholder="#RRGGBB"></div>
 
         <h3 id="eyeColorHeading">눈 색상</h3>
-        <div class="row"><label>대상</label><select id="eyeModeTarget"></select></div>
+        <div class="row row-target"><label>대상</label><select id="eyeModeTarget"></select></div>
         <div class="row">
           <label style="font-weight:700;">두 눈 일괄 적용</label>
           <input type="checkbox" id="eyeModeLinked" style="display:none;">
@@ -511,12 +577,12 @@ body.welcome-active{ overflow:hidden; }
         <div class="row" id="eyeModeSubRow"><label>보조색</label><input type="color" id="eyeModeSub" value="#cccccc"><input type="text" class="hex-input" data-for="eyeModeSub" placeholder="#RRGGBB"></div>
 
         <h3 id="irisHeading">눈 안광</h3>
-        <div class="row"><label>대상</label><select id="irisTargetSelect"></select></div>
+        <div class="row row-target"><label>대상</label><select id="irisTargetSelect"></select></div>
         <div class="row">
-          <label>안광 표시</label>
-          <div class="toggle-group">
-            <button class="toggle-btn active" id="irisDisplayOffBtn">OFF</button>
-            <button class="toggle-btn" id="irisDisplayOnBtn">ON</button>
+          <label>표시</label>
+          <div class="mini-toggle">
+            <button class="mini-toggle-btn active" id="irisDisplayOffBtn" type="button" data-val="off">OFF</button>
+            <button class="mini-toggle-btn" id="irisDisplayOnBtn" type="button" data-val="on">ON</button>
           </div>
         </div>
 
@@ -544,7 +610,7 @@ body.welcome-active{ overflow:hidden; }
             </div>
           </div>
           <div class="row"><label>안광 크기</label></div>
-          <div class="row"><input type="range" id="irisSizeSlider" min="6" max="90" step="1" value="27"><span id="irisSizeVal" style="width:70px;text-align:right;font-size:12px;">27px(기본)</span></div>
+          <div class="row"><input type="range" id="irisSizeSlider" data-unfilled-color="#fff" min="6" max="90" step="1" value="27"><span id="irisSizeVal" style="width:70px;text-align:right;font-size:12px;">27px(기본)</span></div>
           <div class="row"><label>안광 색</label><input type="color" id="irisFillColor" value="#ffffff"><input type="text" class="hex-input" data-for="irisFillColor" placeholder="#RRGGBB"></div>
           <div class="row"><label>안광 테두리 색</label><input type="color" id="irisBorderColor" value="#909090"><input type="text" class="hex-input" data-for="irisBorderColor" placeholder="#RRGGBB"></div>
           <div class="row">
@@ -562,7 +628,7 @@ body.welcome-active{ overflow:hidden; }
 
         <div id="skinColorSection">
           <h3>피부 색상</h3>
-          <div class="row"><label>대상</label><select id="skinTargetSelect"></select></div>
+          <div class="row row-target"><label>대상</label><select id="skinTargetSelect"></select></div>
           <div class="row"><label>기본색</label><input type="color" id="skinMainColor" value="#dddddd"><input type="text" class="hex-input" data-for="skinMainColor" placeholder="#RRGGBB"></div>
         </div>
 
@@ -575,13 +641,16 @@ body.welcome-active{ overflow:hidden; }
         <h3>스티커 추가</h3>
         <div class="row"><label>붙일 위치</label><select id="stickerTarget"></select></div>
         <input type="file" id="stickerInput" accept="image/*">
-        <div class="hint">항상 모든 요소의 맨 위에 붙여져요.</div>
+        <div class="hint">항상 모든 요소의 맨 위에 붙여집니다.</div>
 
         <h3 id="animalBoxHeading">동물화 박스</h3>
-        <div class="row"><label>대상</label><select id="animalTargetSelect"></select></div>
-        <div class="toggle-group">
-          <button class="toggle-btn" id="animalOffBtn">OFF</button>
-          <button class="toggle-btn active" id="animalOnBtn">ON</button>
+        <div class="row row-target"><label>대상</label><select id="animalTargetSelect"></select></div>
+        <div class="row">
+          <label>표시</label>
+          <div class="mini-toggle">
+            <button class="mini-toggle-btn" id="animalOffBtn" type="button" data-val="off">OFF</button>
+            <button class="mini-toggle-btn active" id="animalOnBtn" type="button" data-val="on">ON</button>
+          </div>
         </div>
         <div class="row" style="margin-top:8px;"><label>위치</label>
           <select id="animalPositionSelect">
@@ -594,23 +663,35 @@ body.welcome-active{ overflow:hidden; }
         <div class="hint">메인 이미지 박스의 네 모서리 중 한 곳에 위치합니다 (기본: 왼쪽 아래).</div>
 
         <h3 id="sourceTextHeading">커미션 출처</h3>
-        <div class="toggle-group">
-          <button class="toggle-btn" id="sourceOffBtn">OFF</button>
-          <button class="toggle-btn active" id="sourceOnBtn">ON</button>
+        <div class="row">
+          <label>표시</label>
+          <input type="checkbox" id="sourceShow" checked style="display:none;">
+          <div class="mini-toggle" data-for="sourceShow">
+            <button type="button" class="mini-toggle-btn" data-val="off">OFF</button>
+            <button type="button" class="mini-toggle-btn active" data-val="on">ON</button>
+          </div>
         </div>
         <div class="hint">모든 캐릭터에 일괄 적용됩니다. 특정 캐릭터만 삭제할 경우 편집 화면에서 텍스트를 지워주세요.</div>
 
         <h3 id="sdImageHeading">SD 이미지</h3>
-        <div class="toggle-group">
-          <button class="toggle-btn" id="sdOffBtn">OFF</button>
-          <button class="toggle-btn active" id="sdOnBtn">ON</button>
+        <div class="row">
+          <label>표시</label>
+          <input type="checkbox" id="sdShow" checked style="display:none;">
+          <div class="mini-toggle" data-for="sdShow">
+            <button type="button" class="mini-toggle-btn" data-val="off">OFF</button>
+            <button type="button" class="mini-toggle-btn active" data-val="on">ON</button>
+          </div>
         </div>
         <div class="hint">모든 캐릭터에 일괄 적용됩니다.</div>
 
         <h3 id="costumeHeading">의상&표정 관련 묘사</h3>
-        <div class="toggle-group">
-          <button class="toggle-btn" id="costumeOffBtn">OFF</button>
-          <button class="toggle-btn active" id="costumeOnBtn">ON</button>
+        <div class="row">
+          <label>표시</label>
+          <input type="checkbox" id="costumeShow" checked style="display:none;">
+          <div class="mini-toggle" data-for="costumeShow">
+            <button type="button" class="mini-toggle-btn" data-val="off">OFF</button>
+            <button type="button" class="mini-toggle-btn active" data-val="on">ON</button>
+          </div>
         </div>
         <div class="hint">모든 캐릭터에 일괄 적용됩니다.</div>
       </div>
@@ -650,7 +731,7 @@ body.welcome-active{ overflow:hidden; }
           <line x1="7" y1="10" x2="13" y2="10"></line>
         </svg>
       </button>
-      <button class="zoom-reset-btn" id="zoomResetBtn" type="button">기본 사이즈로 보기</button>
+      <button class="zoom-reset-btn zrb-hidden" id="zoomResetBtn" type="button">초기화</button>
     </div>
   </div>
 </div>
@@ -714,6 +795,8 @@ new ResizeObserver(()=>{
 function applySheetScale(){
   sheet.style.transform = `scale(${SCALE})`;
   sheetOuter.style.height = (sheet.offsetHeight*SCALE)+'px';
+  const resetBtn = document.getElementById('zoomResetBtn');
+  if(resetBtn) resetBtn.classList.toggle('zrb-hidden', SCALE === SCALE_DEFAULT);
 }
 if(window.matchMedia('(max-width: 860px)').matches){
   SCALE = 0.4;
@@ -774,6 +857,25 @@ if(mobileQuery.addEventListener) mobileQuery.addEventListener('change', relayout
 else if(mobileQuery.addListener) mobileQuery.addListener(relayoutMobile);
 window.addEventListener('resize', relayoutMobile);
 
+/* 브라우저 가로폭이 1365px 이상이면, 화면 우측 고정 여백(right:50px) 대신
+   .sheet-outer-wrap 바로 오른쪽에 붙도록 위치를 동적으로 계산 */
+const WIDE_LAYOUT_BREAKPOINT = 1365;
+function positionZoomControlsForWideScreen(){
+  if(mobileQuery.matches) return; /* 모바일에서는 sidebar-zoom-slot으로 이동되어 무관 */
+  if(window.innerWidth >= WIDE_LAYOUT_BREAKPOINT){
+    const wrap = document.querySelector('.sheet-outer-wrap');
+    if(!wrap) return;
+    const wrapRect = wrap.getBoundingClientRect();
+    zoomControlsEl.style.left = (wrapRect.right + 16) + 'px';
+    zoomControlsEl.style.right = 'auto';
+  } else {
+    zoomControlsEl.style.left = '';
+    zoomControlsEl.style.right = '';
+  }
+}
+positionZoomControlsForWideScreen();
+window.addEventListener('resize', positionZoomControlsForWideScreen);
+
 /* 편집 컨트롤(사이드바) 접기/펼치기 */
 const sidebarCollapseBtn = document.getElementById('sidebarCollapseBtn');
 sidebarCollapseBtn.addEventListener('click', ()=>{
@@ -813,6 +915,7 @@ function createCharacter(color){
 function removeCharacter(id){
   const colWrap = columnsWrap.querySelector(`.col-wrap[data-id="${id}"]`);
   if(colWrap) colWrap.remove();
+  hasUnsavedChanges = true;
   relabelAll();
 }
 
@@ -821,7 +924,41 @@ function addCharacter(){
   if(count>=8){ alert('최대 8명까지 추가할 수 있어요.'); return; }
   const color = DEFAULT_COLORS[count % DEFAULT_COLORS.length];
   createCharacter(color);
+  hasUnsavedChanges = true;
   relabelAll();
+}
+
+/* ---------- 저장되지 않은 변경사항 이탈 방지 ---------- */
+let hasUnsavedChanges = false;
+/* 아래 select들은 실제 콘텐츠가 아니라 "지금 어떤 캐릭터를 보고 있는지" 같은 패널 내비게이션용이라,
+   스와치 클릭 시 revealSidebarSection이 합성 change 이벤트를 쏘는 경우가 있음.
+   이런 내부 동기화용 change까지 "변경사항 있음"으로 잡으면 아무 것도 안 바꿨는데도
+   나가기 경고가 뜨는 오탐이 발생하므로 제외함. */
+const NON_CONTENT_CHANGE_IDS = new Set([
+  'hairTargetSelect','eyeModeTarget','skinTargetSelect','themeTargetSelect',
+  'irisTargetSelect','animalTargetSelect','stickerTarget','eyeModeWhich','irisSlotSelect'
+]);
+document.addEventListener('input', ()=>{ hasUnsavedChanges = true; }, true);
+document.addEventListener('change', e=>{
+  if(e.target && e.target.id && NON_CONTENT_CHANGE_IDS.has(e.target.id)) return;
+  hasUnsavedChanges = true;
+}, true);
+window.addEventListener('beforeunload', function(e){
+  if(!hasUnsavedChanges) return;
+  e.preventDefault();
+  e.returnValue = '';
+});
+
+/* ---------- 로딩 오버레이 (무거운 동기 작업 전에 표시) ---------- */
+function showLoadingOverlay(text){
+  const ov = document.getElementById('loadingOverlay');
+  if(!ov) return;
+  document.getElementById('loadingText').textContent = text || '처리하는 중...';
+  ov.style.display = 'flex';
+}
+function hideLoadingOverlay(){
+  const ov = document.getElementById('loadingOverlay');
+  if(ov) ov.style.display = 'none';
 }
 
 /* ================= 프리셋 저장/불러오기 (내 컴퓨터에 파일로) ================= */
@@ -1031,28 +1168,71 @@ function loadSheetData(data){
 
 function refreshPresetList(){ /* 더 이상 사용하지 않지만 다른 코드에서 참조해도 안전하도록 빈 함수로 유지 */ }
 
-document.getElementById('savePresetBtn').addEventListener('click', ()=>{
+document.getElementById('savePresetBtn').addEventListener('click', async ()=>{
   const nameInput = document.getElementById('presetNameInput');
   let name = nameInput.value.trim();
   if(!name) name = 'character-sheet-preset';
   const safeName = name.replace(/[\\/:*?"<>|]/g, '_');
-  const data = serializeSheet();
-  let json;
-  try{
-    json = JSON.stringify(data);
-  } catch(e){
-    alert('저장에 실패했어요.');
-    return;
+  const fileName = safeName + '_CChomMakerEP' + '.json';
+
+  /* PC(데스크톱) + File System Access API 지원 브라우저(Chrome/Edge 등)에서는
+     바로 다운로드하지 않고 "다른 이름으로 저장" 창을 띄워서 위치/이름을 고르게 함.
+     showSaveFilePicker는 사용자 제스처 직후 바로 호출해야 하므로(그렇지 않으면
+     SecurityError) 로딩 오버레이 등 지연 작업보다 항상 먼저 실행함. */
+  const canUseSaveDialog = !mobileQuery.matches && typeof window.showSaveFilePicker === 'function';
+
+  if(canUseSaveDialog){
+    let handle = null;
+    try{
+      handle = await window.showSaveFilePicker({
+        suggestedName: fileName,
+        types: [{ description: 'JSON 파일', accept: {'application/json': ['.json']} }]
+      });
+    } catch(err){
+      if(err && err.name === 'AbortError') return; /* 사용자가 저장을 취소함 */
+      handle = null; /* 그 외 오류는 아래 폴백(다운로드 방식)으로 진행 */
+    }
+    if(handle){
+      showLoadingOverlay('프리셋을 저장하는 중...');
+      try{
+        const data = serializeSheet();
+        const json = JSON.stringify(data);
+        const writable = await handle.createWritable();
+        await writable.write(new Blob([json], {type:'application/json'}));
+        await writable.close();
+        hasUnsavedChanges = false;
+      } catch(e){
+        alert('저장에 실패했어요.');
+      }
+      hideLoadingOverlay();
+      return;
+    }
   }
-  const blob = new Blob([json], {type:'application/json'});
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = safeName + '_CChomMakerEP' + '.json';
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  setTimeout(()=> URL.revokeObjectURL(url), 1000);
+
+  /* 폴백: 모바일이거나, 브라우저가 File System Access API를 지원하지 않거나,
+     다이얼로그 자체에서 오류가 난 경우 - 기존 자동 다운로드 방식 */
+  showLoadingOverlay('프리셋을 저장하는 중...');
+  setTimeout(()=>{
+    let json;
+    try{
+      json = JSON.stringify(serializeSheet());
+    } catch(e){
+      hideLoadingOverlay();
+      alert('저장에 실패했어요.');
+      return;
+    }
+    const blob = new Blob([json], {type:'application/json'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = fileName;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(()=> URL.revokeObjectURL(url), 1000);
+    hasUnsavedChanges = false;
+    hideLoadingOverlay();
+  }, 30);
 });
 
 document.getElementById('loadPresetBtn').addEventListener('click', ()=>{
@@ -1076,9 +1256,14 @@ document.getElementById('presetFileInput').addEventListener('change', e=>{
       e.target.value='';
       return;
     }
-    loadSheetData(data);
-    const base = f.name.replace(/\.json$/i, '');
-    document.getElementById('presetNameInput').value = base;
+    showLoadingOverlay('프리셋을 불러오는 중...');
+    setTimeout(()=>{
+      loadSheetData(data);
+      const base = f.name.replace(/\.json$/i, '');
+      document.getElementById('presetNameInput').value = base;
+      hasUnsavedChanges = false;
+      hideLoadingOverlay();
+    }, 30);
     e.target.value='';
   };
   reader.onerror = ()=>{ alert('파일을 읽는 중 오류가 발생했어요.'); e.target.value=''; };
@@ -1092,6 +1277,8 @@ function relabelAll(){
   });
   document.getElementById('charCount').textContent = `현재 ${cols.length}명 (최대 8명)`;
   document.getElementById('charCountStepperVal').textContent = cols.length;
+  document.getElementById('charCountPlus').disabled = cols.length >= 8;
+  document.getElementById('charCountMinus').disabled = cols.length <= 1;
   const showNav = cols.length >= 3;
   document.getElementById('navLeft').style.display = showNav ? 'flex' : 'none';
   document.getElementById('navRight').style.display = showNav ? 'flex' : 'none';
@@ -1201,14 +1388,17 @@ function applySdZoneState(){
   document.querySelectorAll('.sd-zone').forEach(z=> z.classList.toggle('off', sdZoneGloballyOff));
 }
 function updateSdToggleUI(){
-  document.getElementById('sdOffBtn').classList.toggle('active', sdZoneGloballyOff);
-  document.getElementById('sdOnBtn').classList.toggle('active', !sdZoneGloballyOff);
+  const cb = document.getElementById('sdShow');
+  if(cb) cb.checked = !sdZoneGloballyOff;
+  const group = document.querySelector('.mini-toggle[data-for="sdShow"]');
+  if(group){
+    group.querySelector('[data-val="off"]').classList.toggle('active', sdZoneGloballyOff);
+    group.querySelector('[data-val="on"]').classList.toggle('active', !sdZoneGloballyOff);
+  }
 }
-document.getElementById('sdOffBtn').addEventListener('click', ()=>{
-  sdZoneGloballyOff = true; applySdZoneState(); updateSdToggleUI();
-});
-document.getElementById('sdOnBtn').addEventListener('click', ()=>{
-  sdZoneGloballyOff = false; applySdZoneState(); updateSdToggleUI();
+document.getElementById('sdShow').addEventListener('change', function(){
+  sdZoneGloballyOff = !this.checked;
+  applySdZoneState(); updateSdToggleUI();
 });
 
 /* ---------- 상단 정보(topbar) on/off ---------- */
@@ -1216,11 +1406,17 @@ let topbarOff = false;
 function setTopbarState(off){
   topbarOff = off;
   document.querySelector('.topbar').classList.toggle('off', off);
-  document.getElementById('topbarOffBtn').classList.toggle('active', off);
-  document.getElementById('topbarOnBtn').classList.toggle('active', !off);
+  const cb = document.getElementById('topbarShow');
+  if(cb) cb.checked = !off;
+  const group = document.querySelector('.mini-toggle[data-for="topbarShow"]');
+  if(group){
+    group.querySelector('[data-val="off"]').classList.toggle('active', off);
+    group.querySelector('[data-val="on"]').classList.toggle('active', !off);
+  }
 }
-document.getElementById('topbarOffBtn').addEventListener('click', ()=> setTopbarState(true));
-document.getElementById('topbarOnBtn').addEventListener('click', ()=> setTopbarState(false));
+document.getElementById('topbarShow').addEventListener('change', function(){
+  setTopbarState(!this.checked);
+});
 
 /* ---------- 의상 관련 묘사 박스 전체 일괄 on/off ---------- */
 let costumeBoxOff = false;
@@ -1228,14 +1424,17 @@ function applyCostumeBoxState(){
   document.querySelectorAll('.costume-box').forEach(c=> c.classList.toggle('off', costumeBoxOff));
 }
 function updateCostumeToggleUI(){
-  document.getElementById('costumeOffBtn').classList.toggle('active', costumeBoxOff);
-  document.getElementById('costumeOnBtn').classList.toggle('active', !costumeBoxOff);
+  const cb = document.getElementById('costumeShow');
+  if(cb) cb.checked = !costumeBoxOff;
+  const group = document.querySelector('.mini-toggle[data-for="costumeShow"]');
+  if(group){
+    group.querySelector('[data-val="off"]').classList.toggle('active', costumeBoxOff);
+    group.querySelector('[data-val="on"]').classList.toggle('active', !costumeBoxOff);
+  }
 }
-document.getElementById('costumeOffBtn').addEventListener('click', ()=>{
-  costumeBoxOff = true; applyCostumeBoxState(); updateCostumeToggleUI();
-});
-document.getElementById('costumeOnBtn').addEventListener('click', ()=>{
-  costumeBoxOff = false; applyCostumeBoxState(); updateCostumeToggleUI();
+document.getElementById('costumeShow').addEventListener('change', function(){
+  costumeBoxOff = !this.checked;
+  applyCostumeBoxState(); updateCostumeToggleUI();
 });
 
 /* ---------- 커미션 출처(.source-text) 전체 일괄 on/off ---------- */
@@ -1244,14 +1443,17 @@ function applySourceTextState(){
   document.querySelectorAll('.source-text').forEach(s=> s.style.opacity = sourceTextOff ? '0' : '1');
 }
 function updateSourceToggleUI(){
-  document.getElementById('sourceOffBtn').classList.toggle('active', sourceTextOff);
-  document.getElementById('sourceOnBtn').classList.toggle('active', !sourceTextOff);
+  const cb = document.getElementById('sourceShow');
+  if(cb) cb.checked = !sourceTextOff;
+  const group = document.querySelector('.mini-toggle[data-for="sourceShow"]');
+  if(group){
+    group.querySelector('[data-val="off"]').classList.toggle('active', sourceTextOff);
+    group.querySelector('[data-val="on"]').classList.toggle('active', !sourceTextOff);
+  }
 }
-document.getElementById('sourceOffBtn').addEventListener('click', ()=>{
-  sourceTextOff = true; applySourceTextState(); updateSourceToggleUI();
-});
-document.getElementById('sourceOnBtn').addEventListener('click', ()=>{
-  sourceTextOff = false; applySourceTextState(); updateSourceToggleUI();
+document.getElementById('sourceShow').addEventListener('change', function(){
+  sourceTextOff = !this.checked;
+  applySourceTextState(); updateSourceToggleUI();
 });
 
 function getTargetIds(value){
@@ -1487,7 +1689,7 @@ function initColumn(colWrap, id){
       const img = wrap.querySelector('img');
       img.onload = ()=>{
         const ratio = img.naturalHeight/img.naturalWidth;
-        const targetW = 400;
+        const targetW = 450;
         const targetH = targetW*ratio;
         wrap.style.width = targetW+'px';
         wrap.style.height = targetH+'px';
@@ -1945,6 +2147,7 @@ function refreshIrisSizeSliderDisplay(){
     }
   }
   document.getElementById('irisSizeSlider').value = size;
+  if(typeof updateRangeFill === 'function') updateRangeFill(document.getElementById('irisSizeSlider'));
   updateIrisSizeLabel(size, slot);
 }
 function updateIrisSizeLabel(size, slot){
@@ -1958,6 +2161,7 @@ document.getElementById('irisSizeSlider').addEventListener('input', e=>{
   const def = defaultSizeForSlot(slot);
   if(Math.abs(size-def) < 3) size = def;
   e.target.value = size;
+  if(typeof updateRangeFill === 'function') updateRangeFill(e.target);
   updateIrisSizeLabel(size, slot);
   getTargetIds(target).forEach(id=>{
     ['eyeL','eyeR'].forEach(part=>{
@@ -2168,8 +2372,10 @@ function applyThemeTextColor(id, color){
   const textColor = lum > 0.65 ? '#909090' : '#ffffff';
   colWrap.querySelector('[data-role="themebtn"]').style.color = textColor;
   colWrap.querySelector('[data-role="animalbox"]').style.color = textColor;
-  const isWhite = color.toLowerCase()==='#ffffff' || color.toLowerCase()==='#fff';
-  colWrap.querySelector('[data-role="badge"]').style.color = isWhite ? '#909090' : color;
+  /* 흰 시트 배경 위에서 글자가 안 보이지 않도록, 정확히 '#ffffff'가 아니라
+     밝기가 흰색에 가까운 색(거의 흰색 계열)이면 모두 회색으로 대체 */
+  const nearWhite = lum > 0.9;
+  colWrap.querySelector('[data-role="badge"]').style.color = nearWhite ? '#909090' : color;
 }
 function applyThemeToId(id, color){
   const colWrap = columnsWrap.querySelector(`.col-wrap[data-id="${id}"]`);
@@ -2429,6 +2635,24 @@ updateCostumeToggleUI();
 setupMiniToggle('irisLink');
 setupMiniToggle('eyeModeLinked');
 setupMiniToggle('irisBorderOn');
+setupMiniToggle('topbarShow');
+setupMiniToggle('sdShow');
+setupMiniToggle('costumeShow');
+setupMiniToggle('sourceShow');
+
+/* ---------- range 슬라이더 채움색 (B9C7D2 채움 / F3F4F6 미채움) ---------- */
+function updateRangeFill(el){
+  const min = parseFloat(el.min) || 0;
+  const max = parseFloat(el.max) || 100;
+  const val = parseFloat(el.value) || 0;
+  const pct = max > min ? Math.min(100, Math.max(0, ((val - min) / (max - min)) * 100)) : 0;
+  const unfilled = el.dataset.unfilledColor || '#F3F4F6';
+  el.style.background = `linear-gradient(to right, #B9C7D2 0%, #B9C7D2 ${pct}%, ${unfilled} ${pct}%, ${unfilled} 100%)`;
+}
+document.querySelectorAll('input[type=range]').forEach(updateRangeFill);
+document.addEventListener('input', e=>{
+  if(e.target && e.target.matches && e.target.matches('input[type=range]')) updateRangeFill(e.target);
+}, true);
 
 /* ---------- 색상 hex 직접입력 (모바일 컬러피커 보완) ---------- */
 function enhanceColorInput(id){
@@ -2646,7 +2870,7 @@ document.getElementById('welcomeStartBtn').addEventListener('click', ()=>{
     if(extClean){extClean();extClean=null;}
     curInput=inp;
     if(!applyHex(inp.value||'#dddddd')){H=0;S=0;V=0.87;}
-    picker.style.display='block';backdrop.style.display='block';
+    picker.style.display='block';
     drawGradient();drawHue();
     requestAnimationFrame(()=>{
       positionPicker(inp);
@@ -2657,11 +2881,20 @@ document.getElementById('welcomeStartBtn').addEventListener('click', ()=>{
     extClean=()=>inp.removeEventListener('input',onExt);
   }
   function closePicker(){
-    picker.style.display='none';backdrop.style.display='none';
+    picker.style.display='none';
     if(extClean){extClean();extClean=null;}curInput=null;
   }
-  backdrop.addEventListener('pointerdown',closePicker);
   document.addEventListener('keydown',e=>{if(e.key==='Escape')closePicker();});
+
+  /* 바깥 클릭 시 피커를 닫되, 전체화면 백드롭으로 물리적으로 가로막지 않고
+     클릭 이벤트를 막지 않은 채로 흘려보내서(stopPropagation 없음) 다른 버튼(줌/탭 등)이
+     "닫기 클릭 + 원래 클릭" 두 번을 눌러야 하는 문제가 없도록 함 */
+  document.addEventListener('pointerdown', e=>{
+    if(picker.style.display!=='block') return;
+    if(e.target.closest && e.target.closest('#ccpPicker')) return;
+    if(e.target.matches && e.target.matches('input[type=color]')) return; /* 아래 별도 핸들러가 처리 */
+    closePicker();
+  }, true);
 
   /* 사이드바 자동 이동(revealSidebarSection)에 의한 프로그래매틱 스크롤 중에는
      피커를 닫지 않고 위치만 따라가도록 함. 사용자가 직접 스크롤할 때만 닫힘. */
@@ -2702,6 +2935,15 @@ document.getElementById('welcomeStartBtn').addEventListener('click', ()=>{
   document.addEventListener('click',e=>{
     if(e.target&&e.target.matches&&e.target.matches('input[type=color]')){
       e.preventDefault();e.stopImmediatePropagation();
+      /* detail===0 은 마우스/터치 없이 키보드(Enter/Space)로 활성화된 클릭임을 의미.
+         이 경우 pointerdown이 먼저 발생하지 않으므로 여기서 직접 피커를 열어줌 (접근성) */
+      if(e.detail === 0){
+        if(picker.style.display==='block' && curInput===e.target){ closePicker(); }
+        else {
+          openPicker(e.target);
+          if(typeof handleSheetColorClick === 'function') handleSheetColorClick(e.target);
+        }
+      }
     }
   },true);
   document.addEventListener('touchstart',e=>{
