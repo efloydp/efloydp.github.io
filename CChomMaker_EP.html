@@ -785,7 +785,11 @@ body.welcome-active{ overflow:hidden; }
 
 <script>
 let SCALE = 0.6;
-const SCALE_DEFAULT = 0.6, SCALE_MIN = 0.35, SCALE_MAX = 0.8, SCALE_STEP = 0.05;
+const SCALE_DEFAULT = 0.6, SCALE_DEFAULT_MOBILE = 0.4, SCALE_MIN = 0.35, SCALE_MAX = 0.8, SCALE_STEP = 0.05;
+/* 현재 화면 폭 기준 기본 배율 - 모바일(860px 이하)과 PC의 기본값이 다르므로 매번 새로 판단 */
+function currentDefaultScale(){
+  return window.matchMedia('(max-width: 860px)').matches ? SCALE_DEFAULT_MOBILE : SCALE_DEFAULT;
+}
 /* 레이아웃 상수 - CSS(.col-wrap / .canvas-box / .sd-zone)의 고정값과 반드시 일치해야 함 */
 const COL_W = 627;             /* 컬럼(캔버스) 가로폭 */
 const COL_GAP = 70;            /* 컬럼 사이 간격(.col-wrap margin-right) */
@@ -810,11 +814,9 @@ function applySheetScale(){
   sheet.style.transform = `scale(${SCALE})`;
   sheetOuter.style.height = (sheet.offsetHeight*SCALE)+'px';
   const resetBtn = document.getElementById('zoomResetBtn');
-  if(resetBtn) resetBtn.classList.toggle('zrb-hidden', SCALE === SCALE_DEFAULT);
+  if(resetBtn) resetBtn.classList.toggle('zrb-hidden', SCALE === currentDefaultScale());
 }
-if(window.matchMedia('(max-width: 860px)').matches){
-  SCALE = 0.4;
-}
+SCALE = currentDefaultScale();
 applySheetScale();
 
 /* ---------- 화면 확대/축소 ---------- */
@@ -827,7 +829,8 @@ document.getElementById('zoomOutBtn').addEventListener('click', ()=>{
   applySheetScale();
 });
 document.getElementById('zoomResetBtn').addEventListener('click', ()=>{
-  SCALE = SCALE_DEFAULT;
+  /* 초기화 시 현재 화면(모바일/PC)에 맞는 기본 배율로 복귀 */
+  SCALE = currentDefaultScale();
   applySheetScale();
 });
 
