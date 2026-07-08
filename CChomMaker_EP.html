@@ -5,11 +5,14 @@
 <title>[EP] 촘촘 페어틀 메이커</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='22' cy='32' r='17' fill='%23b9c7d2'/%3E%3Ccircle cx='42' cy='32' r='17' fill='%23c3bce5'/%3E%3C/svg%3E">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preload" href="https://cdn.jsdelivr.net/gh/projectnoonnu/pretendard@1.0/Pretendard-Medium.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="https://cdn.jsdelivr.net/gh/projectnoonnu/pretendard@1.0/Pretendard-SemiBold.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="https://cdn.jsdelivr.net/gh/projectnoonnu/pretendard@1.0/Pretendard-Bold.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="https://cdn.jsdelivr.net/gh/projectnoonnu/pretendard@1.0/Pretendard-Black.woff2" as="font" type="font/woff2" crossorigin>
+<!-- html2canvas: 배포 시 저장소에 직접 포함(self-host)하거나 SRI integrity 속성 추가를 권장.
+     해시 생성: curl -s <URL> | openssl dgst -sha512 -binary | openssl base64 -A -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <style>
-@font-face{ font-family:'Paperozi'; src:url('https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-1Thin.woff2') format('woff2'); font-weight:100; font-display:swap; }
-@font-face{ font-family:'Paperozi'; src:url('https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-2ExtraLight.woff2') format('woff2'); font-weight:200; font-display:swap; }
-@font-face{ font-family:'Paperozi'; src:url('https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-3Light.woff2') format('woff2'); font-weight:300; font-display:swap; }
 @font-face{ font-family:'Paperozi'; src:url('https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-4Regular.woff2') format('woff2'); font-weight:400; font-display:swap; }
 @font-face{ font-family:'Paperozi'; src:url('https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-5Medium.woff2') format('woff2'); font-weight:500; font-display:swap; }
 @font-face{ font-family:'Paperozi'; src:url('https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-6SemiBold.woff2') format('woff2'); font-weight:600; font-display:swap; }
@@ -17,9 +20,6 @@
 @font-face{ font-family:'Paperozi'; src:url('https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-8ExtraBold.woff2') format('woff2'); font-weight:800; font-display:swap; }
 @font-face{ font-family:'Paperozi'; src:url('https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-9Black.woff2') format('woff2'); font-weight:900; font-display:swap; }
 
-@font-face{ font-family:'Pretendard'; src:url('https://cdn.jsdelivr.net/gh/projectnoonnu/pretendard@1.0/Pretendard-Thin.woff2') format('woff2'); font-weight:100; font-display:swap; }
-@font-face{ font-family:'Pretendard'; src:url('https://cdn.jsdelivr.net/gh/projectnoonnu/pretendard@1.0/Pretendard-ExtraLight.woff2') format('woff2'); font-weight:200; font-display:swap; }
-@font-face{ font-family:'Pretendard'; src:url('https://cdn.jsdelivr.net/gh/projectnoonnu/pretendard@1.0/Pretendard-Light.woff2') format('woff2'); font-weight:300; font-display:swap; }
 @font-face{ font-family:'Pretendard'; src:url('https://cdn.jsdelivr.net/gh/projectnoonnu/pretendard@1.0/Pretendard-Regular.woff2') format('woff2'); font-weight:400; font-display:swap; }
 @font-face{ font-family:'Pretendard'; src:url('https://cdn.jsdelivr.net/gh/projectnoonnu/pretendard@1.0/Pretendard-Medium.woff2') format('woff2'); font-weight:500; font-display:swap; }
 @font-face{ font-family:'Pretendard'; src:url('https://cdn.jsdelivr.net/gh/projectnoonnu/pretendard@1.0/Pretendard-SemiBold.woff2') format('woff2'); font-weight:600; font-display:swap; }
@@ -203,7 +203,7 @@ input[type=file]{ font-size:11px; width:100%; }
 
 .char-head{ position:relative; height:74px; margin-bottom:27px; }
 .badge{ position:absolute; left:0; top:0; font-size:60px; font-weight:900; line-height:1.15; white-space:nowrap; }
-.name-input{ position:absolute; left: 68px;px; top:17px; font-size:30px; font-weight:700; border:none; outline:none; background:transparent; width:160px; font-family:inherit; letter-spacing:inherit; line-height:1.3; white-space:nowrap; overflow:visible;color:#666666; }
+.name-input{ position:absolute; left:68px; top:17px; font-size:30px; font-weight:700; border:none; outline:none; background:transparent; width:160px; font-family:inherit; letter-spacing:inherit; line-height:1.3; white-space:nowrap; overflow:visible;color:#666666; }
 .meta-input{
   position:absolute; right:0; top:20px; width:320px; font-size:26px; font-weight:600; color:#909090; border:none; outline:none;
   background:transparent; text-align:right; font-family:inherit; letter-spacing:inherit; line-height:1.3; white-space:normal; word-break:break-word; overflow:hidden; max-height:67.6px;
@@ -246,7 +246,7 @@ input[type=file]{ font-size:11px; width:100%; }
 .layer-wrap img{ width:100%; height:100%; display:block; pointer-events:none; }
 .layer-wrap.sticker-wrap{ z-index:2500; }
 .resize-handle{ position:absolute; width:16px; height:16px; background:#778EAE; border:2px solid #fff; border-radius:50%; cursor:se-resize; z-index:50; right:-8px; bottom:-8px; touch-action:none; }
-.del-handle{ position:absolute; width:40px; height:40px; background:#e24b4a; color:#fff; border-radius:50%; font-size:18px; display:flex; align-items:center; justify-content:center; cursor:pointer; line-height:1; z-index:50; right:30px; top:30px; touch-action:none; }
+.del-handle{ position:absolute; width:40px; height:40px; background:#e24b4a; color:#fff; border:none; padding:0; font-family:inherit; border-radius:50%; font-size:18px; display:flex; align-items:center; justify-content:center; cursor:pointer; line-height:1; z-index:50; right:30px; top:30px; touch-action:none; }
 
 .animal-box{
   position:absolute; z-index:1500; background:#B9C7D2; color:#fff; font-size:28px; font-weight:600;
@@ -288,6 +288,7 @@ input[type=file]{ font-size:11px; width:100%; }
 
 .col-remove, .col-drag{
   position:absolute; top:0; width:34px; height:34px; border-radius:50%; background:#ddd; color:#666;
+  border:none; padding:0; font-family:inherit;
   font-size:18px; display:flex; align-items:center; justify-content:center; cursor:pointer; z-index:3000;
 }
 .col-remove{ right:0; }
@@ -298,6 +299,12 @@ input[type=file]{ font-size:11px; width:100%; }
   padding:6px 12px; border-radius:8px; cursor:pointer; display:none; font-family:-apple-system,sans-serif;
   box-shadow:0 2px 8px rgba(0,0,0,.25);
 }
+
+/* ===== 빈 contenteditable 플레이스홀더 (편집 화면 전용, 내보내기 클론에서는 비표시) ===== */
+[contenteditable="true"][data-placeholder]:empty::before{
+  content:attr(data-placeholder); color:#c9c9c9; pointer-events:none;
+}
+.exporting [contenteditable="true"][data-placeholder]:empty::before{ content:none !important; }
 
 /* ===== 장평 94% (글자 가로폭 압축) ===== */
 #pairNameField, .badge, .name-input, .info-line{
@@ -391,7 +398,7 @@ body.welcome-active{ overflow:hidden; }
 .welcome-caution-yes{ font-size:15px; color:#444; margin:0; line-height:1.6; }
 .welcome-patchnotes{
   background:#F3F4F6; border-radius:10px; padding:10px 12px; font-size:12px; color:#666;
-  max-height:3.4em; overflow-y:auto; line-height:1.7;
+  max-height:5em; overflow-y:auto; line-height:1.7;
 }
 .welcome-start-btn{
   width:100%; padding:12px; border:none; border-radius:10px; background:#c3bce5; color:#fff;
@@ -471,7 +478,7 @@ body.welcome-active{ overflow:hidden; }
 
     <div class="welcome-section">
       <h3>패치 노트</h3>
-      <div class="welcome-patchnotes"><b>v1.2</b> 2026.07.08 - 새로고침시 경고창 표시, .json 파일 다른 이름으로 저장, 인터페이스 사용성 개선 및 폰트 변경<br><b>v1.1</b> 2026.07.07 - 커스텀 컬러피커 추가, 일부 드래그 버그 픽스 및 사용성 개선<br><b>v1</b> 2026.06.28 배포 - 이 서비스는 Claude의 도움을 받아 제작하였습니다.</div>
+      <div class="welcome-patchnotes"><b>v1.2</b> 2026.07.08 - 새로고침시 경고창 표시, .json 파일 다른 이름으로 저장, 인터페이스 사용성 개선 및 폰트 변경, 프리셋 이미지 자동 압축(용량 감소), 프리셋 보안 강화, 내보내기 안정화(파일명 자동/실패 안내), 두 눈 일괄 적용 캐릭터별 저장, 접근성 개선<br><b>v1.1</b> 2026.07.07 - 커스텀 컬러피커 추가, 일부 드래그 버그 픽스 및 사용성 개선<br><b>v1</b> 2026.06.28 배포 - 이 서비스는 Claude의 도움을 받아 제작하였습니다.</div>
     </div>
 
     <button class="welcome-start-btn" id="welcomeStartBtn" type="button">시작하기</button>
@@ -706,8 +713,8 @@ body.welcome-active{ overflow:hidden; }
     <div class="sheet-outer" id="sheetOuter">
       <div class="sheet" id="sheet">
         <div class="topbar">
-          <div contenteditable="true" id="pairNameField">페어명 / Pair Name </div>
-          <div contenteditable="true" id="pairDescField">페어 관련 설명을 적어주세요.</div>
+          <div contenteditable="true" id="pairNameField" aria-label="페어명" data-placeholder="페어명 / Pair Name">페어명 / Pair Name </div>
+          <div contenteditable="true" id="pairDescField" aria-label="페어 설명" data-placeholder="페어 관련 설명">페어 관련 설명을 적어주세요.</div>
         </div>
         <div class="columns" id="columnsWrap"></div>
         <div class="design-credit">ChomChom-MAKER @efloydp</div>
@@ -740,18 +747,18 @@ body.welcome-active{ overflow:hidden; }
 
 <template id="colTemplate">
   <div class="col-wrap">
-    <div class="col-drag">⠿</div>
-    <div class="col-remove">✕</div>
+    <button type="button" class="col-drag" aria-label="캐릭터 순서 변경 (드래그)">⠿</button>
+    <button type="button" class="col-remove" aria-label="캐릭터 삭제">✕</button>
     <div class="col">
       <div class="char-head">
         <div class="badge" data-role="badge">A</div>
-        <div class="name-input" contenteditable="true">이름</div>
-        <div class="meta-input" contenteditable="true">나이 / 키 / 체격 / 기타사항</div>
+        <div class="name-input" contenteditable="true" aria-label="캐릭터 이름" data-placeholder="이름">이름</div>
+        <div class="meta-input" contenteditable="true" aria-label="캐릭터 메타 정보" data-placeholder="나이 / 키 / 체격">나이 / 키 / 체격 / 기타사항</div>
       </div>
       <div class="info-box">
-        <div class="info-line" contenteditable="true" data-role="line1">머리색+눈색 / 눈매 / 안광 O / 눈썹 두께</div>
+        <div class="info-line" contenteditable="true" data-role="line1" aria-label="정보 첫 줄" data-placeholder="정보 입력">머리색+눈색 / 눈매 / 안광 O / 눈썹 두께</div>
         <div class="info-divider"></div>
-        <div class="info-line" contenteditable="true" data-role="line2">머리스타일+기장 / 포인트1 / 포인트2 / 포인트3</div>
+        <div class="info-line" contenteditable="true" data-role="line2" aria-label="정보 둘째 줄" data-placeholder="정보 입력">머리스타일+기장 / 포인트1 / 포인트2 / 포인트3</div>
       </div>
       <div class="swatch-row">
         <div class="swatch" data-part="hair"><input type="color" value="#F3F4F6"></div>
@@ -762,16 +769,16 @@ body.welcome-active{ overflow:hidden; }
       </div>
       <div class="swatch-labels"><span>머리</span><span>왼쪽눈</span><span>오른쪽눈</span><span>피부</span><span></span></div>
       <div class="canvas-box" data-role="canvasbox">
-        <div class="placeholder">클릭해서 메인 이미지 업로드<br>(테두리 잡고 드래그/리사이즈)</div>
+        <div class="placeholder" role="button" tabindex="0" aria-label="메인 이미지 업로드">클릭해서 메인 이미지 업로드<br>(테두리 잡고 드래그/리사이즈)</div>
         <input type="file" accept="image/*" class="main-file-input" style="display:none;">
-        <div class="animal-box pos-bl" data-role="animalbox" style="background:#B9C7D2;"><span contenteditable="true">동물화 : 동물명</span></div>
+        <div class="animal-box pos-bl" data-role="animalbox" style="background:#B9C7D2;"><span contenteditable="true" aria-label="동물화 텍스트" data-placeholder="동물화 : 동물명">동물화 : 동물명</span></div>
       </div>
-      <div class="source-text" contenteditable="true">@커미션 출처 (필요 없을 경우 삭제)</div>
+      <div class="source-text" contenteditable="true" aria-label="커미션 출처" data-placeholder="@커미션 출처">@커미션 출처 (필요 없을 경우 삭제)</div>
       <div class="sd-zone" data-role="sdzone">
-        <div class="sd-placeholder">클릭해서 SD 이미지 업로드</div>
+        <div class="sd-placeholder" role="button" tabindex="0" aria-label="SD 이미지 업로드">클릭해서 SD 이미지 업로드</div>
         <input type="file" accept="image/*" class="sd-file-input" style="display:none;">
       </div>
-      <div class="costume-box" contenteditable="true">의상 관련 묘사 or 표정 묘사</div>
+      <div class="costume-box" contenteditable="true" aria-label="의상 및 표정 묘사" data-placeholder="의상/표정 묘사">의상 관련 묘사 or 표정 묘사</div>
     </div>
   </div>
 </template>
@@ -779,6 +786,13 @@ body.welcome-active{ overflow:hidden; }
 <script>
 let SCALE = 0.6;
 const SCALE_DEFAULT = 0.6, SCALE_MIN = 0.35, SCALE_MAX = 0.8, SCALE_STEP = 0.05;
+/* 레이아웃 상수 - CSS(.col-wrap / .canvas-box / .sd-zone)의 고정값과 반드시 일치해야 함 */
+const COL_W = 627;             /* 컬럼(캔버스) 가로폭 */
+const COL_GAP = 70;            /* 컬럼 사이 간격(.col-wrap margin-right) */
+const CANVAS_H_DEFAULT = 994;  /* 메인 이미지 박스 기본 높이 */
+const SD_H = 465;              /* SD 이미지 영역 높이 */
+const IMG_MAX_EDGE = 1600;     /* 업로드 이미지 자동 압축시 긴 변 상한(px) */
+const PRESET_WARN_BYTES = 20 * 1024 * 1024; /* 프리셋 용량 경고 기준 */
 const LETTERS = ['A','B','C','D','E','F','G','H'];
 const DEFAULT_COLORS = ['#b9c7d2','#c3bce5','#778EAE','#F3DD92','#58B6CB','#8B9096','#ACAE5A','#D3BCD4'];
 let idCounter = 0;
@@ -818,8 +832,8 @@ document.getElementById('zoomResetBtn').addEventListener('click', ()=>{
 });
 
 /* 좌우 네비게이션: .col 단위로 이동 (현재 줌 배율 기준으로 매번 계산) */
-document.getElementById('navLeft').addEventListener('click', ()=> sheetOuter.scrollBy({left:-(627+70)*SCALE, behavior:'smooth'}));
-document.getElementById('navRight').addEventListener('click', ()=> sheetOuter.scrollBy({left:(627+70)*SCALE, behavior:'smooth'}));
+document.getElementById('navLeft').addEventListener('click', ()=> sheetOuter.scrollBy({left:-(COL_W+COL_GAP)*SCALE, behavior:'smooth'}));
+document.getElementById('navRight').addEventListener('click', ()=> sheetOuter.scrollBy({left:(COL_W+COL_GAP)*SCALE, behavior:'smooth'}));
 
 /* ---------- 모바일 반응형: 저장박스/줌컨트롤을 화면 크기에 따라 이동 ---------- */
 const exportBox = document.getElementById('exportBox');
@@ -930,6 +944,8 @@ function addCharacter(){
 
 /* ---------- 저장되지 않은 변경사항 이탈 방지 ---------- */
 let hasUnsavedChanges = false;
+/* 포인터 기반 조작(이미지/안광 드래그, 순서변경, 업로드 등)도 '변경사항 있음'으로 기록 */
+function markDirty(){ hasUnsavedChanges = true; }
 /* 아래 select들은 실제 콘텐츠가 아니라 "지금 어떤 캐릭터를 보고 있는지" 같은 패널 내비게이션용이라,
    스와치 클릭 시 revealSidebarSection이 합성 change 이벤트를 쏘는 경우가 있음.
    이런 내부 동기화용 change까지 "변경사항 있음"으로 잡으면 아무 것도 안 바꿨는데도
@@ -961,19 +977,115 @@ function hideLoadingOverlay(){
   if(ov) ov.style.display = 'none';
 }
 
+/* ================= 공용 헬퍼: 정화 / 이미지 압축 / 이미지 레이어 생성 ================= */
+
+/* 프리셋(.json)은 외부에서 공유받을 수 있으므로, 로드 시 HTML을 화이트리스트 기반으로 정화한다.
+   허용 태그: 강조 기능이 만들어내는 span/font 계열과 서식 최소한만. 허용 속성: 글자색만. */
+function sanitizeHTML(html){
+  if(html == null) return '';
+  const ALLOWED_TAGS = new Set(['SPAN','FONT','B','STRONG','I','EM','U','BR']);
+  const tpl = document.createElement('template'); /* template content는 inert - 스크립트/이미지 실행 안 됨 */
+  tpl.innerHTML = String(html);
+  const all = Array.from(tpl.content.querySelectorAll('*'));
+  for(let i = all.length - 1; i >= 0; i--){
+    const el = all[i];
+    if(!ALLOWED_TAGS.has(el.tagName)){
+      while(el.firstChild) el.parentNode.insertBefore(el.firstChild, el); /* 태그만 벗기고 텍스트는 보존 */
+      el.remove();
+      continue;
+    }
+    Array.from(el.attributes).forEach(attr=>{
+      const n = attr.name.toLowerCase();
+      if(n === 'style'){
+        const m = attr.value.match(/(?:^|;)\s*color\s*:\s*(#[0-9a-fA-F]{3,8}|rgba?\([\d,\s./%]*\))/i);
+        if(m) el.setAttribute('style', 'color:'+m[1]);
+        else el.removeAttribute('style');
+      } else if(el.tagName === 'FONT' && n === 'color' && /^#[0-9a-fA-F]{3,8}$/.test(attr.value)){
+        /* font color 유지 */
+      } else {
+        el.removeAttribute(attr.name);
+      }
+    });
+  }
+  const walker = document.createTreeWalker(tpl.content, NodeFilter.SHOW_COMMENT);
+  const comments = [];
+  while(walker.nextNode()) comments.push(walker.currentNode);
+  comments.forEach(c=> c.remove());
+  return tpl.innerHTML;
+}
+
+/* 프리셋의 이미지 src는 base64 data URL만 허용 (javascript: 등 차단) */
+function safeImgSrc(src){
+  return (typeof src === 'string' && /^data:image\/(png|jpe?g|webp|gif|bmp|avif);base64,/i.test(src)) ? src : '';
+}
+
+/* 업로드 이미지 자동 압축: 긴 변 IMG_MAX_EDGE 상한으로 다운스케일 + webp(미지원 브라우저는 png) 재인코딩.
+   결과가 원본보다 클 때(이미 작은 이미지)는 원본을 유지한다. 실패 시 항상 원본으로 폴백. */
+function compressImage(dataUrl, cb){
+  try{
+    const img = new Image();
+    img.onload = ()=>{
+      try{
+        const w = img.naturalWidth, h = img.naturalHeight;
+        if(!w || !h){ cb(dataUrl); return; }
+        const scale = Math.min(1, IMG_MAX_EDGE / Math.max(w, h));
+        const canvas = document.createElement('canvas');
+        canvas.width = Math.max(1, Math.round(w * scale));
+        canvas.height = Math.max(1, Math.round(h * scale));
+        canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
+        let out = canvas.toDataURL('image/webp', 0.85);
+        if(out.indexOf('data:image/webp') !== 0){
+          out = canvas.toDataURL('image/png'); /* Safari 등 webp 인코딩 미지원 - 투명도 보존 위해 png */
+        }
+        cb((scale < 1 || out.length < dataUrl.length) ? out : dataUrl);
+      }catch(err){ cb(dataUrl); }
+    };
+    img.onerror = ()=> cb(dataUrl);
+    img.src = dataUrl;
+  }catch(err){ cb(dataUrl); }
+}
+
+/* 이미지 레이어(.layer-wrap) 생성 통합 헬퍼 - 업로드/프리셋 복원/스티커 5개 경로가 공유 */
+function createImageLayer(opts){
+  const wrap = document.createElement('div');
+  wrap.className = opts.className || 'layer-wrap';
+  const img = document.createElement('img'); /* innerHTML 문자열 조립 대신 프로퍼티 할당(주입 방지) */
+  wrap.appendChild(img);
+  const px = v => (typeof v === 'number') ? v+'px' : (v || '');
+  function place(g){
+    if(g){
+      wrap.style.left = px(g.left); wrap.style.top = px(g.top);
+      wrap.style.width = px(g.width); wrap.style.height = px(g.height);
+    }
+    if(opts.before && opts.before.parentNode === opts.container) opts.container.insertBefore(wrap, opts.before);
+    else opts.container.appendChild(wrap);
+    makeResizableDraggable(wrap, true, opts.onDelete || null, !!opts.snapCenterX, true, !!opts.autoDeleteOutside);
+  }
+  if(opts.geom){
+    img.src = opts.src;
+    place(opts.geom);
+  } else {
+    img.onload = ()=> place(opts.sizer ? opts.sizer(img) : null);
+    img.src = opts.src;
+  }
+  return wrap;
+}
+
 /* ================= 프리셋 저장/불러오기 (내 컴퓨터에 파일로) ================= */
 
-function wrapToData(wrap){
+function wrapToData(wrap, refFor){
   if(!wrap) return null;
   const img = wrap.querySelector('img');
+  const src = img ? img.src : '';
   return {
-    src: img ? img.src : '',
+    /* v2: 동일 이미지는 시트 단위 images 테이블에 한 번만 저장하고 참조키만 기록 (용량 절감) */
+    srcRef: refFor ? refFor(src) : null,
     left: wrap.style.left, top: wrap.style.top,
     width: wrap.style.width, height: wrap.style.height
   };
 }
 
-function serializeColumn(colWrap){
+function serializeColumn(colWrap, refFor){
   const id = colWrap.dataset.id;
   const q = sel => colWrap.querySelector(sel);
   const swatchColor = part => {
@@ -1013,29 +1125,44 @@ function serializeColumn(colWrap){
     swatchColors: { hair:swatchColor('hair'), eyeL:swatchColor('eyeL'), eyeR:swatchColor('eyeR'), skin:swatchColor('skin') },
     hairSetting: hairSettings[id] || {mode:'solid', sub:'#cccccc'},
     eyeSettingsData: eyeSettings[id] || {L:{mode:'solid',sub:'#cccccc'}, R:{mode:'solid',sub:'#cccccc'}},
-    canvasHeight: parseInt(canvasBox.style.height, 10) || 994,
+    canvasHeight: parseInt(canvasBox.style.height, 10) || CANVAS_H_DEFAULT,
     irisCount: irisCount[id] || 1,
     irisSlots: { L: irisSlotsData('L'), R: irisSlotsData('R') },
-    mainImage: wrapToData(mainImgWrap),
-    sdImage: wrapToData(sdImgWrap),
-    stickers: stickerWraps.map(wrapToData)
+    mainImage: wrapToData(mainImgWrap, refFor),
+    sdImage: wrapToData(sdImgWrap, refFor),
+    stickers: stickerWraps.map(w=> wrapToData(w, refFor))
   };
 }
 
 function serializeSheet(){
+  /* v2 스키마: 이미지 base64를 images 테이블로 분리(중복 제거), 각 항목은 srcRef로 참조.
+     구버전(v1, src 직접 저장) 파일도 loadSheetData의 resolver가 그대로 읽을 수 있음. */
+  const images = {};
+  const srcToRef = new Map();
+  const refFor = src => {
+    if(!src) return null;
+    let ref = srcToRef.get(src);
+    if(!ref){
+      ref = 'img' + (srcToRef.size + 1);
+      srcToRef.set(src, ref);
+      images[ref] = src;
+    }
+    return ref;
+  };
   return {
-    version: 1,
+    version: 2,
     pairName: document.getElementById('pairNameField').innerHTML,
     pairDesc: document.getElementById('pairDescField').innerHTML,
     sdZoneOff: sdZoneGloballyOff,
     topbarOff: topbarOff,
     costumeBoxOff: costumeBoxOff,
     sourceTextOff: sourceTextOff,
-    columns: Array.from(columnsWrap.children).map(serializeColumn)
+    images,
+    columns: Array.from(columnsWrap.children).map(c=> serializeColumn(c, refFor))
   };
 }
 
-function restoreColumn(data){
+function restoreColumn(data, resolveImg){
   const id = 'c'+(++idCounter);
   const frag = colTpl.content.cloneNode(true);
   const colWrap = frag.querySelector('.col-wrap');
@@ -1043,17 +1170,18 @@ function restoreColumn(data){
   colWrap.querySelectorAll('[data-part]').forEach(sw=> sw.dataset.id = id);
   columnsWrap.appendChild(colWrap);
 
+  /* 외부에서 공유받은 프리셋일 수 있으므로 모든 HTML 필드는 sanitizeHTML을 거쳐 주입 */
   const q = sel => colWrap.querySelector(sel);
-  q('.name-input').innerHTML = data.name ?? '이름';
-  q('.meta-input').innerHTML = data.meta ?? '나이 / 키 / 체격 / 기타사항';
-  q('[data-role="line1"]').innerHTML = data.line1 ?? '';
-  q('[data-role="line2"]').innerHTML = data.line2 ?? '';
-  q('[data-role="animalbox"] span').innerHTML = data.animalText ?? '동물명';
+  q('.name-input').innerHTML = sanitizeHTML(data.name ?? '이름');
+  q('.meta-input').innerHTML = sanitizeHTML(data.meta ?? '나이 / 키 / 체격 / 기타사항');
+  q('[data-role="line1"]').innerHTML = sanitizeHTML(data.line1 ?? '');
+  q('[data-role="line2"]').innerHTML = sanitizeHTML(data.line2 ?? '');
+  q('[data-role="animalbox"] span').innerHTML = sanitizeHTML(data.animalText ?? '동물명');
   if(data.animalOff) q('[data-role="animalbox"]').classList.add('off');
   q('[data-role="animalbox"]').classList.remove('pos-bl','pos-br','pos-tl','pos-tr');
   q('[data-role="animalbox"]').classList.add('pos-'+(data.animalPosition || 'bl'));
-  q('.source-text').innerHTML = data.sourceText ?? '@커미션 출처 (필요 없을 경우 삭제)';
-  q('.costume-box').innerHTML = data.costumeText ?? '의상 관련 묘사 or 표정 묘사';
+  q('.source-text').innerHTML = sanitizeHTML(data.sourceText ?? '@커미션 출처 (필요 없을 경우 삭제)');
+  q('.costume-box').innerHTML = sanitizeHTML(data.costumeText ?? '의상 관련 묘사 or 표정 묘사');
 
   const themeBtn = q('[data-role="themebtn"]');
   const color = data.themeColor || '#B9C7D2';
@@ -1068,7 +1196,7 @@ function restoreColumn(data){
     sw.querySelector('input[type=color]').value = c;
   });
 
-  q('[data-role="canvasbox"]').style.height = (data.canvasHeight || 994)+'px';
+  q('[data-role="canvasbox"]').style.height = (data.canvasHeight || CANVAS_H_DEFAULT)+'px';
 
   /* 핸들/이벤트 연결 (이 과정에서 안광은 기본 중앙 위치로 1차 세팅됨) */
   initColumn(colWrap, id);
@@ -1105,51 +1233,59 @@ function restoreColumn(data){
 
   applyThemeTextColor(id, color);
 
-  /* 이미지 레이어 복원 */
+  /* 이미지 레이어 복원 - resolveImg가 v1(src 직접)/v2(srcRef 참조)를 모두 해석하고 src를 검증함 */
   const canvasBox = q('[data-role="canvasbox"]');
-  if(data.mainImage && data.mainImage.src){
+  const mainImg = resolveImg ? resolveImg(data.mainImage) : null;
+  if(mainImg){
     canvasBox.querySelector('.placeholder').style.display = 'none';
-    const wrap = document.createElement('div');
-    wrap.className = 'layer-wrap';
-    wrap.innerHTML = `<img src="${data.mainImage.src}">`;
-    wrap.style.left = data.mainImage.left; wrap.style.top = data.mainImage.top;
-    wrap.style.width = data.mainImage.width; wrap.style.height = data.mainImage.height;
-    canvasBox.insertBefore(wrap, q('[data-role="animalbox"]'));
-    makeResizableDraggable(wrap, true, ()=>{ canvasBox.querySelector('.placeholder').style.display='flex'; }, false, true, true);
+    createImageLayer({
+      src: mainImg.src, container: canvasBox, before: q('[data-role="animalbox"]'),
+      geom: mainImg,
+      onDelete: ()=>{ canvasBox.querySelector('.placeholder').style.display='flex'; },
+      snapCenterX: false, autoDeleteOutside: true
+    });
   }
   const sdZone = q('[data-role="sdzone"]');
-  if(data.sdImage && data.sdImage.src){
+  const sdImg = resolveImg ? resolveImg(data.sdImage) : null;
+  if(sdImg){
     sdZone.querySelector('.sd-placeholder').style.display = 'none';
-    const wrap = document.createElement('div');
-    wrap.className = 'layer-wrap';
-    wrap.innerHTML = `<img src="${data.sdImage.src}">`;
-    wrap.style.left = data.sdImage.left; wrap.style.top = data.sdImage.top;
-    wrap.style.width = data.sdImage.width; wrap.style.height = data.sdImage.height;
-    sdZone.appendChild(wrap);
-    makeResizableDraggable(wrap, true, ()=>{ sdPlaceholder.style.display='flex'; }, true, true, true);
+    createImageLayer({
+      src: sdImg.src, container: sdZone,
+      geom: sdImg,
+      /* (버그픽스) 기존 코드는 initColumn 스코프의 sdPlaceholder를 참조해 삭제 시 ReferenceError 발생 */
+      onDelete: ()=>{ sdZone.querySelector('.sd-placeholder').style.display='flex'; },
+      snapCenterX: true, autoDeleteOutside: true
+    });
   }
-  (data.stickers || []).forEach(s=>{
-    if(!s || !s.src) return;
-    const wrap = document.createElement('div');
-    wrap.className = 'layer-wrap sticker-wrap';
-    wrap.innerHTML = `<img src="${s.src}">`;
-    wrap.style.left = s.left; wrap.style.top = s.top;
-    wrap.style.width = s.width; wrap.style.height = s.height;
-    colWrap.appendChild(wrap);
-    makeResizableDraggable(wrap, true, null, false, true);
+  (data.stickers || []).forEach(st=>{
+    const stImg = resolveImg ? resolveImg(st) : null;
+    if(!stImg) return;
+    createImageLayer({
+      src: stImg.src, container: colWrap, className: 'layer-wrap sticker-wrap',
+      geom: stImg,
+      onDelete: null, snapCenterX: false, autoDeleteOutside: false
+    });
   });
 
   return colWrap;
 }
 
+/* 프리셋 스키마 마이그레이션 - 이후 스키마 변경 시 여기서 버전별 변환을 수행
+   v1: 이미지가 각 항목의 src 필드에 직접 저장 (resolver의 폴백으로 그대로 처리되므로 변환 불필요)
+   v2: 시트 단위 images 테이블 + srcRef 참조, eyeSettingsData에 linked(두 눈 일괄 적용) 포함 */
+function migratePreset(data){
+  return data;
+}
+
 function loadSheetData(data){
+  data = migratePreset(data || {});
   columnsWrap.innerHTML = '';
   Object.keys(hairSettings).forEach(k=> delete hairSettings[k]);
   Object.keys(eyeSettings).forEach(k=> delete eyeSettings[k]);
   Object.keys(irisDefaults).forEach(k=> delete irisDefaults[k]);
 
-  document.getElementById('pairNameField').innerHTML = data.pairName ?? '페어명';
-  document.getElementById('pairDescField').innerHTML = data.pairDesc ?? '페어 관련 설명';
+  document.getElementById('pairNameField').innerHTML = sanitizeHTML(data.pairName ?? '페어명');
+  document.getElementById('pairDescField').innerHTML = sanitizeHTML(data.pairDesc ?? '페어 관련 설명');
   sdZoneGloballyOff = !!data.sdZoneOff;
   updateSdToggleUI();
   topbarOff = !!data.topbarOff;
@@ -1159,14 +1295,41 @@ function loadSheetData(data){
   sourceTextOff = !!data.sourceTextOff;
   updateSourceToggleUI();
 
-  (data.columns || []).forEach(colData => restoreColumn(colData));
+  /* v1(src 직접 저장) / v2(images 테이블 + srcRef) 겸용 이미지 해석기 */
+  const resolveImg = item=>{
+    if(!item) return null;
+    const raw = item.src || (item.srcRef && data.images && data.images[item.srcRef]) || '';
+    const src = safeImgSrc(raw);
+    if(!src) return null;
+    return { src, left:item.left, top:item.top, width:item.width, height:item.height };
+  };
+
+  (data.columns || []).forEach(colData => restoreColumn(colData, resolveImg));
   if(columnsWrap.children.length===0){
     createCharacter(DEFAULT_COLORS[0]);
   }
   relabelAll();
+
+  /* 패널의 메인 이미지 높이 슬라이더를 불러온 값과 동기화 */
+  const firstBox = columnsWrap.querySelector('.canvas-box');
+  if(firstBox){
+    const h = parseInt(firstBox.style.height, 10) || CANVAS_H_DEFAULT;
+    const slider = document.getElementById('canvasHeightSlider');
+    slider.value = h;
+    updateRangeFill(slider);
+    document.getElementById('canvasHeightVal').textContent = h===COL_W ? '1:1' : (h===CANVAS_H_DEFAULT ? '기본' : h+'px');
+  }
+  /* 눈 색상 패널(두 눈 일괄 적용 포함)을 현재 대상 캐릭터의 상태로 동기화 */
+  loadEyeModePanel();
 }
 
 function refreshPresetList(){ /* 더 이상 사용하지 않지만 다른 코드에서 참조해도 안전하도록 빈 함수로 유지 */ }
+
+function confirmIfPresetHuge(json){
+  if(json.length <= PRESET_WARN_BYTES) return true;
+  const mb = (json.length / 1024 / 1024).toFixed(1);
+  return confirm('프리셋 용량이 약 '+mb+'MB로 큽니다.\n저장/불러오기가 느리거나 실패할 수 있어요. 계속할까요?');
+}
 
 document.getElementById('savePresetBtn').addEventListener('click', async ()=>{
   const nameInput = document.getElementById('presetNameInput');
@@ -1197,6 +1360,7 @@ document.getElementById('savePresetBtn').addEventListener('click', async ()=>{
       try{
         const data = serializeSheet();
         const json = JSON.stringify(data);
+        if(!confirmIfPresetHuge(json)){ hideLoadingOverlay(); return; }
         const writable = await handle.createWritable();
         await writable.write(new Blob([json], {type:'application/json'}));
         await writable.close();
@@ -1221,6 +1385,7 @@ document.getElementById('savePresetBtn').addEventListener('click', async ()=>{
       alert('저장에 실패했어요.');
       return;
     }
+    if(!confirmIfPresetHuge(json)){ hideLoadingOverlay(); return; }
     const blob = new Blob([json], {type:'application/json'});
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -1590,6 +1755,7 @@ function setupColDrag(colWrap){
       const tgtIdx = all.indexOf(target);
       if(srcIdx < tgtIdx) target.after(dragSrcEl);
       else target.before(dragSrcEl);
+      markDirty();
       relabelAll();
     }
     dragSrcEl = null;
@@ -1653,21 +1819,20 @@ function initColumn(colWrap, id){
     if(!f) return;
     const reader = new FileReader();
     reader.onload = ev=>{
-      placeholder.style.display='none';
-      const wrap = document.createElement('div');
-      wrap.className = 'layer-wrap';
-      wrap.innerHTML = `<img src="${ev.target.result}">`;
-      const img = wrap.querySelector('img');
-      img.onload = ()=>{
-        const ratio = img.naturalHeight/img.naturalWidth;
-        const targetW = Math.min(627*0.6, 400);
-        wrap.style.width = targetW+'px';
-        wrap.style.height = (targetW*ratio)+'px';
-        wrap.style.left = ((627-targetW)/2)+'px';
-        wrap.style.top = '20px';
-        canvasBox.insertBefore(wrap, canvasBox.querySelector('[data-role="animalbox"]'));
-        makeResizableDraggable(wrap, true, ()=>{ placeholder.style.display='flex'; }, false, true, true);
-      };
+      compressImage(ev.target.result, src=>{
+        placeholder.style.display='none';
+        createImageLayer({
+          src, container: canvasBox, before: canvasBox.querySelector('[data-role="animalbox"]'),
+          sizer: img=>{
+            const ratio = img.naturalHeight/img.naturalWidth;
+            const targetW = Math.min(COL_W*0.6, 400);
+            return { width:targetW, height:targetW*ratio, left:(COL_W-targetW)/2, top:20 };
+          },
+          onDelete: ()=>{ placeholder.style.display='flex'; },
+          snapCenterX: false, autoDeleteOutside: true
+        });
+        markDirty();
+      });
     };
     reader.readAsDataURL(f);
     fileInput.value='';
@@ -1682,22 +1847,21 @@ function initColumn(colWrap, id){
     if(!f) return;
     const reader = new FileReader();
     reader.onload = ev=>{
-      sdPlaceholder.style.display='none';
-      const wrap = document.createElement('div');
-      wrap.className = 'layer-wrap';
-      wrap.innerHTML = `<img src="${ev.target.result}">`;
-      const img = wrap.querySelector('img');
-      img.onload = ()=>{
-        const ratio = img.naturalHeight/img.naturalWidth;
-        const targetW = 450;
-        const targetH = targetW*ratio;
-        wrap.style.width = targetW+'px';
-        wrap.style.height = targetH+'px';
-        wrap.style.left = ((627-targetW)/2)+'px';
-        wrap.style.top = ((465-targetH)/2)+'px';
-        sdZone.appendChild(wrap);
-        makeResizableDraggable(wrap, true, ()=>{ sdPlaceholder.style.display='flex'; }, true, true, true);
-      };
+      compressImage(ev.target.result, src=>{
+        sdPlaceholder.style.display='none';
+        createImageLayer({
+          src, container: sdZone,
+          sizer: img=>{
+            const ratio = img.naturalHeight/img.naturalWidth;
+            const targetW = 450;
+            const targetH = targetW*ratio;
+            return { width:targetW, height:targetH, left:(COL_W-targetW)/2, top:(SD_H-targetH)/2 };
+          },
+          onDelete: ()=>{ sdPlaceholder.style.display='flex'; },
+          snapCenterX: true, autoDeleteOutside: true
+        });
+        markDirty();
+      });
     };
     reader.readAsDataURL(f);
     sdFileInput.value='';
@@ -1710,8 +1874,13 @@ const eyeSettings = {}; // id -> {L:{mode,sub}, R:{mode,sub}}
 // (1회 한정 눈동자 색 동기화 기능은 삭제됨 - 이제 '두 눈 일괄 적용' 체크박스로 항상 제어)
 
 function getEyeSetting(id, side){
-  if(!eyeSettings[id]) eyeSettings[id] = {L:{mode:'solid',sub:'#cccccc'}, R:{mode:'solid',sub:'#cccccc'}};
+  if(!eyeSettings[id]) eyeSettings[id] = {L:{mode:'solid',sub:'#cccccc'}, R:{mode:'solid',sub:'#cccccc'}, linked:false};
   return eyeSettings[id][side];
+}
+/* '두 눈 일괄 적용'은 캐릭터별 상태 (eyeSettings[id].linked) - eyeSettingsData에 함께 직렬화됨.
+   구버전 프리셋에는 linked가 없으므로 undefined -> false로 처리 */
+function isEyeLinked(id){
+  return !!(eyeSettings[id] && eyeSettings[id].linked);
 }
 function buildBg(color, mode, sub){
   if(mode==='gradient') return `linear-gradient(180deg, ${color}, ${sub})`;
@@ -1746,7 +1915,7 @@ function syncPanelColorChip(part, id, color){
   }
   if(part === 'hair') trySync('hairTargetSelect', 'hairMainColor');
   else if(part === 'eyeL' || part === 'eyeR'){
-    const linked = document.getElementById('eyeModeLinked').checked;
+    const linked = isEyeLinked(id);
     const side = part === 'eyeL' ? 'L' : 'R';
     if(linked){
       trySync('eyeModeTarget', 'eyeMainColor');
@@ -1769,7 +1938,7 @@ function onSwatchColorInput(swatchEl, color, id){
     const side = part==='eyeL' ? 'L' : 'R';
     swatchEl.dataset.maincolor = color;
     repaintEye(id, side);
-    const linked = document.getElementById('eyeModeLinked').checked;
+    const linked = isEyeLinked(id);
     if(linked){
       const otherPart = side==='L' ? 'eyeR' : 'eyeL';
       const otherSw = document.querySelector(`.swatch[data-part="${otherPart}"][data-id="${id}"]`);
@@ -1844,6 +2013,8 @@ function setupMiniToggle(checkboxId){
   }
   offBtn.addEventListener('click', ()=>{ cb.checked = false; sync(); cb.dispatchEvent(new Event('change')); });
   onBtn.addEventListener('click', ()=>{ cb.checked = true; sync(); cb.dispatchEvent(new Event('change')); });
+  cb.addEventListener('change', sync); /* 외부에서 change를 쏠 때도 버튼 UI 동기화 */
+  cb._syncToggleUI = sync;             /* change 없이 조용히 UI만 맞추고 싶을 때 사용 */
   sync();
 }
 
@@ -1851,6 +2022,12 @@ function setupMiniToggle(checkboxId){
 const eyeWhichRow = document.getElementById('eyeWhichRow');
 document.getElementById('eyeModeLinked').addEventListener('change', e=>{
   eyeWhichRow.style.display = e.target.checked ? 'none' : 'flex';
+  /* 현재 대상 캐릭터(또는 전체)의 캐릭터별 linked 상태에 기록 */
+  const target = document.getElementById('eyeModeTarget').value;
+  getTargetIds(target).forEach(id=>{
+    getEyeSetting(id, 'L'); /* eyeSettings[id] 초기화 보장 */
+    eyeSettings[id].linked = e.target.checked;
+  });
 });
 document.getElementById('eyeModeTarget').addEventListener('change', loadEyeModePanel);
 document.getElementById('eyeModeWhich').addEventListener('change', loadEyeModePanel);
@@ -1886,6 +2063,14 @@ function updateEyeModeSubRowVisibility(){
 function loadEyeModePanel(){
   const id = document.getElementById('eyeModeTarget').value;
   if(!id || id === '__all__') return;
+  /* '두 눈 일괄 적용' 토글을 이 캐릭터의 저장 상태로 동기화 (change 미발생 - 이탈경고 오탐 방지) */
+  const linkedCb = document.getElementById('eyeModeLinked');
+  const linked = isEyeLinked(id);
+  if(linkedCb.checked !== linked){
+    linkedCb.checked = linked;
+    if(linkedCb._syncToggleUI) linkedCb._syncToggleUI();
+  }
+  eyeWhichRow.style.display = linked ? 'none' : 'flex';
   const which = document.getElementById('eyeModeWhich').value;
   const s = getEyeSetting(id, which);
   document.getElementById('eyeModeSelect').value = s.mode;
@@ -1903,10 +2088,9 @@ function loadEyeModePanel(){
 function applyEyeMainColorFromPanel(){
   const target = document.getElementById('eyeModeTarget').value;
   const color = document.getElementById('eyeMainColor').value;
-  const linked = document.getElementById('eyeModeLinked').checked;
   const which = document.getElementById('eyeModeWhich').value;
   getTargetIds(target).forEach(id=>{
-    const parts = linked ? ['eyeL','eyeR'] : [which==='L' ? 'eyeL' : 'eyeR'];
+    const parts = isEyeLinked(id) ? ['eyeL','eyeR'] : [which==='L' ? 'eyeL' : 'eyeR'];
     parts.forEach(part=>{
       const sw = document.querySelector(`.swatch[data-part="${part}"][data-id="${id}"]`);
       if(!sw) return;
@@ -1920,11 +2104,10 @@ function applyEyeModeFromPanel(){
   const target = document.getElementById('eyeModeTarget').value;
   const mode = document.getElementById('eyeModeSelect').value;
   const sub = document.getElementById('eyeModeSub').value;
-  const linked = document.getElementById('eyeModeLinked').checked;
   const which = document.getElementById('eyeModeWhich').value;
   getTargetIds(target).forEach(id=>{
-    if(!eyeSettings[id]) eyeSettings[id] = {L:{mode:'solid',sub:'#cccccc'}, R:{mode:'solid',sub:'#cccccc'}};
-    if(linked){
+    getEyeSetting(id, 'L'); /* eyeSettings[id] 초기화 보장 */
+    if(isEyeLinked(id)){
       eyeSettings[id].L = {mode, sub};
       eyeSettings[id].R = {mode, sub};
       repaintEye(id,'L'); repaintEye(id,'R');
@@ -1941,9 +2124,9 @@ document.getElementById('eyeModeSub').addEventListener('input', applyEyeModeFrom
 /* ---------- 회색 박스 세로 크기 (전체 일괄 + 넓은 스냅) ---------- */
 document.getElementById('canvasHeightSlider').addEventListener('input', e=>{
   let h = parseInt(e.target.value,10);
-  if(Math.abs(h-994)<35) h=994;
-  if(Math.abs(h-627)<35) h=627;
-  let label = h===627 ? '1:1' : (h===994 ? '기본' : h+'px');
+  if(Math.abs(h-CANVAS_H_DEFAULT)<35) h=CANVAS_H_DEFAULT;
+  if(Math.abs(h-COL_W)<35) h=COL_W; /* COL_W와 같으면 정사각(1:1) */
+  let label = h===COL_W ? '1:1' : (h===CANVAS_H_DEFAULT ? '기본' : h+'px');
   document.getElementById('canvasHeightVal').textContent = label;
   document.querySelectorAll('.canvas-box').forEach(box=> box.style.height = h+'px');
 });
@@ -2026,7 +2209,7 @@ function ensureIrisSlots(id, count){
 
 function setupIrisInteraction(iris, id, slotIndex){
   iris.style.touchAction = 'none';
-  iris.addEventListener('dblclick', e=>{ e.stopPropagation(); iris.classList.toggle('hidden'); });
+  iris.addEventListener('dblclick', e=>{ e.stopPropagation(); iris.classList.toggle('hidden'); markDirty(); });
 
   iris.addEventListener('pointerdown', e=>{
     e.preventDefault(); e.stopPropagation();
@@ -2052,7 +2235,7 @@ function setupIrisInteraction(iris, id, slotIndex){
     let moved = false;
 
     function move(ev){
-      if(Math.abs(ev.clientX-startX) > 3 || Math.abs(ev.clientY-startY) > 3) moved = true;
+      if(Math.abs(ev.clientX-startX) > 3 || Math.abs(ev.clientY-startY) > 3){ moved = true; markDirty(); }
       const dx = (ev.clientX - startX)/SCALE, dy = (ev.clientY - startY)/SCALE;
       let nx = Math.max(-size/2+3, Math.min(boxW-size/2-3, startLeft+dx));
       let ny = Math.max(-size/2+3, Math.min(boxH-size/2-3, startTop+dy));
@@ -2435,7 +2618,9 @@ highlightBtn.addEventListener('mousedown', e=>{
   const currentColor = getComputedStyle(startNode).color;
   const container = startNode.closest('[contenteditable="true"]');
   document.execCommand('styleWithCSS', false, true);
-  if(currentColor === 'rgb(0, 64, 255)'){
+  /* 브라우저별 색 직렬화 차이('rgb(0, 64, 255)' vs 'rgb(0,64,255)' 등)에 안전하도록 hex로 정규화해 비교 */
+  const curHex = (rgbToHex(currentColor) || '').toLowerCase();
+  if(curHex === '#0040ff'){
     const baseColor = container ? getComputedStyle(container).color : '#222222';
     document.execCommand('foreColor', false, baseColor);
   } else {
@@ -2453,23 +2638,21 @@ document.getElementById('stickerInput').addEventListener('change', e=>{
   if(!ids.length) return;
   const reader = new FileReader();
   reader.onload = ev=>{
-    ids.forEach(id=>{
-      const colWrap = columnsWrap.querySelector(`.col-wrap[data-id="${id}"]`);
-      if(!colWrap) return;
-      const wrap = document.createElement('div');
-      wrap.className = 'layer-wrap sticker-wrap';
-      wrap.innerHTML = `<img src="${ev.target.result}">`;
-      const img = wrap.querySelector('img');
-      img.onload = ()=>{
-        const ratio = img.naturalHeight/img.naturalWidth;
-        const w = 280;
-        wrap.style.width = w+'px';
-        wrap.style.height = (w*ratio)+'px';
-        wrap.style.left = '40px';
-        wrap.style.top = '160px';
-        colWrap.appendChild(wrap);
-        makeResizableDraggable(wrap, true, null, false, true);
-      };
+    compressImage(ev.target.result, src=>{
+      ids.forEach(id=>{
+        const colWrap = columnsWrap.querySelector(`.col-wrap[data-id="${id}"]`);
+        if(!colWrap) return;
+        createImageLayer({
+          src, container: colWrap, className: 'layer-wrap sticker-wrap',
+          sizer: img=>{
+            const ratio = img.naturalHeight/img.naturalWidth;
+            const w = 280;
+            return { width:w, height:w*ratio, left:40, top:160 };
+          },
+          onDelete: null, snapCenterX: false, autoDeleteOutside: false
+        });
+      });
+      markDirty();
     });
   };
   reader.readAsDataURL(f);
@@ -2482,13 +2665,16 @@ function makeResizableDraggable(el, addDelete, onDelete, snapCenterX, anchorCent
   el.style.touchAction = 'none';
   const resizeH = document.createElement('div');
   resizeH.className='resize-handle';
+  resizeH.setAttribute('aria-hidden','true'); /* 포인터 전용 핸들 */
   resizeH.style.touchAction = 'none';
   el.appendChild(resizeH);
 
   let delH = null;
   if(addDelete){
-    delH = document.createElement('div');
+    delH = document.createElement('button');
+    delH.type = 'button';
     delH.className='del-handle';
+    delH.setAttribute('aria-label','이미지 삭제');
     delH.innerHTML='✕';
     el.appendChild(delH);
     delH.addEventListener('pointerdown', ev=>ev.stopPropagation());
@@ -2496,6 +2682,7 @@ function makeResizableDraggable(el, addDelete, onDelete, snapCenterX, anchorCent
       ev.stopPropagation();
       el.remove();
       if(onDelete) onDelete();
+      markDirty();
     });
   }
 
@@ -2511,6 +2698,7 @@ function makeResizableDraggable(el, addDelete, onDelete, snapCenterX, anchorCent
       const dx = (e2.clientX-startX)/SCALE;
       const w = Math.max(24, startW + dx);
       const h = w*ratio;
+      markDirty();
       el.style.width = w+'px';
       el.style.height = h+'px';
       if(anchorCenter){
@@ -2532,6 +2720,7 @@ function makeResizableDraggable(el, addDelete, onDelete, snapCenterX, anchorCent
     const startL=el.offsetLeft, startT=el.offsetTop;
     function move(e2){
       const dx=(e2.clientX-startX)/SCALE, dy=(e2.clientY-startY)/SCALE;
+      markDirty();
       el.style.left = (startL + dx) + 'px';
       el.style.top = (startT + dy) + 'px';
     }
@@ -2556,6 +2745,7 @@ function makeResizableDraggable(el, addDelete, onDelete, snapCenterX, anchorCent
         if(fullyOutside){
           el.remove();
           if(onDelete) onDelete();
+          markDirty();
         }
       }
     }
@@ -2566,8 +2756,32 @@ function makeResizableDraggable(el, addDelete, onDelete, snapCenterX, anchorCent
 }
 
 /* ---------- 내보내기: 화면에 영향받지 않는 별도 클론을 만들어 캡처 ---------- */
-function exportSheet(format){
-  document.querySelectorAll('.resize-handle,.del-handle,.col-remove,.col-drag').forEach(h=>h.style.visibility='hidden');
+/* 파일명: 페어명 + 날짜(yyMMdd) + 프로그램 접미사.
+   페어명이 기본 문구 그대로거나(수정 안 함) 상단 정보(topbar)가 OFF면 '촘촘페어틀'을 기본값으로 사용 */
+const PAIR_NAME_PLACEHOLDER = '페어명 / Pair Name';
+const EXPORT_DEFAULT_NAME = '촘촘페어틀';
+function buildExportBaseName(){
+  const raw = (document.getElementById('pairNameField').textContent || '').trim();
+  const isDefaultText = raw === '' || raw === PAIR_NAME_PLACEHOLDER;
+  const nameSource = (topbarOff || isDefaultText) ? EXPORT_DEFAULT_NAME : raw;
+  const safe = nameSource.replace(/[\\/:*?"<>|]/g, '_').replace(/\s+/g, ' ').slice(0, 40).trim();
+  const d = new Date();
+  const p = n=> String(n).padStart(2, '0');
+  const stamp = String(d.getFullYear()).slice(2) + p(d.getMonth()+1) + p(d.getDate());
+  return (safe || EXPORT_DEFAULT_NAME) + '_' + stamp + '_CChomMaker_EP';
+}
+
+async function exportSheet(format){
+  if(typeof html2canvas === 'undefined'){
+    alert('이미지 변환 모듈(html2canvas)을 불러오지 못했어요.\n네트워크 연결을 확인한 뒤 페이지를 새로고침 해주세요.');
+    return;
+  }
+  showLoadingOverlay('이미지를 만드는 중...');
+  /* 웹폰트가 로드되기 전에 캡처하면 폴백 폰트로 찍히므로 로딩 완료를 기다림 */
+  try{ if(document.fonts && document.fonts.ready) await document.fonts.ready; }catch(_){}
+
+  const handles = document.querySelectorAll('.resize-handle,.del-handle,.col-remove,.col-drag');
+  handles.forEach(h=> h.style.visibility='hidden');
 
   /* input의 현재 값(.value)을 속성에 반영 - cloneNode는 속성만 복제하기 때문 */
   sheet.querySelectorAll('input').forEach(inp=>{
@@ -2575,6 +2789,7 @@ function exportSheet(format){
   });
 
   const clone = sheet.cloneNode(true);
+  clone.classList.add('exporting'); /* 빈 필드 플레이스홀더 등 편집 전용 표시를 결과물에서 제외 */
   clone.style.transform = 'none';
   clone.style.position = 'fixed';
   clone.style.top = '0';
@@ -2586,17 +2801,20 @@ function exportSheet(format){
   });
   document.body.appendChild(clone);
 
-  html2canvas(clone, {scale:1, backgroundColor:'#ffffff', useCORS:true, windowWidth:clone.scrollWidth, windowHeight:clone.scrollHeight}).then(canvas=>{
-    document.body.removeChild(clone);
-    document.querySelectorAll('.resize-handle,.del-handle,.col-remove,.col-drag').forEach(h=>h.style.visibility='visible');
+  try{
+    const canvas = await html2canvas(clone, {scale:1, backgroundColor:'#ffffff', useCORS:true, windowWidth:clone.scrollWidth, windowHeight:clone.scrollHeight});
     const link = document.createElement('a');
-    link.download = 'character-sheet.' + (format==='jpg'?'jpg':'png');
+    link.download = buildExportBaseName() + '.' + (format==='jpg'?'jpg':'png');
     link.href = canvas.toDataURL(format==='jpg' ? 'image/jpeg' : 'image/png', 0.95);
     link.click();
-  }).catch(()=>{
-    if(clone.parentNode) document.body.removeChild(clone);
-    document.querySelectorAll('.resize-handle,.del-handle,.col-remove,.col-drag').forEach(h=>h.style.visibility='visible');
-  });
+  }catch(err){
+    console.error('[내보내기 실패]', err);
+    alert('이미지 내보내기에 실패했어요.\n캐릭터 수나 이미지 크기를 줄인 뒤 다시 시도해 주세요.');
+  }finally{
+    if(clone.parentNode) clone.parentNode.removeChild(clone);
+    handles.forEach(h=> h.style.visibility='visible');
+    hideLoadingOverlay();
+  }
 }
 document.getElementById('exportPng').addEventListener('click', ()=>exportSheet('png'));
 document.getElementById('exportJpg').addEventListener('click', ()=>exportSheet('jpg'));
@@ -2605,6 +2823,15 @@ document.getElementById('charCountMinus').addEventListener('click', ()=>{
   if(columnsWrap.children.length<=1){ alert('최소 한 캐릭터는 남아있어야 해요.'); return; }
   const last = columnsWrap.lastElementChild;
   removeCharacter(last.dataset.id);
+});
+
+/* ---------- 이미지 플레이스홀더 키보드 조작 (Enter/Space = 클릭) ---------- */
+document.addEventListener('keydown', e=>{
+  if((e.key === 'Enter' || e.key === ' ') && e.target && e.target.matches &&
+     e.target.matches('.placeholder, .sd-placeholder')){
+    e.preventDefault();
+    e.target.click();
+  }
 });
 
 /* ---------- 탭 전환 ---------- */
