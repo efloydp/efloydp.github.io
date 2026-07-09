@@ -79,7 +79,7 @@ html{ scrollbar-width:thin; scrollbar-color:#c3bce5 #f3f1fb; }
 label{ font-size:14px; }
 .row input[type=color]{ width:32px;height:24px;border:none;border-radius:4px;cursor:pointer;padding:0; flex-shrink:0; }
 /* 색상 입력이 들어있는 row: 라벨 폭을 고정해 색상칩/HEX 시작선을 세로로 정렬 */
-.row:has(> input[type=color]) > label{ flex:0 0 96px; }
+.row:has(> input[type=color]) > label{ flex:1; }
 .hex-input{
   width:92px; font-size:13px; font-family:'SFMono-Regular',Consolas,Menlo,monospace;
   border:1px solid #ddd; border-radius:6px; padding:5px 7px; text-transform:uppercase; flex-shrink:0;
@@ -230,6 +230,7 @@ input[type=file]{ font-size:11px; width:100%; }
 /* 시트 위 '클릭하면 사이드바로 이동'하는 요소들의 hover 단서 */
 .swatch:not(.mode-none){ transition:box-shadow .12s, filter .12s; }
 .swatch:not(.mode-none):hover{ box-shadow:0 0 0 3px rgba(195,188,229,.55); }
+.swatch:not(.mode-none).ring-active{ box-shadow:0 0 0 3px rgba(195,188,229,.85); }
 .animal-box{ transition:filter .12s; }
 .animal-box:hover{ filter:brightness(1.06); cursor:pointer; }
 .source-text{ transition:background .12s; border-radius:6px; }
@@ -284,6 +285,7 @@ input[type=file]{ font-size:11px; width:100%; }
 .iris-edit-group .hint{ margin-bottom:0; }
 /* 안광 안내: 기존 iris-edit-group의 연보라 박스 스타일을 이 hint에 적용 */
 .iris-hint{ background:#f6f4ff; border-radius:15px; padding:14px; margin-top:10px; color:#555; }
+.eye-hint{ margin-bottom:14px; }
 /* 안광 표시 OFF일 때: 상단 절반만 살짝 흐리게 보여주고 하단은 흰색 그라데이션으로 페이드아웃 */
 .section-dimmed{
   position:relative; max-height:100px; overflow:hidden;
@@ -405,7 +407,7 @@ input[type=file]{ font-size:11px; width:100%; }
   /* 모바일 터치 타깃 확대: 색상칩/셀렉트 높이 키움 */
   .row input[type=color]{ width:40px; height:34px; }
   .hex-input{ height:34px; }
-  .row:has(> input[type=color]) > label{ flex:0 0 84px; }
+  .row:has(> input[type=color]) > label{ flex:1; }
 }
 /* ===== 로딩 오버레이 (프리셋 저장/불러오기 등 무거운 작업용) ===== */
 .loading-overlay{
@@ -607,6 +609,7 @@ body.welcome-active{ overflow:hidden; }
 
         <h3 id="eyeColorHeading">눈 색상</h3>
         <div class="row row-target"><label>대상</label><select id="eyeModeTarget"></select></div>
+        <div class="hint iris-hint eye-hint">눈 컬러칩의 왼쪽눈과 오른쪽눈을 연이어 선택하면, <b>두 눈의 컬러를 동시 변경</b>할 수 있습니다.</div>
         <div class="row"><label>적용할 눈</label>
           <select id="eyeApplySelect"><option value="both">전체</option><option value="L">왼쪽눈</option><option value="R">오른쪽눈</option></select>
         </div>
@@ -1251,7 +1254,7 @@ function restoreColumn(data, resolveImg){
 
   /* 저장된 머리/눈 모드, 색상 복원 */
   hairSettings[id] = data.hairSetting || {mode:'solid', sub:'#cccccc'};
-  eyeSettings[id] = data.eyeSettingsData || {L:{mode:'solid',sub:'#cccccc'}, R:{mode:'solid',sub:'#cccccc'}, linked:true};
+  eyeSettings[id] = data.eyeSettingsData || {L:{mode:'solid',sub:'#cccccc'}, R:{mode:'solid',sub:'#cccccc'}, linked:false};
   const hairSw = q('.swatch[data-part="hair"]');
   hairSw.style.background = buildBg(hairSw.dataset.maincolor, hairSettings[id].mode, hairSettings[id].sub);
   repaintEye(id, 'L');
@@ -1550,6 +1553,26 @@ function revealSidebarSection(tabName, sectionEl, targetSelectId, charId, extra)
 }
 
 /* 색상 입력(swatch/theme-btn)을 눌렀을 때 - 시트 안의 것일 경우에만 사이드바 이동 */
+function showEyeRings(id, on){
+  ['eyeL','eyeR'].forEach(part=>{
+    const sw = document.querySelector(`.swatch[data-part="${part}"][data-id="${id}"]`);
+    if(!sw) return;
+    if(on){
+      sw.classList.add('ring-active');
+    } else {
+      sw.classList.remove('ring-active');
+    }
+  });
+  if(on){
+    clearTimeout(showEyeRings._t);
+    showEyeRings._t = setTimeout(()=>{
+      ['eyeL','eyeR'].forEach(part=>{
+        const sw = document.querySelector(`.swatch[data-part="${part}"][data-id="${id}"]`);
+        if(sw) sw.classList.remove('ring-active');
+      });
+    }, 1100);
+  }
+}
 function handleSheetColorClick(inputEl){
   const swatch = inputEl.closest('.swatch[data-part]');
   if(swatch){
@@ -1560,16 +1583,32 @@ function handleSheetColorClick(inputEl){
     if(part === 'hair'){
       revealSidebarSection('settings', document.getElementById('hairColorHeading'), 'hairTargetSelect', id);
     } else if(part === 'eyeL' || part === 'eyeR'){
+      const side = part === 'eyeL' ? 'L' : 'R';
+      getEyeSetting(id, 'L'); /* 초기화 보장 */
+      /* 같은 캐릭터에서 왼쪽눈 -> 오른쪽눈(또는 반대)을 짧은 간격으로 연이어 누르면
+         '두 눈 일괄(전체)'로 전환. 같은 눈 반복/시간 초과면 개별 모드 유지 */
+      const now = Date.now();
+      const prev = handleSheetColorClick._lastEye;
+      const consecutiveDiff = prev && prev.id === id && prev.side !== side && (now - prev.t) < 900;
+      handleSheetColorClick._lastEye = { id, side, t: now };
+
+      if(consecutiveDiff){
+        eyeSettings[id].linked = true;
+        showEyeRings(id, true); /* 양쪽 눈 링 강조 */
+      } else {
+        eyeSettings[id].linked = false;
+        showEyeRings(id, false);
+      }
       revealSidebarSection('settings', document.getElementById('eyeColorHeading'), 'eyeModeTarget', id, ()=>{
-        /* 클릭한 눈만 편집하도록 통합 select를 해당 눈으로 (단, 이미 '두 눈 일괄'이면 전체 유지) */
         const applySel = document.getElementById('eyeApplySelect');
         if(applySel){
-          if(!isEyeLinked(id)){
-            applySel.value = part === 'eyeL' ? 'L' : 'R';
-            applySel.dispatchEvent(new Event('change'));
+          if(isEyeLinked(id)){
+            applySel.value = 'both';
           } else {
-            loadEyeModePanel();
+            applySel.value = side;
+            document.getElementById('eyeModeWhich').value = side;
           }
+          loadEyeModePanel();
         }
       });
     } else if(part === 'skin'){
@@ -1952,7 +1991,7 @@ const eyeSettings = {}; // id -> {L:{mode,sub}, R:{mode,sub}}
 // (1회 한정 눈동자 색 동기화 기능은 삭제됨 - 이제 '두 눈 일괄 적용' 체크박스로 항상 제어)
 
 function getEyeSetting(id, side){
-  if(!eyeSettings[id]) eyeSettings[id] = {L:{mode:'solid',sub:'#cccccc'}, R:{mode:'solid',sub:'#cccccc'}, linked:true};
+  if(!eyeSettings[id]) eyeSettings[id] = {L:{mode:'solid',sub:'#cccccc'}, R:{mode:'solid',sub:'#cccccc'}, linked:false};
   return eyeSettings[id][side];
 }
 /* '두 눈 일괄 적용'은 캐릭터별 상태 (eyeSettings[id].linked) - eyeSettingsData에 함께 직렬화됨.
@@ -2121,7 +2160,7 @@ document.getElementById('eyeModeTarget').addEventListener('change', ()=>{
   /* 대상이 바뀌면 그 캐릭터의 linked 상태를 통합 select에 반영 */
   const id = document.getElementById('eyeModeTarget').value;
   if(id && id !== '__all__'){
-    getEyeSetting(id, 'L'); /* eyeSettings[id] 초기화 보장 (신규 캐릭터 기본 linked:true) */
+    getEyeSetting(id, 'L'); /* eyeSettings[id] 초기화 보장 (신규 캐릭터 기본 linked:false (개별)) */
     const linked = isEyeLinked(id);
     eyeApplySelect.value = linked ? 'both' : (document.getElementById('eyeModeWhich').value || 'L');
   }
@@ -2160,7 +2199,7 @@ function updateEyeModeSubRowVisibility(){
 function loadEyeModePanel(){
   const id = document.getElementById('eyeModeTarget').value;
   if(!id || id === '__all__') return;
-  getEyeSetting(id, 'L'); /* eyeSettings[id] 초기화 보장 (신규 캐릭터 기본 linked:true) */
+  getEyeSetting(id, 'L'); /* eyeSettings[id] 초기화 보장 (신규 캐릭터 기본 linked:false (개별)) */
   /* 캐릭터의 linked 상태를 통합 select + 숨김 체크박스에 동기화 (change 미발생) */
   const linkedCb = document.getElementById('eyeModeLinked');
   const linked = isEyeLinked(id);
