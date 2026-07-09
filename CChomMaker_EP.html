@@ -78,8 +78,10 @@ html{ scrollbar-width:thin; scrollbar-color:#c3bce5 #f3f1fb; }
 .row label{ flex:1; color:#444; font-size:14px; }
 label{ font-size:14px; }
 .row input[type=color]{ width:32px;height:24px;border:none;border-radius:4px;cursor:pointer;padding:0; flex-shrink:0; }
+/* 색상 입력이 들어있는 row: 라벨 폭을 고정해 색상칩/HEX 시작선을 세로로 정렬 */
+.row:has(> input[type=color]) > label{ flex:0 0 96px; }
 .hex-input{
-  width:84px; font-size:13px; font-family:'SFMono-Regular',Consolas,Menlo,monospace;
+  width:92px; font-size:13px; font-family:'SFMono-Regular',Consolas,Menlo,monospace;
   border:1px solid #ddd; border-radius:6px; padding:5px 7px; text-transform:uppercase; flex-shrink:0;
 }
 .hex-input:focus{ border-color:#c3bce5; outline:none; }
@@ -102,8 +104,6 @@ input[type=range]::-moz-range-thumb{
   width:16px; height:16px; border-radius:50%;
   background:#B9C7D2; border:2px solid #fff; box-shadow:0 1px 3px rgba(0,0,0,.25); cursor:pointer;
 }
-#irisSizeSlider{ background:#fff; }
-#irisSizeSlider::-moz-range-track{ background:#fff; }
 .btn{ width:100%; padding:9px; border:none; border-radius:8px; background:#444; color:#fff; font-size:13px; cursor:pointer; margin-top:6px; font-family:inherit; }
 .btn:hover{ background:#222; }
 .btn.blue {background:#b9c7d2; color:#333;font-weight:bold;}
@@ -134,7 +134,7 @@ input[type=file]{ font-size:11px; width:100%; }
 .tab-content{ display:none; }
 .tab-content.active{ display:block; }
 .tab-content h3:first-of-type{ border-top:none; padding-top:0; margin-top:0; }
-#skinColorSection h3{ border-top:1px solid #eee; padding-top:14px; margin:18px 0 8px; }
+#skinColorHeading{ border-top:1px solid #eee; padding-top:14px; margin:18px 0 8px; }
 .sheet-outer-wrap{ position:relative; flex:1; min-width:0; }
 .nav-btn{
   position:absolute; top:50%; transform:translateY(-50%); width:38px; height:38px; border-radius:50%;
@@ -227,8 +227,23 @@ input[type=file]{ font-size:11px; width:100%; }
 .swatch.mode-none::before{ transform:translate(-50%,-50%) rotate(45deg); }
 .swatch.mode-none::after{ transform:translate(-50%,-50%) rotate(-45deg); }
 .swatch input[type=color]{ position:absolute; inset:0; opacity:0; width:100%; height:100%; cursor:pointer; }
-.swatch .iris{ position:absolute; width:27px; height:27px; border-radius:50%; background:#fff; border:3px solid #909090; cursor:grab; z-index:2; touch-action:none; }
+/* 시트 위 '클릭하면 사이드바로 이동'하는 요소들의 hover 단서 */
+.swatch:not(.mode-none){ transition:box-shadow .12s, filter .12s; }
+.swatch:not(.mode-none):hover{ box-shadow:0 0 0 3px rgba(195,188,229,.55); }
+.animal-box{ transition:filter .12s; }
+.animal-box:hover{ filter:brightness(1.06); cursor:pointer; }
+.source-text{ transition:background .12s; border-radius:6px; }
+.source-text:hover{ background:rgba(195,188,229,.14); }
+.swatch .iris{ position:absolute; width:27px; height:27px; border-radius:50%; background:#fff; border:3px solid #909090; cursor:grab; z-index:2; touch-action:none; transition:box-shadow .12s; }
+.swatch .iris:hover{ box-shadow:0 0 0 2px rgba(255,255,255,.7), 0 1px 5px rgba(0,0,0,.35); }
+.swatch .iris:active{ cursor:grabbing; }
 .swatch .iris.hidden{ display:none; }
+.swatch .pupil{ position:absolute; left:50%; top:50%; width:56%; height:56%; transform:translate(-50%,-50%); z-index:1; pointer-events:none; color:#555555; }
+.swatch .pupil:not(.hidden){ pointer-events:auto; cursor:pointer; }
+.swatch .pupil svg{ width:100%; height:100%; display:block; }
+.swatch .pupil.pupil-reincarn svg{ transform:scale(1.3); transform-origin:center; }
+.swatch .pupil.hidden{ display:none; }
+.swatch.mode-none .pupil{ display:none; }
 .swatch-labels{ display:grid; grid-template-columns:repeat(4,1fr) 150px; gap:30px; font-size:30px; font-weight:500; color:#909090; margin-bottom:39px; line-height:1.3; }
 .swatch-labels span{ text-align:center; min-width:25px;}
 .theme-btn{
@@ -236,6 +251,8 @@ input[type=file]{ font-size:11px; width:100%; }
   color:#fff; font-weight:600; font-size:30px; font-family:inherit; cursor:pointer; position:relative; overflow:hidden; line-height:1.3;
 }
 .theme-btn input[type=color]{ position:absolute; inset:0; opacity:0; width:100%; height:100%; cursor:pointer; }
+.theme-btn{ transition:box-shadow .12s, filter .12s; }
+.theme-btn:hover{ box-shadow:0 0 0 3px rgba(195,188,229,.55); }
 
 .canvas-box{ background:#f3f4f6; border-radius:15px; width:627px; height:994px; position:relative; overflow:hidden; }
 .canvas-box .placeholder{
@@ -263,8 +280,26 @@ input[type=file]{ font-size:11px; width:100%; }
 .iris-slot-toggle{ display:flex; gap:6px; background:#fff; border-radius:15px; padding:6px; margin-bottom:8px; }
 .iris-slot-btn{ flex:1; padding:7px 4px; border:none; border-radius:10px; background:transparent; color:#8d81c2; font-size:13px; font-family:inherit; cursor:pointer; font-weight:700; }
 .iris-slot-btn.active{ background:#c3bce5; color:#fff; box-shadow:0 1px 3px rgba(0,0,0,.12); }
-.iris-edit-group{ background:#f6f4ff; border-radius:15px; padding:14px; margin-top:10px; }
+.iris-edit-group{ margin-top:10px; }
 .iris-edit-group .hint{ margin-bottom:0; }
+/* 안광 안내: 기존 iris-edit-group의 연보라 박스 스타일을 이 hint에 적용 */
+.iris-hint{ background:#f6f4ff; border-radius:15px; padding:14px; margin-top:10px; color:#555; }
+/* 안광 표시 OFF일 때: 상단 절반만 살짝 흐리게 보여주고 하단은 흰색 그라데이션으로 페이드아웃 */
+.section-dimmed{
+  position:relative; max-height:100px; overflow:hidden;
+  opacity:.55; pointer-events:none; filter:blur(1px); transition:max-height .2s, opacity .15s;
+}
+.section-dimmed::after{
+  content:''; position:absolute; left:0; right:0; bottom:0; height:130px;
+  background:linear-gradient(to bottom, rgba(255,255,255,0) 0%, #fff 82%);
+  pointer-events:none;
+}
+.pupil-grid{ display:grid; grid-template-columns:repeat(5,1fr); gap:6px; margin:8px 0; }
+.pupil-shape-btn{ aspect-ratio:1/1; border:2px solid #e3e0f0; border-radius:10px; background:#fff; cursor:pointer; padding:6px; display:flex; align-items:center; justify-content:center; transition:border-color .12s, background .12s; }
+.pupil-shape-btn:hover{ border-color:#c3bce5; }
+.pupil-shape-btn.active{ border-color:#8d81c2; background:#f0ecff; box-shadow:0 1px 3px rgba(0,0,0,.12); }
+.pupil-shape-btn svg{ width:100%; height:100%; display:block; color:#5b5470; }
+.pupil-shape-btn[data-shape="none"] svg{ color:#b8b3c8; }
 .mini-toggle{ display:inline-flex; border-radius:8px; overflow:hidden; border:1px solid #ddd; flex-shrink:0; }
 .mini-toggle-btn{ padding:5px 12px; border:none; background:#f5f5f5; color:#999; font-size:11px; font-family:inherit; cursor:pointer; font-weight:700; }
 .mini-toggle-btn.active{ background:#c3bce5; color:#fff; }
@@ -276,7 +311,9 @@ input[type=file]{ font-size:11px; width:100%; }
 .sd-zone .sd-placeholder{
   position:absolute; inset:0; background:#fafafa; border:3px solid #ccc; border-radius:15px;
   display:flex; align-items:center; justify-content:center; font-size:25px; color:#bbb; font-weight:500; cursor:pointer; text-align:center; line-height:1.5; z-index:1;
+  transition:border-color .12s, background .12s;
 }
+.sd-zone .sd-placeholder:hover{ border-color:#c3bce5; background:#f5f3fc; }
 
 .costume-box{
   background:#f3f4f6; border-radius:15px; padding:16px; text-align:center; font-size:28px; font-weight:500; color:#666666;
@@ -365,6 +402,10 @@ input[type=file]{ font-size:11px; width:100%; }
   .sidebar.collapsed .panel{ display:none; }
   .col-remove, .col-drag{ width:51px; height:51px; font-size:27px; }
   .col-drag{ right:60px; }
+  /* 모바일 터치 타깃 확대: 색상칩/셀렉트 높이 키움 */
+  .row input[type=color]{ width:40px; height:34px; }
+  .hex-input{ height:34px; }
+  .row:has(> input[type=color]) > label{ flex:0 0 84px; }
 }
 /* ===== 로딩 오버레이 (프리셋 저장/불러오기 등 무거운 작업용) ===== */
 .loading-overlay{
@@ -455,7 +496,7 @@ body.welcome-active{ overflow:hidden; }
 
 <div class="welcome-overlay" id="welcomeOverlay">
   <div class="welcome-modal">
-    <h2 class="welcome-title">촘촘 페어틀 메이커 <span class="version-badge">v1.2</span>
+    <h2 class="welcome-title">촘촘 페어틀 메이커 <span class="version-badge">v1.3</span>
 </h2>
           <div class="hint" style="text-align:center;">made by EP <a href="https://x.com/efloydp_cms" target="_blank">@efloydp_cms</a></div>
 
@@ -478,7 +519,7 @@ body.welcome-active{ overflow:hidden; }
 
     <div class="welcome-section">
       <h3>패치 노트</h3>
-      <div class="welcome-patchnotes"><b>v1.2</b> 2026.07.08 - 새로고침시 경고창 표시, .json 파일 다른 이름으로 저장, 인터페이스 사용성 개선 및 폰트 변경, 프리셋 이미지 자동 압축(용량 감소), 프리셋 보안 강화, 내보내기 안정화(파일명 자동/실패 안내), 두 눈 일괄 적용 캐릭터별 저장, 접근성 개선<br><b>v1.1</b> 2026.07.07 - 커스텀 컬러피커 추가, 일부 드래그 버그 픽스 및 사용성 개선<br><b>v1</b> 2026.06.28 배포 - 이 서비스는 Claude의 도움을 받아 제작하였습니다.</div>
+      <div class="welcome-patchnotes"><b>v1.3</b> 2026.07.09 - 눈 동공 추가 기능 업데이트<br><b>v1.2</b> 2026.07.08 - 새로고침시 경고창 표시, .json 파일 다른 이름으로 저장, 인터페이스 사용성 개선 및 폰트 변경, 프리셋 이미지 자동 압축(용량 감소), 프리셋 보안 강화, 내보내기 안정화(파일명 자동/실패 안내), 두 눈 일괄 적용 캐릭터별 저장, 접근성 개선<br><b>v1.1</b> 2026.07.07 - 커스텀 컬러피커 추가, 일부 드래그 버그 픽스 및 사용성 개선<br><b>v1</b> 2026.06.28 배포 - 이 서비스는 Claude의 도움을 받아 제작하였습니다.</div>
     </div>
 
     <button class="welcome-start-btn" id="welcomeStartBtn" type="button">시작하기</button>
@@ -500,7 +541,7 @@ body.welcome-active{ overflow:hidden; }
     <div class="export-box" id="exportBox">
       <div class="export-box-title-row">
         <h2>촘촘 페어틀 메이커</h2>
-        <span class="version-badge">v1.2</span>
+        <span class="version-badge">v1.3</span>
       </div>
       <div class="btn-row">
         <button class="btn blue" id="exportPng">PNG로 저장</button>
@@ -566,22 +607,25 @@ body.welcome-active{ overflow:hidden; }
 
         <h3 id="eyeColorHeading">눈 색상</h3>
         <div class="row row-target"><label>대상</label><select id="eyeModeTarget"></select></div>
-        <div class="row">
-          <label style="font-weight:700;">두 눈 일괄 적용</label>
-          <input type="checkbox" id="eyeModeLinked" style="display:none;">
-          <div class="mini-toggle" data-for="eyeModeLinked">
-            <button type="button" class="mini-toggle-btn active" data-val="off">OFF</button>
-            <button type="button" class="mini-toggle-btn" data-val="on">ON</button>
-          </div>
+        <div class="row"><label>적용할 눈</label>
+          <select id="eyeApplySelect"><option value="both">전체</option><option value="L">왼쪽눈</option><option value="R">오른쪽눈</option></select>
         </div>
-        <div class="row" id="eyeWhichRow"><label>적용할 눈</label>
-          <select id="eyeModeWhich"><option value="L">왼쪽눈</option><option value="R">오른쪽눈</option></select>
-        </div>
+        <input type="checkbox" id="eyeModeLinked" style="display:none;">
+        <select id="eyeModeWhich" style="display:none;"><option value="L">왼쪽눈</option><option value="R">오른쪽눈</option></select>
         <div class="row" id="eyeMainColorRow"><label>기본색</label><input type="color" id="eyeMainColor" value="#dddddd"><input type="text" class="hex-input" data-for="eyeMainColor" placeholder="#RRGGBB"></div>
         <div class="row"><label>모드</label>
           <select id="eyeModeSelect"><option value="solid">단색</option><option value="gradient">그라데이션</option><option value="twotone">투톤(위/아래)</option><option value="none">없음</option></select>
         </div>
         <div class="row" id="eyeModeSubRow"><label>보조색</label><input type="color" id="eyeModeSub" value="#cccccc"><input type="text" class="hex-input" data-for="eyeModeSub" placeholder="#RRGGBB"></div>
+
+        <h3 id="pupilHeading">눈 동공</h3>
+        <div class="row row-target"><label>대상</label><select id="pupilTargetSelect"></select></div>
+        <div class="row"><label>적용할 눈</label>
+          <select id="pupilWhich"><option value="both">전체</option><option value="L">왼쪽눈</option><option value="R">오른쪽눈</option></select>
+        </div>
+        <div class="row"><label>동공 모양</label></div>
+        <div class="pupil-grid" id="pupilGrid"></div>
+        <div class="row" id="pupilColorRow"><label>동공 색</label><input type="color" id="pupilColor" value="#555555"><input type="text" class="hex-input" data-for="pupilColor" placeholder="#RRGGBB"></div>
 
         <h3 id="irisHeading">눈 안광</h3>
         <div class="row row-target"><label>대상</label><select id="irisTargetSelect"></select></div>
@@ -593,7 +637,7 @@ body.welcome-active{ overflow:hidden; }
           </div>
         </div>
 
-        <div id="irisLowerSection" style="display:none;">
+        <div id="irisLowerSection" class="section-dimmed">
         <div class="row"><label>안광 개수(양쪽 공통)</label>
           <div class="btn-row" style="flex:1;align-items:center;">
             <button class="btn secondary" id="irisCountMinus" style="width:30px;flex:0 0 30px;padding:6px;">-</button>
@@ -602,6 +646,7 @@ body.welcome-active{ overflow:hidden; }
           </div>
         </div>
 
+        <div class="hint iris-hint"><b>안광을 드래그</b>해서 위치 옮기기<br><b>안광을 더블클릭</b>하면 그 쪽 눈의 안광만 숨겨집니다.</div>
         <div class="iris-edit-group">
           <div id="irisSlotSection">
             <div class="row"><label>편집할 안광 번호</label></div>
@@ -617,7 +662,7 @@ body.welcome-active{ overflow:hidden; }
             </div>
           </div>
           <div class="row"><label>안광 크기</label></div>
-          <div class="row"><input type="range" id="irisSizeSlider" data-unfilled-color="#fff" min="6" max="90" step="1" value="27"><span id="irisSizeVal" style="width:70px;text-align:right;font-size:12px;">27px(기본)</span></div>
+          <div class="row"><input type="range" id="irisSizeSlider" min="6" max="90" step="1" value="27"><span id="irisSizeVal" style="width:70px;text-align:right;font-size:12px;">27px(기본)</span></div>
           <div class="row"><label>안광 색</label><input type="color" id="irisFillColor" value="#ffffff"><input type="text" class="hex-input" data-for="irisFillColor" placeholder="#RRGGBB"></div>
           <div class="row"><label>안광 테두리 색</label><input type="color" id="irisBorderColor" value="#909090"><input type="text" class="hex-input" data-for="irisBorderColor" placeholder="#RRGGBB"></div>
           <div class="row">
@@ -628,13 +673,12 @@ body.welcome-active{ overflow:hidden; }
               <button type="button" class="mini-toggle-btn active" data-val="on">ON</button>
             </div>
           </div>
-          <button class="btn secondary" id="resetIris" style="margin-top:6px;">안광 위치/크기/숨김 초기화</button>
+          <button class="btn secondary" id="resetIris" style="margin-top:6px;background:#b9c7d2;color:#333;">안광 위치/크기/숨김 초기화</button>
         </div>
-        <div class="hint">화면 내에서 안광을 드래그해서 위치 옮기기<br>안광을 더블클릭하면 그 쪽 눈의 안광만 숨겨집니다.</div>
         </div>
 
         <div id="skinColorSection">
-          <h3>피부 색상</h3>
+          <h3 id="skinColorHeading">피부 색상</h3>
           <div class="row row-target"><label>대상</label><select id="skinTargetSelect"></select></div>
           <div class="row"><label>기본색</label><input type="color" id="skinMainColor" value="#dddddd"><input type="text" class="hex-input" data-for="skinMainColor" placeholder="#RRGGBB"></div>
         </div>
@@ -955,7 +999,7 @@ function markDirty(){ hasUnsavedChanges = true; }
    나가기 경고가 뜨는 오탐이 발생하므로 제외함. */
 const NON_CONTENT_CHANGE_IDS = new Set([
   'hairTargetSelect','eyeModeTarget','skinTargetSelect','themeTargetSelect',
-  'irisTargetSelect','animalTargetSelect','stickerTarget','eyeModeWhich','irisSlotSelect'
+  'irisTargetSelect','pupilTargetSelect','pupilWhich','animalTargetSelect','stickerTarget','eyeModeWhich','eyeApplySelect','irisSlotSelect'
 ]);
 document.addEventListener('input', ()=>{ hasUnsavedChanges = true; }, true);
 document.addEventListener('change', e=>{
@@ -1131,6 +1175,7 @@ function serializeColumn(colWrap, refFor){
     canvasHeight: parseInt(canvasBox.style.height, 10) || CANVAS_H_DEFAULT,
     irisCount: irisCount[id] || 1,
     irisSlots: { L: irisSlotsData('L'), R: irisSlotsData('R') },
+    pupil: (()=>{ const s = pupilState[id] || {}; const e = x=> (x && x.shape) ? {shape:x.shape, color:x.color||DEFAULT_PUPIL_COLOR} : {shape:'none', color:DEFAULT_PUPIL_COLOR}; return { L:e(s.L), R:e(s.R) }; })(),
     mainImage: wrapToData(mainImgWrap, refFor),
     sdImage: wrapToData(sdImgWrap, refFor),
     stickers: stickerWraps.map(w=> wrapToData(w, refFor))
@@ -1206,7 +1251,7 @@ function restoreColumn(data, resolveImg){
 
   /* 저장된 머리/눈 모드, 색상 복원 */
   hairSettings[id] = data.hairSetting || {mode:'solid', sub:'#cccccc'};
-  eyeSettings[id] = data.eyeSettingsData || {L:{mode:'solid',sub:'#cccccc'}, R:{mode:'solid',sub:'#cccccc'}};
+  eyeSettings[id] = data.eyeSettingsData || {L:{mode:'solid',sub:'#cccccc'}, R:{mode:'solid',sub:'#cccccc'}, linked:true};
   const hairSw = q('.swatch[data-part="hair"]');
   hairSw.style.background = buildBg(hairSw.dataset.maincolor, hairSettings[id].mode, hairSettings[id].sub);
   repaintEye(id, 'L');
@@ -1233,6 +1278,24 @@ function restoreColumn(data, resolveImg){
       if(d.hidden) iris.classList.add('hidden'); else iris.classList.remove('hidden');
     });
   });
+
+  /* 동공 복원. 신규: {L:{shape,color}, R:{...}} / 구버전: {shape,color}(양쪽 공통) / 없음: none */
+  (function(){
+    const validShape = s=> PUPIL_SHAPES.hasOwnProperty(s) ? s : 'none';
+    const mk = e=> (e && typeof e === 'object')
+      ? { shape: validShape(e.shape), color: e.color || DEFAULT_PUPIL_COLOR }
+      : { shape:'none', color:DEFAULT_PUPIL_COLOR };
+    const dp = data.pupil;
+    if(dp && (dp.L || dp.R)){
+      pupilState[id] = { L: mk(dp.L), R: mk(dp.R) };
+    } else if(dp && dp.shape){ /* 구버전 flat -> 양쪽 동일 적용 */
+      const both = mk(dp);
+      pupilState[id] = { L: {...both}, R: {...both} };
+    } else {
+      pupilState[id] = { L:{shape:'none', color:DEFAULT_PUPIL_COLOR}, R:{shape:'none', color:DEFAULT_PUPIL_COLOR} };
+    }
+  })();
+  ensurePupilEls(id);
 
   applyThemeTextColor(id, color);
 
@@ -1286,6 +1349,7 @@ function loadSheetData(data){
   Object.keys(hairSettings).forEach(k=> delete hairSettings[k]);
   Object.keys(eyeSettings).forEach(k=> delete eyeSettings[k]);
   Object.keys(irisDefaults).forEach(k=> delete irisDefaults[k]);
+  Object.keys(pupilState).forEach(k=> delete pupilState[k]);
 
   document.getElementById('pairNameField').innerHTML = sanitizeHTML(data.pairName ?? '페어명');
   document.getElementById('pairDescField').innerHTML = sanitizeHTML(data.pairDesc ?? '페어 관련 설명');
@@ -1497,12 +1561,19 @@ function handleSheetColorClick(inputEl){
       revealSidebarSection('settings', document.getElementById('hairColorHeading'), 'hairTargetSelect', id);
     } else if(part === 'eyeL' || part === 'eyeR'){
       revealSidebarSection('settings', document.getElementById('eyeColorHeading'), 'eyeModeTarget', id, ()=>{
-        const whichSel = document.getElementById('eyeModeWhich');
-        whichSel.value = part === 'eyeL' ? 'L' : 'R';
-        whichSel.dispatchEvent(new Event('change'));
+        /* 클릭한 눈만 편집하도록 통합 select를 해당 눈으로 (단, 이미 '두 눈 일괄'이면 전체 유지) */
+        const applySel = document.getElementById('eyeApplySelect');
+        if(applySel){
+          if(!isEyeLinked(id)){
+            applySel.value = part === 'eyeL' ? 'L' : 'R';
+            applySel.dispatchEvent(new Event('change'));
+          } else {
+            loadEyeModePanel();
+          }
+        }
       });
     } else if(part === 'skin'){
-      revealSidebarSection('settings', document.getElementById('skinColorSection'), 'skinTargetSelect', id);
+      revealSidebarSection('settings', document.getElementById('skinColorHeading'), 'skinTargetSelect', id);
     }
     return;
   }
@@ -1641,6 +1712,7 @@ function refreshSelectors(){
   ];
   const withAllSels = [
     document.getElementById('irisTargetSelect'),
+    document.getElementById('pupilTargetSelect'),
     document.getElementById('hairTargetSelect'),
     document.getElementById('eyeModeTarget'),
     document.getElementById('skinTargetSelect'),
@@ -1808,6 +1880,9 @@ function initColumn(colWrap, id){
 
   ensureIrisSlots(id, 1);
 
+  if(!pupilState[id]) pupilState[id] = {L:{shape:'none', color:DEFAULT_PUPIL_COLOR}, R:{shape:'none', color:DEFAULT_PUPIL_COLOR}};
+  ensurePupilEls(id);
+
   colWrap.querySelector('[data-role="themebtn"] input[type=color]').addEventListener('input', e=>{
     applyThemeToId(id, e.target.value);
     syncPanelColorChip('theme', id, e.target.value);
@@ -1877,7 +1952,7 @@ const eyeSettings = {}; // id -> {L:{mode,sub}, R:{mode,sub}}
 // (1회 한정 눈동자 색 동기화 기능은 삭제됨 - 이제 '두 눈 일괄 적용' 체크박스로 항상 제어)
 
 function getEyeSetting(id, side){
-  if(!eyeSettings[id]) eyeSettings[id] = {L:{mode:'solid',sub:'#cccccc'}, R:{mode:'solid',sub:'#cccccc'}, linked:false};
+  if(!eyeSettings[id]) eyeSettings[id] = {L:{mode:'solid',sub:'#cccccc'}, R:{mode:'solid',sub:'#cccccc'}, linked:true};
   return eyeSettings[id][side];
 }
 /* '두 눈 일괄 적용'은 캐릭터별 상태 (eyeSettings[id].linked) - eyeSettingsData에 함께 직렬화됨.
@@ -2022,17 +2097,36 @@ function setupMiniToggle(checkboxId){
 }
 
 /* ---------- 눈 색상 모드 패널 ---------- */
-const eyeWhichRow = document.getElementById('eyeWhichRow');
-document.getElementById('eyeModeLinked').addEventListener('change', e=>{
-  eyeWhichRow.style.display = e.target.checked ? 'none' : 'flex';
-  /* 현재 대상 캐릭터(또는 전체)의 캐릭터별 linked 상태에 기록 */
+const eyeWhichRow = document.getElementById('eyeWhichRow'); /* 제거됨(하위호환용 null 허용) */
+/* '적용할 눈' 통합 select(전체/L/R) -> 내부 linked 체크박스 + which select 구동.
+   프리셋 스키마는 그대로 eyeSettings[id].linked(boolean)를 사용한다. */
+const eyeApplySelect = document.getElementById('eyeApplySelect');
+function applyEyeApplySelectToState(){
+  const val = eyeApplySelect.value; /* both | L | R */
+  const linkedCb = document.getElementById('eyeModeLinked');
+  const whichSel = document.getElementById('eyeModeWhich');
+  const linked = (val === 'both');
+  linkedCb.checked = linked;
+  if(!linked) whichSel.value = val;
+  /* 대상 캐릭터들의 linked 상태 기록 */
   const target = document.getElementById('eyeModeTarget').value;
   getTargetIds(target).forEach(id=>{
-    getEyeSetting(id, 'L'); /* eyeSettings[id] 초기화 보장 */
-    eyeSettings[id].linked = e.target.checked;
+    getEyeSetting(id, 'L');
+    eyeSettings[id].linked = linked;
   });
+  loadEyeModePanel();
+}
+eyeApplySelect.addEventListener('change', applyEyeApplySelectToState);
+document.getElementById('eyeModeTarget').addEventListener('change', ()=>{
+  /* 대상이 바뀌면 그 캐릭터의 linked 상태를 통합 select에 반영 */
+  const id = document.getElementById('eyeModeTarget').value;
+  if(id && id !== '__all__'){
+    getEyeSetting(id, 'L'); /* eyeSettings[id] 초기화 보장 (신규 캐릭터 기본 linked:true) */
+    const linked = isEyeLinked(id);
+    eyeApplySelect.value = linked ? 'both' : (document.getElementById('eyeModeWhich').value || 'L');
+  }
+  loadEyeModePanel();
 });
-document.getElementById('eyeModeTarget').addEventListener('change', loadEyeModePanel);
 document.getElementById('eyeModeWhich').addEventListener('change', loadEyeModePanel);
 
 /* ---------- 피부 색상 패널 ---------- */
@@ -2066,14 +2160,18 @@ function updateEyeModeSubRowVisibility(){
 function loadEyeModePanel(){
   const id = document.getElementById('eyeModeTarget').value;
   if(!id || id === '__all__') return;
-  /* '두 눈 일괄 적용' 토글을 이 캐릭터의 저장 상태로 동기화 (change 미발생 - 이탈경고 오탐 방지) */
+  getEyeSetting(id, 'L'); /* eyeSettings[id] 초기화 보장 (신규 캐릭터 기본 linked:true) */
+  /* 캐릭터의 linked 상태를 통합 select + 숨김 체크박스에 동기화 (change 미발생) */
   const linkedCb = document.getElementById('eyeModeLinked');
   const linked = isEyeLinked(id);
   if(linkedCb.checked !== linked){
     linkedCb.checked = linked;
     if(linkedCb._syncToggleUI) linkedCb._syncToggleUI();
   }
-  eyeWhichRow.style.display = linked ? 'none' : 'flex';
+  if(eyeApplySelect){
+    eyeApplySelect.value = linked ? 'both' : (document.getElementById('eyeModeWhich').value || 'L');
+  }
+  if(eyeWhichRow) eyeWhichRow.style.display = linked ? 'none' : 'flex';
   const which = document.getElementById('eyeModeWhich').value;
   const s = getEyeSetting(id, which);
   document.getElementById('eyeModeSelect').value = s.mode;
@@ -2133,6 +2231,187 @@ document.getElementById('canvasHeightSlider').addEventListener('input', e=>{
   document.getElementById('canvasHeightVal').textContent = label;
   document.querySelectorAll('.canvas-box').forEach(box=> box.style.height = h+'px');
 });
+
+/* ---------- 동공 ---------- */
+/* 동공 종류별 SVG (fill='currentColor'로 색상은 부모 color로 제어).
+   viewBox 24x24 기준, 각 눈 스와치 안 가운데에 표시되며 위치 이동 불가.
+   안광(.iris, z-index:2)은 항상 동공(.pupil, z-index:1) 위에 올라옴. */
+const PUPIL_SHAPES = {
+  none:      '',
+  circle:    '<circle cx="12" cy="12" r="9"/>',
+  ellipseV:  '<path d="M12 1 Q18 12 12 23 Q6 12 12 1 Z"/>',
+  ellipseH:  '<path d="M1 12 Q12 6 23 12 Q12 18 1 12 Z"/>',
+  rectV:     '<rect x="8" y="1.5" width="8" height="21"/>',
+  rectH:     '<rect x="1.5" y="8" width="21" height="8"/>',
+  plus:      '<path d="M9.5 2h5v7.5H22v5h-7.5V22h-5v-7.5H2v-5h7.5z"/>',
+  star:      '<path d="M12 1.5l2.85 6.55 7.15.62-5.4 4.7 1.62 6.98L12 17.9l-6.22 3.05 1.62-6.98-5.4-4.7 7.15-.62z"/>',
+  heart:     '<path d="M12 21.5l-1.55-1.4C4.9 15.1 1.5 12.05 1.5 8.3 1.5 5.3 3.85 3 6.8 3c1.7 0 3.32.79 4.4 2.05l.8.93.8-.93C13.88 3.79 15.5 3 17.2 3c2.95 0 5.3 2.3 5.3 5.3 0 3.75-3.4 6.8-8.95 11.8z"/>',
+  reincarn:  '<circle cx="12" cy="12" r="9.2" fill="none" stroke="currentColor" stroke-width="2.4"/><circle cx="12" cy="12" r="4.4"/>'
+};
+const PUPIL_LABELS = {
+  none:'없음', circle:'원형', ellipseV:'세로동공', ellipseH:'가로동공',
+  rectV:'세로 네모', rectH:'가로 네모', plus:'플러스', star:'별', heart:'하트', reincarn:'윤회안'
+};
+const PUPIL_ORDER = ['none','circle','ellipseV','ellipseH','rectV','rectH','plus','star','heart','reincarn'];
+const DEFAULT_PUPIL_COLOR = '#555555';
+/* id -> { L:{shape,color}, R:{shape,color} } (눈별 개별 설정) */
+const pupilState = {};
+
+function defaultPupilEye(){ return {shape:'none', color:DEFAULT_PUPIL_COLOR}; }
+function ensurePupilState(id){
+  if(!pupilState[id]) pupilState[id] = {L:defaultPupilEye(), R:defaultPupilEye()};
+  if(!pupilState[id].L) pupilState[id].L = defaultPupilEye();
+  if(!pupilState[id].R) pupilState[id].R = defaultPupilEye();
+  return pupilState[id];
+}
+/* 패널에서 선택된 '적용할 눈' -> 대상 side 배열 */
+function pupilSidesForPanel(){
+  const w = document.getElementById('pupilWhich').value;
+  return w === 'both' ? ['L','R'] : [w];
+}
+
+function pupilSvg(shape){
+  const body = PUPIL_SHAPES[shape] || '';
+  return `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="currentColor">${body}</svg>`;
+}
+
+/* 각 눈 스와치에 .pupil 요소가 없으면 만들고, 현재 상태대로 렌더 */
+function ensurePupilEls(id){
+  ensurePupilState(id);
+  ['eyeL','eyeR'].forEach(part=>{
+    const sw = document.querySelector(`.swatch[data-part="${part}"][data-id="${id}"]`);
+    if(!sw) return;
+    let p = sw.querySelector('.pupil');
+    if(!p){
+      p = document.createElement('div');
+      p.className = 'pupil';
+      /* 안광(.iris)보다 앞에 넣어 DOM상 아래(뒤)에 두되, z-index로 확실히 안광 아래 */
+      sw.insertBefore(p, sw.querySelector('.iris') || null);
+      /* 동공 클릭 -> 사이드바 동공 섹션으로 이동 (해당 눈 자동 선택) */
+      p.addEventListener('click', e=>{
+        e.stopPropagation();
+        const side = part === 'eyeL' ? 'L' : 'R';
+        navigateToPupilSection(id, side);
+      });
+    }
+  });
+  renderPupil(id);
+}
+
+function renderPupil(id){
+  const state = ensurePupilState(id);
+  [['eyeL','L'],['eyeR','R']].forEach(([part,side])=>{
+    const sw = document.querySelector(`.swatch[data-part="${part}"][data-id="${id}"]`);
+    if(!sw) return;
+    const p = sw.querySelector('.pupil');
+    if(!p) return;
+    const st = state[side] || defaultPupilEye();
+    if(st.shape === 'none'){
+      p.classList.add('hidden');
+      p.classList.remove('pupil-reincarn');
+      p.innerHTML = '';
+    } else {
+      p.classList.remove('hidden');
+      p.classList.toggle('pupil-reincarn', st.shape === 'reincarn');
+      p.style.color = st.color || DEFAULT_PUPIL_COLOR;
+      p.innerHTML = pupilSvg(st.shape);
+    }
+  });
+}
+
+function renderPupilGrid(){
+  const grid = document.getElementById('pupilGrid');
+  if(!grid || grid.dataset.built) { updatePupilGridActive(); return; }
+  grid.innerHTML = '';
+  PUPIL_ORDER.forEach(shape=>{
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'pupil-shape-btn';
+    btn.dataset.shape = shape;
+    btn.title = PUPIL_LABELS[shape];
+    btn.setAttribute('aria-label', PUPIL_LABELS[shape]);
+    btn.innerHTML = shape==='none'
+      ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="4" y1="4" x2="20" y2="20"/><line x1="20" y1="4" x2="4" y2="20"/></svg>'
+      : pupilSvg(shape);
+    btn.addEventListener('click', ()=>{
+      const target = document.getElementById('pupilTargetSelect').value;
+      const sides = pupilSidesForPanel();
+      getTargetIds(target).forEach(id=>{
+        const st = ensurePupilState(id);
+        sides.forEach(side=> st[side].shape = shape);
+        ensurePupilEls(id);
+      });
+      updatePupilGridActive();
+      updatePupilColorRowVisibility();
+      markDirty();
+    });
+    grid.appendChild(btn);
+  });
+  grid.dataset.built = '1';
+  updatePupilGridActive();
+}
+
+/* 패널에 표시할 대표 눈(선택된 side들 중 첫 번째, 첫 대상 캐릭터 기준) */
+function pupilRefEye(){
+  const target = document.getElementById('pupilTargetSelect').value;
+  const ids = getTargetIds(target);
+  if(!ids.length) return null;
+  const st = ensurePupilState(ids[0]);
+  const side = pupilSidesForPanel()[0];
+  return st[side] || defaultPupilEye();
+}
+function currentPupilShapeForPanel(){
+  const eye = pupilRefEye();
+  return eye ? (eye.shape || 'none') : 'none';
+}
+function updatePupilGridActive(){
+  const grid = document.getElementById('pupilGrid');
+  if(!grid) return;
+  const cur = currentPupilShapeForPanel();
+  grid.querySelectorAll('.pupil-shape-btn').forEach(b=>{
+    b.classList.toggle('active', b.dataset.shape === cur);
+  });
+}
+function updatePupilColorRowVisibility(){
+  const row = document.getElementById('pupilColorRow');
+  if(!row) return;
+  row.style.display = currentPupilShapeForPanel() === 'none' ? 'none' : 'flex';
+}
+function syncPupilColorInput(){
+  const eye = pupilRefEye();
+  const color = (eye && eye.color) || DEFAULT_PUPIL_COLOR;
+  const picker = document.getElementById('pupilColor');
+  const hex = document.querySelector('.hex-input[data-for="pupilColor"]');
+  if(picker) picker.value = color;
+  if(hex) hex.value = color;
+}
+function refreshPupilPanel(){
+  renderPupilGrid();
+  updatePupilGridActive();
+  updatePupilColorRowVisibility();
+  syncPupilColorInput();
+}
+function applyPupilColorFromPanel(){
+  const target = document.getElementById('pupilTargetSelect').value;
+  const color = document.getElementById('pupilColor').value;
+  const sides = pupilSidesForPanel();
+  getTargetIds(target).forEach(id=>{
+    const st = ensurePupilState(id);
+    sides.forEach(side=> st[side].color = color);
+    renderPupil(id);
+  });
+}
+document.getElementById('pupilColor').addEventListener('input', applyPupilColorFromPanel);
+document.getElementById('pupilTargetSelect').addEventListener('change', refreshPupilPanel);
+document.getElementById('pupilWhich').addEventListener('change', refreshPupilPanel);
+
+/* 시트의 동공을 클릭하면 사이드바 동공 설정으로 이동 (해당 눈을 '적용할 눈'으로 선택) */
+function navigateToPupilSection(id, side){
+  revealSidebarSection('settings', document.getElementById('pupilHeading'), 'pupilTargetSelect', id, ()=>{
+    const whichSel = document.getElementById('pupilWhich');
+    if(whichSel){ whichSel.value = side; whichSel.dispatchEvent(new Event('change')); }
+  });
+}
 
 /* ---------- 안광 ---------- */
 const irisDefaults = {};
@@ -2453,7 +2732,8 @@ function updateIrisDisplayToggleUI(){
   }
   document.getElementById('irisDisplayOffBtn').classList.toggle('active', off);
   document.getElementById('irisDisplayOnBtn').classList.toggle('active', !off);
-  document.getElementById('irisLowerSection').style.display = off ? 'none' : '';
+  /* OFF일 때 완전 숨김 대신 dim 처리해 '켜면 조절 가능한 옵션'을 미리 보여줌 */
+  document.getElementById('irisLowerSection').classList.toggle('section-dimmed', off);
 }
 document.getElementById('irisDisplayOffBtn').addEventListener('click', ()=> setIrisDisplayState(true));
 document.getElementById('irisDisplayOnBtn').addEventListener('click', ()=> setIrisDisplayState(false));
@@ -2859,6 +3139,7 @@ sheetOuter.style.height = (sheet.offsetHeight*SCALE)+'px';
 refreshPresetList();
 syncIrisCountDisplay();
 refreshIrisPanel();
+refreshPupilPanel();
 updateAnimalToggleUI();
 updateSdToggleUI();
 updateCostumeToggleUI();
@@ -2929,7 +3210,7 @@ function enhanceColorInput(id){
     if(document.activeElement !== hexInput) hexInput.value = colorInput.value;
   });
 }
-['masterTheme','hairSubColor','eyeModeSub','irisFillColor','irisBorderColor','hairMainColor','eyeMainColor','skinMainColor'].forEach(enhanceColorInput);
+['masterTheme','hairSubColor','eyeModeSub','irisFillColor','irisBorderColor','pupilColor','hairMainColor','eyeMainColor','skinMainColor'].forEach(enhanceColorInput);
 updateHairSubRowVisibility();
 updateEyeModeSubRowVisibility();
 updateSourceToggleUI();
