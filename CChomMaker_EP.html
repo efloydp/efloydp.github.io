@@ -1158,6 +1158,30 @@ function updateMobileBodyPadding(){
   }
 }
 new ResizeObserver(updateMobileBodyPadding).observe(sidebarEl);
+
+/* 모바일: 시트 내 텍스트(contenteditable)를 편집하려 할 때, 하단 고정 사이드바에 가리지 않도록
+   해당 요소를 화면 상단 쪽으로 여유 있게 스크롤 */
+function scrollEditableIntoView(el){
+  if(!mobileQuery.matches || !el) return;
+  /* 사이드바(하단 고정)에 가려지지 않도록 뷰포트 상단 15% 지점에 오도록 정렬.
+     키보드/사이드바 레이아웃이 안정된 뒤 스크롤하도록 약간의 지연을 둠 */
+  setTimeout(()=>{
+    const rect = el.getBoundingClientRect();
+    const targetTop = window.innerHeight * 0.15;
+    const delta = rect.top - targetTop;
+    if(Math.abs(delta) > 8){
+      window.scrollBy({ top: delta, behavior:'smooth' });
+    }
+  }, 120);
+}
+document.addEventListener('focusin', e=>{
+  const el = e.target;
+  const editable = el && (el.isContentEditable || (el.getAttribute && el.getAttribute('contenteditable') === 'true'));
+  if(!editable) return;
+  /* 시트(편집 화면) 안의 요소만 대상 (사이드바 입력 제외) */
+  if(sidebarEl.contains(el)) return;
+  scrollEditableIntoView(el);
+}, true);
 updateMobileBodyPadding();
 
 function createCharacter(color){
@@ -1824,13 +1848,11 @@ function buildSideContentSections(){
 
 /* ---------- 시트 요소 클릭 시 사이드바 해당 항목으로 이동 ---------- */
 function revealSidebarSection(tabName, sectionEl, targetSelectId, charId, extra){
+  /* 모바일에서 사용자가 [접기]로 접어둔 경우, 시트 클릭으로 자동으로 펼치지 않음
+     ([펼치기]를 눌러야만 다시 열림) */
+  if(mobileQuery.matches && sidebarEl.classList.contains('collapsed')) return;
   const tabBtn = document.querySelector(`.tab-btn[data-tab="${tabName}"]`);
   if(tabBtn && !tabBtn.classList.contains('active')) tabBtn.click();
-  if(mobileQuery.matches && sidebarEl.classList.contains('collapsed')){
-    sidebarEl.classList.remove('collapsed');
-    sidebarCollapseBtn.textContent = '▾ 접기';
-    updateMobileBodyPadding();
-  }
   if(targetSelectId && charId){
     const sel = document.getElementById(targetSelectId);
     if(sel){
