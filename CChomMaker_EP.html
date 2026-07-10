@@ -27,33 +27,64 @@
 @font-face{ font-family:'Pretendard'; src:url('https://cdn.jsdelivr.net/gh/projectnoonnu/pretendard@1.0/Pretendard-ExtraBold.woff2') format('woff2'); font-weight:800; font-display:swap; }
 @font-face{ font-family:'Pretendard'; src:url('https://cdn.jsdelivr.net/gh/projectnoonnu/pretendard@1.0/Pretendard-Black.woff2') format('woff2'); font-weight:900; font-display:swap; }
 
-*{box-sizing:border-box;word-break:keep-all !important;  letter-spacing:-0.8px;}
+*{box-sizing:border-box;word-break:keep-all !important;  letter-spacing:-0.3px;}
 :root{
   /* 시트 전역 팔레트 (한 곳에서 관리) */
   --accent-blue:#b9c7d2;   /* 주 강조색 (버튼/채움 등) */
   --accent-purple:#c3bce5; /* 보조 강조색 (스크롤바/포인트) */
   --divider:#e9eaee;       /* 구조 구분선/배경 */
+
+  /* ===== 디자인 토큰 ===== */
+  /* 그레이 스케일 (배경→테두리→보조텍스트→본문) */
+  --gray-50:#f7f8fa;
+  --gray-100:#f1f3f5;
+  --gray-200:#e8ebed;
+  --gray-300:#dce0e4;
+  --gray-400:#aab1b8;
+  --gray-500:#8b9299;
+  --gray-600:#5f666d;
+  --gray-700:#3d4348;
+
+  /* 모서리 (요소 크기별 위계) */
+  --r-sm:8px;
+  --r-md:12px;
+  --r-lg:16px;
+  --r-pill:100px;
+
+  /* 간격 스케일 (4의 배수) */
+  --space-1:4px;
+  --space-2:8px;
+  --space-3:12px;
+  --space-4:16px;
+  --space-5:20px;
+  --space-6:24px;
+
+  /* 그림자 (아주 옅게, 번지듯) */
+  --shadow-card:0 1px 2px rgba(17,24,39,.04), 0 4px 16px rgba(17,24,39,.05);
+  --shadow-card-active:0 2px 4px rgba(17,24,39,.06), 0 8px 24px rgba(141,129,194,.14);
+  --shadow-pop:0 4px 16px rgba(17,24,39,.12);
 }
 body{ font-family:'Pretendard',-apple-system,'Malgun Gothic',sans-serif; background:var(--divider); margin:0; padding:24px; color:#222; }
 h1, h2, h3{ font-family:'Paperozi','Malgun Gothic',sans-serif; }
 
 /* ===== 커스텀 스크롤바 (연보라) ===== */
-html{ scrollbar-width:thin; scrollbar-color:var(--accent-purple) #f3f1fb; }
-::-webkit-scrollbar{ width:5px; height:5px; }
-::-webkit-scrollbar-track{ background:#f3f1fb; border-radius:10px; }
-::-webkit-scrollbar-thumb{ background:var(--accent-purple); border-radius:10px; border:1px solid #f3f1fb; }
-::-webkit-scrollbar-thumb:hover{ background:#a99bd9; }
-::-webkit-scrollbar-corner{ background:#f3f1fb; }
+html{ scrollbar-width:thin; scrollbar-color:var(--gray-400) transparent; }
+::-webkit-scrollbar{ width:6px; height:6px; }
+::-webkit-scrollbar-track{ background:transparent; border-radius:10px; }
+::-webkit-scrollbar-thumb{ background:var(--gray-400); border-radius:10px; }
+::-webkit-scrollbar-thumb:hover{ background:var(--gray-500); }
+::-webkit-scrollbar-corner{ background:transparent; }
 ::-webkit-scrollbar-button{ display:none; width:0; height:0; }
 .app-wrap{ display:flex; gap:24px; align-items:flex-start; max-width:1300px; margin:0 auto; }
 
 .sidebar{
-  width:300px; flex-shrink:0; position:sticky; top:24px; display:flex; flex-direction:column; gap:14px;
+  width:330px; flex-shrink:0; position:sticky; top:24px; display:flex; flex-direction:column; gap:14px;
   max-height:calc(100vh - 48px);
   font-family:'Pretendard','Malgun Gothic',sans-serif;
 }
 .export-box{
-  background:#fff; border-radius:14px; padding:18px; flex-shrink:0;
+  background:#fff; border-radius:var(--r-lg); padding:18px; flex-shrink:0;
+  margin:10px 10px 0; box-shadow:var(--shadow-card);
 }
 .export-box h2{ font-size:20px; margin:0; color:var(--accent-blue);}
 .export-box-title-row{ display:flex; align-items:center; gap:8px; margin:0 0 10px; }
@@ -70,48 +101,63 @@ html{ scrollbar-width:thin; scrollbar-color:var(--accent-purple) #f3f1fb; }
 .export-box h3{ font-size:16px; margin:0 0 10px; color:var(--accent-purple); }
 
 .panel{
-  width:100%; flex-shrink:1; min-height:0; background:#fff; border-radius:14px; padding:0;
-  overflow-y:scroll;
+  width:100%; flex-shrink:1; min-height:0; background:var(--divider); border-radius:var(--r-lg); padding:0;
+  display:flex; flex-direction:column; overflow:hidden;
   font-family:'Pretendard','Malgun Gothic',sans-serif;
 }
-.panel-body{ padding:0 18px 18px; }
+.panel-body{ padding:0 18px 18px; overflow-y:auto; flex:1; min-height:0; }
 .panel h2{ font-size:18px; margin:0 0 10px; }
-.panel h3{ font-size:16px; margin:18px 0 12px; color:#555; border-top:1px solid #eee; padding-top:14px; }
+.panel h3{ font-size:16px; margin:18px 0 12px; color:var(--gray-700); border-top:1px solid #eee; padding-top:14px; }
 .panel h3:first-of-type{ border-top:none; padding-top:0; }
-/* 사이드바 각 섹션을 side-content로 묶고 사이에 5px var(--divider) 여백 */
-.tab-content.has-side-content{ background:var(--divider); margin:0 -18px -18px; padding:0; }
-.side-content{ background:#fff; padding:14px; margin-bottom:5px; border-radius:6px; }
+.side-content > h3{ font-size:15px; color:var(--gray-700); margin-bottom:var(--space-4); }
+/* 사이드바 각 섹션을 side-content 카드로 묶고 사이에 여백 */
+.tab-content.has-side-content{ background:var(--divider); margin:0 -18px -18px; padding:10px 10px 12px; }
+.side-content{
+  position:relative; background:#fff; padding:var(--space-5); margin-bottom:10px;
+  border-radius:var(--r-lg); box-shadow:var(--shadow-card);
+  transition:box-shadow .2s ease;
+}
 .side-content:first-child{ margin-top:0; }
 .side-content:last-child{ margin-bottom:0; }
 .side-content h3{ margin-top:0; border-top:none; padding-top:0; }
-.side-content h3:not(:first-child){ margin-top:14px; }
-/* 시트에서 클릭해 활성화된 섹션: h3 앞에 ▶ 표시 (var(--accent-purple)) */
+.side-content h3:not(:first-child){ margin-top:var(--space-5); }
+/* 시트에서 클릭해 활성화된 섹션: 왼쪽 세로 액센트 바 + 그림자 강조 */
 .side-content > h3{ position:relative; }
-.side-content.side-active > h3::before{
-  content:'▶'; color:var(--accent-purple); font-size:20px; margin-right:5px; line-height:1;
+.side-content.side-active{ box-shadow:var(--shadow-card-active); }
+.side-content.side-active::before{
+  content:''; position:absolute; left:0; top:14px; bottom:14px; width:3px;
+  border-radius:0 3px 3px 0; background:var(--accent-purple);
 }
-.row{ display:flex; align-items:center; gap:8px; margin-bottom:8px; font-size:12px; }
-.row-target{ background:#F3F4F6; padding:5px 6px 5px 15px; border-radius:100px; }
+.row{ display:flex; align-items:center; gap:8px; margin-bottom:10px; font-size:12px; }
+.row-target{ background:var(--gray-100); padding:5px 6px 5px 15px; border-radius:var(--r-pill); }
 .row-target select{ width:56px; flex:0 0 56px; }
 /* [대상] 전체/개별 토글 */
-.target-toggle{ display:inline-flex; border:1px solid var(--accent-blue); border-radius:100px; overflow:hidden; margin-left:auto; }
-.target-toggle-btn{ border:0; background:#fff; color:#888; font-size:12px; font-family:inherit; padding:4px 12px; cursor:pointer; transition:background .12s, color .12s; }
-.target-toggle-btn.active{ background:var(--accent-blue); color:#333; font-weight:bold; }
-.row-target .target-indiv-select{ width:60px; flex:0 0 60px; margin-left:8px; }
+.target-toggle{ display:inline-flex; height:34px; border:1px solid var(--accent-blue); border-radius:var(--r-pill); overflow:hidden; margin-left:auto; }
+.target-toggle-btn{ display:flex; align-items:center; border:0; background:#fff; color:var(--gray-500); font-size:12px; font-family:inherit; padding:0 14px; cursor:pointer; transition:background .15s, color .15s; }
+.target-toggle-btn.active{ background:var(--accent-blue); color:#333; font-weight:700; }
+.row-target .target-indiv-select{ width:60px; flex:0 0 60px; margin-left:8px; margin-right:6px; }
 .row-target .target-indiv-select.hidden{ display:none; }
 /* 개별 select 드롭다운 목록에서 '전체' 항목 숨김 (전체/개별은 토글로 제어, __all__ 값은 내부 유지) */
 .target-indiv-select option.opt-all-hidden{ display:none; }
-.row label{ flex:1; color:#444; font-size:14px; }
+.row label{ flex:1; color:var(--gray-700); font-size:14px; }
 label{ font-size:14px; }
-.row input[type=color]{ width:32px;height:24px;border:none;border-radius:4px;cursor:pointer;padding:0; flex-shrink:0; }
+.row input[type=color]{ width:34px;height:34px;border:none;border-radius:var(--r-sm);cursor:pointer;padding:0; flex-shrink:0; box-shadow:inset 0 0 0 1px rgba(0,0,0,.06); }
 /* 색상 입력이 들어있는 row: 라벨 폭을 고정해 색상칩/HEX 시작선을 세로로 정렬 */
 .row:has(> input[type=color]) > label{ flex:1; }
 .hex-input{
-  width:92px; font-size:13px; font-family:'SFMono-Regular',Consolas,Menlo,monospace;
-  border:1px solid #ddd; border-radius:6px; padding:5px 7px; text-transform:uppercase; flex-shrink:0;
+  width:96px; height:34px; font-size:13px; font-family:'SFMono-Regular',Consolas,Menlo,monospace;
+  border:1px solid var(--gray-300); border-radius:var(--r-sm); padding:0 9px; text-transform:uppercase; flex-shrink:0;
+  transition:border-color .15s, box-shadow .15s;
 }
-.hex-input:focus{ border-color:var(--accent-purple); outline:none; }
+.hex-input:focus{ border-color:var(--accent-purple); outline:none; box-shadow:0 0 0 3px rgba(195,188,229,.25); }
 .hex-input.invalid{ border-color:#e24b4a; color:#e24b4a; }
+/* 이미지 사이즈 숫자 입력 (select/hex와 높이 통일) */
+.size-input{
+  width:70px; height:34px; padding:0 10px; border:1px solid var(--gray-300); border-radius:var(--r-sm);
+  font-size:13px; font-family:inherit; color:var(--gray-700);
+  transition:border-color .15s, box-shadow .15s;
+}
+.size-input:focus{ outline:none; border-color:var(--accent-purple); box-shadow:0 0 0 3px rgba(195,188,229,.25); }
 .row input[type=range]{ flex:1; }
 input[type=range]{
   -webkit-appearance:none; appearance:none;
@@ -130,46 +176,68 @@ input[type=range]::-moz-range-thumb{
   width:16px; height:16px; border-radius:50%;
   background:var(--accent-blue); border:2px solid #fff; box-shadow:0 1px 3px rgba(0,0,0,.25); cursor:pointer;
 }
-.btn{ width:100%; padding:9px; border:none; border-radius:8px; background:#444; color:#fff; font-size:13px; cursor:pointer; margin-top:6px; font-family:inherit; }
-.btn:hover{ background:#222; }
-.btn.blue {background:var(--accent-blue); color:#333;font-weight:bold;}
-.btn.purple {background:var(--accent-purple); color:#333;font-weight:bold;}
-.btn.secondary{ background:#eee; color:#333; }
-.btn.secondary:disabled{ background:#f5f5f5; color:#ccc; cursor:not-allowed; }
-.btn.secondary:hover{ background:#ddd; }
-.btn.share-btn{ background:#333; color:#fff; font-weight:bold; display:inline-flex; align-items:center; justify-content:center; }
-.btn.share-btn:hover{ background:#333; }
+.btn{
+  width:100%; padding:0 12px; height:40px; border:none; border-radius:var(--r-md);
+  background:var(--gray-700); color:#fff; font-size:14px; font-weight:600; cursor:pointer; margin-top:6px; font-family:inherit;
+  display:inline-flex; align-items:center; justify-content:center;
+  transition:background-color .15s ease, transform .08s ease, box-shadow .15s ease;
+}
+.btn:hover{ background:#2c3136; }
+.btn:active{ transform:scale(.975); }
+.btn.blue {background:var(--accent-blue); color:#333; font-weight:700;}
+.btn.blue:hover{ background:#a8b8c5; }
+.btn.purple {background:var(--accent-purple); color:#333; font-weight:700;}
+.btn.purple:hover{ background:#b3aadd; }
+.btn.secondary{ background:var(--gray-100); color:var(--gray-700); font-weight:600; }
+.btn.secondary:disabled{ background:var(--gray-50); color:var(--gray-300); cursor:not-allowed; }
+.btn.secondary:hover{ background:var(--gray-200); }
+.btn.share-btn{ background:#333; color:#fff; font-weight:700; display:inline-flex; align-items:center; justify-content:center; }
+.btn.share-btn:hover{ background:#1a1a1a; }
 .btn-row{ display:flex; gap:6px; }
 .btn-row .btn{ margin-top:0; }
-select{ font-size:12px; border-radius:6px; border:1px solid #ddd; padding:3px 4px; font-family:inherit; }
+select{
+  font-size:13px; height:34px; border-radius:var(--r-sm); border:1px solid var(--gray-300); padding:0 28px 0 10px; font-family:inherit;
+  background:#fff; color:var(--gray-700); cursor:pointer;
+  -webkit-appearance:none; appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238b9299' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat:no-repeat; background-position:right 9px center;
+  transition:border-color .15s, box-shadow .15s;
+}
+select:focus{ outline:none; border-color:var(--accent-purple); box-shadow:0 0 0 3px rgba(195,188,229,.25); }
+.row-target select{ padding-right:24px; background-position:right 7px center; }
 input[type=range], input[type=color], input[type=checkbox]{ font-family:inherit; }
-.hint{ font-size:12px; color:#999; margin-top:4px; line-height:1.5;}
+.hint{ font-size:12px; color:var(--gray-500); margin-top:6px; line-height:1.6;}
 input[type=file]{ font-size:11px; width:100%; }
 .charcount{ font-size:12px; color:#666; margin-bottom:6px; }
 .tab-buttons{
-  position:sticky; top:0; z-index:20; background:#fff;
-  display:flex;  margin:0;
-  border-bottom:2px solid #eee; border-radius:14px 14px 0 0;
+  position:relative; z-index:20; background:var(--divider); flex-shrink:0;
+  display:flex; gap:0; margin:0; padding:12px 12px 10px;
+  border-radius:var(--r-lg) var(--r-lg) 0 0;
+}
+.tab-track{
+  display:flex; flex:1; gap:2px; background:#dfe3e8; border-radius:14px; padding:5px;
 }
 .tab-btn{
-  flex:1; padding:10px 4px; border:none; border-radius:10px 10px 0 0;
-  background:transparent; color:#aaa; font-size:14px; font-family:inherit; cursor:pointer; font-weight:700;
-  letter-spacing:-0.3px; transition:background-color .15s, color .15s;
+  flex:1; padding:9px 4px; border:none; border-radius:10px;
+  background:transparent; color:#8b95a1; font-size:13px; font-family:inherit; cursor:pointer; font-weight:600;
+  letter-spacing:-0.3px; transition:color .15s ease, background-color .15s ease, box-shadow .15s ease;
 }
-.tab-btn:hover{ background:#f3f1fb; color:#8d81c2; }
-.tab-btn.active{ background:var(--accent-purple); color:#333; }
-.tab-btn.active:hover{ background:var(--accent-purple); }
+.tab-btn:hover{ color:#5f666d; }
+.tab-btn.active{ background:#fff; color:#2b2f36; font-weight:700; box-shadow:0 2px 6px rgba(17,24,39,.12); }
+.tab-btn.active:hover{ background:#fff; color:#2b2f36; }
 .tab-content{ display:none; }
 .tab-content.active{ display:block; }
 .tab-content h3:first-of-type{ border-top:none; padding-top:0; margin-top:0; }
 #skinColorHeading{ border-top:none; padding-top:0; margin:0 0 8px; }
 .sheet-outer-wrap{ position:relative; flex:1; min-width:0; }
 .nav-btn{
-  position:absolute; top:50%; transform:translateY(-50%); width:38px; height:38px; border-radius:50%;
-  background:rgba(0,0,0,.55); color:#fff; border:none; font-size:16px; cursor:pointer; z-index:10;
+  position:absolute; top:50%; transform:translateY(-50%); width:51px; height:51px; border-radius:50%;
+  background:#fff; color:var(--gray-700); border:1px solid var(--gray-300); box-shadow:0 1px 4px rgba(0,0,0,.12);
+  font-size:20px; cursor:pointer; z-index:10;
   display:flex; align-items:center; justify-content:center; padding:0; line-height:1;
+  transition:background .15s, color .15s, box-shadow .15s;
 }
-.nav-btn:hover{ background:rgba(0,0,0,.75); }
+.nav-btn:hover{ background:var(--gray-100); color:var(--gray-700); }
 .nav-left{ left:6px; }
 .nav-right{ right:6px; }
 .zoom-controls{
@@ -221,7 +289,7 @@ input[type=file]{ font-size:11px; width:100%; }
 .drag-drop-hint{
   position:absolute; inset:0; z-index:3100;
   display:flex; align-items:center; justify-content:center;
-  background:rgba(195,188,229,0.18); border:2.5px dashed var(--accent-purple); border-radius:15px;
+  background:rgba(195,188,229,0.18); border:2.5px solid var(--accent-purple); border-radius:15px;
   pointer-events:none;
 }
 .drag-drop-hint-inner{
@@ -287,9 +355,11 @@ input[type=file]{ font-size:11px; width:100%; }
 
 .canvas-box{ background:#f3f4f6; border-radius:15px; width:627px; height:994px; position:relative; overflow:hidden; }
 .canvas-box .placeholder{
-  position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
-  color:#bbb; font-size:25px; font-weight:500; text-align:center; cursor:pointer; line-height:1.5; z-index:1;
+  position:absolute; inset:12px; display:flex; align-items:center; justify-content:center;
+  color:var(--gray-400); font-size:25px; font-weight:500; text-align:center; cursor:pointer; line-height:1.5; z-index:1;
+  border:none; border-radius:12px; transition:border-color .15s, background .15s, color .15s;
 }
+.canvas-box .placeholder:hover{ background:rgba(195,188,229,.08); color:var(--gray-500); }
 .layer-wrap{ position:absolute; cursor:move; user-select:none; z-index:1000; touch-action:none; }
 .layer-wrap img{ width:100%; height:100%; display:block; pointer-events:none; }
 .layer-wrap.sticker-wrap{ z-index:2500; }
@@ -341,20 +411,20 @@ input[type=file]{ font-size:11px; width:100%; }
 .align-cell::after{ content:''; width:9px; height:9px; border-radius:50%; background:transparent; transition:background .12s, transform .12s; }
 .align-cell:hover::after{ background:#d6d0ec; }
 .align-cell.active::after{ background:#8d81c2; }
-.mini-toggle{ display:inline-flex; border-radius:8px; overflow:hidden; border:1px solid #ddd; flex-shrink:0; }
-.mini-toggle-btn{ padding:5px 12px; border:none; background:#f5f5f5; color:#999; font-size:11px; font-family:inherit; cursor:pointer; font-weight:700; }
-.mini-toggle-btn.active{ background:var(--accent-purple); color:#fff; }
-.mini-toggle-btn + .mini-toggle-btn{ border-left:1px solid #ddd; }
+.mini-toggle{ display:inline-flex; border-radius:var(--r-pill); overflow:hidden; background:var(--gray-100); padding:2px; flex-shrink:0; gap:2px; }
+.mini-toggle-btn{ padding:5px 13px; border:none; background:transparent; color:var(--gray-500); font-size:11px; font-family:inherit; cursor:pointer; font-weight:700; border-radius:var(--r-pill); transition:background .15s, color .15s; }
+.mini-toggle-btn.active{ background:var(--accent-purple); color:#fff; box-shadow:0 1px 2px rgba(141,129,194,.3); }
+.mini-toggle-btn + .mini-toggle-btn{ border-left:none; }
 .animal-box [contenteditable]{ outline:none; }
 .source-text{ outline:none; text-align:right; font-size:17px; font-weight:500; color:#909090; margin:10px 0 15px; line-height:1.3; }
 
 .sd-zone{ position:relative; width:627px; height:465px; overflow:hidden; background:transparent; border-radius:15px; }
 .sd-zone .sd-placeholder{
-  position:absolute; inset:0; background:#fafafa; border:3px solid #ccc; border-radius:15px;
-  display:flex; align-items:center; justify-content:center; font-size:25px; color:#bbb; font-weight:500; cursor:pointer; text-align:center; line-height:1.5; z-index:1;
-  transition:border-color .12s, background .12s;
+  position:absolute; inset:0; background:#fafafa; border:1.5px solid var(--gray-300); border-radius:15px;
+  display:flex; align-items:center; justify-content:center; font-size:25px; color:var(--gray-400); font-weight:500; cursor:pointer; text-align:center; line-height:1.5; z-index:1;
+  transition:border-color .12s, background .12s, color .15s;
 }
-.sd-zone .sd-placeholder:hover{ border-color:var(--accent-purple); background:#f5f3fc; }
+.sd-zone .sd-placeholder:hover{ border-color:var(--accent-purple); background:rgba(195,188,229,.08); color:var(--gray-500); }
 
 .costume-box{
   background:#f3f4f6; border-radius:15px; padding:16px; text-align:center; font-size:28px; font-weight:500; color:#666666;
@@ -365,12 +435,16 @@ input[type=file]{ font-size:11px; width:100%; }
 .design-credit{ position:absolute; right:80px; bottom:24px; text-align:right; font-size:12px; font-weight:400; color:#ccc; line-height:1.3; user-select:none; }
 
 .col-remove, .col-drag{
-  position:absolute; top:0; width:34px; height:34px; border-radius:50%; background:#ddd; color:#666;
-  border:none; padding:0; font-family:inherit;
+  position:absolute; top:0; width:51px; height:51px; border-radius:50%; background:#fff; color:var(--gray-700);
+  border:1px solid var(--gray-300); padding:0; font-family:inherit; box-shadow:0 1px 4px rgba(0,0,0,.12);
   font-size:18px; display:flex; align-items:center; justify-content:center; cursor:pointer; z-index:3000;
+  transition:background .15s, color .15s, box-shadow .15s;
 }
+.col-remove svg, .col-drag svg{ width:26px; height:26px; }
+.col-remove:hover{ background:#fff0f0; color:#e24b4a; border-color:#f3c6c6; }
+.col-drag:hover{ background:var(--gray-100); color:var(--gray-700); }
 .col-remove{ right:0; }
-.col-drag{ right:40px; cursor:grab; }
+.col-drag{ right:59px; cursor:grab; }
 
 .highlight-btn{
   position:fixed; z-index:5000; background:#1a1a1a; color:#fff; font-size:12px; font-weight:500;
@@ -427,11 +501,14 @@ input[type=file]{ font-size:11px; width:100%; }
     background:transparent; box-shadow:none; border-radius:0;
   }
   .panel{
-    max-height:50vh; border-radius:16px 16px 0 0; background:#fff;
+    max-height:50vh; border-radius:16px 16px 0 0; background:var(--divider);
     box-shadow:0 -4px 18px rgba(0,0,0,.18);
   }
+  .panel .tab-buttons{ background:var(--divider); }
   .export-box{ display:none; }
-  #saveTabContent .export-box{ display:block; padding:0px;}
+  /* 저장하기 탭도 타 탭처럼 회색 배경 + 흰 카드(export-box) 여백 맞춤 */
+  #saveTabContent{ background:var(--divider); margin:0 -18px -18px; padding:10px 10px 12px; min-height:100%; }
+  #saveTabContent .export-box{ display:block; margin:0; box-shadow:var(--shadow-card); border-radius:var(--r-lg); }
   .tab-btn[data-tab="save"]{ display:flex; align-items:center; justify-content:center; }
   .sidebar-top-bar{
     display:flex; align-items:center; justify-content:space-between; gap:10px;
@@ -469,29 +546,63 @@ input[type=file]{ font-size:11px; width:100%; }
 /* ===== 시작 모달 ===== */
 body.welcome-active{ overflow:hidden; }
 .welcome-overlay{
-  position:fixed; inset:0; background:rgba(0,0,0,.55); z-index:9999;
+  position:fixed; inset:0; background:rgba(0,0,0,.45); z-index:9999;
   display:flex; align-items:center; justify-content:center; padding:20px;
 }
 .welcome-modal{
-  background:#fff; border-radius:18px; padding:28px; max-width:600px; width:100%;
-  max-height:88vh; overflow-y:auto; box-shadow:0 8px 30px rgba(0,0,0,.3);
+  position:relative; background:#fff; border-radius:20px; padding:0; max-width:600px; width:100%;
+  max-height:88vh; overflow:hidden; box-shadow:0 12px 40px rgba(17,24,39,.28);
   font-family:'Pretendard','Malgun Gothic',sans-serif;
+  display:flex; flex-direction:column;
 }
-.welcome-title{ font-size:22px; margin:0 0 10px; text-align:center; color:var(--accent-blue); }
+/* 상단 그라데이션 헤더 (메인 컬러 2개) */
+.welcome-header{
+  background:linear-gradient(120deg, var(--accent-blue) 0%, var(--accent-purple) 100%);
+  padding:30px 28px 24px; flex-shrink:0;
+}
+.welcome-title{ font-size:22px; font-weight:700; margin:0; color:#fff; letter-spacing:-0.4px; }
+.welcome-header .version-badge{ background:rgba(255,255,255,.28); color:#fff; }
+.welcome-header .hint{ color:rgba(255,255,255,.9); margin-top:6px; }
+.welcome-header .hint a{ color:#fff; text-decoration:underline; }
+/* 우측 상단 닫기 버튼 */
+.welcome-close{
+  position:absolute; top:16px; right:16px; width:34px; height:34px; border-radius:50%;
+  border:none; background:rgba(255,255,255,.25); color:#fff; cursor:pointer; padding:0;
+  display:flex; align-items:center; justify-content:center; transition:background .15s; z-index:2;
+}
+.welcome-close:hover{ background:rgba(255,255,255,.42); }
+/* 본문 (모노톤) */
+.welcome-body{ padding:24px 28px 20px; overflow-y:auto; }
 .welcome-section{ margin-bottom:18px; }
-.welcome-section h3{ font-size:18px; color:#8d81c2; margin:0 0 8px; font-weight:800; }
-.welcome-section ol{ margin:0; padding-left:18px; font-size:15px; color:#444; line-height:1.7; }
-.welcome-caution-no{ font-size:15px; color:#e24b4a; font-weight:800; margin:0 0 6px; line-height:1.6; }
-.welcome-caution-yes{ font-size:15px; color:#444; margin:0; line-height:1.6; }
+.welcome-section h3{ font-size:15px; color:var(--gray-700); margin:0 0 8px; font-weight:700; }
+.welcome-section ol{ margin:0; padding-left:18px; font-size:14px; color:var(--gray-600); line-height:1.7; }
+/* 사용법의 강조(bold) 부분: 연보라 형광펜 하이라이트 */
+.welcome-howto ol b{
+  font-weight:700; color:var(--gray-700);
+  background:linear-gradient(transparent 55%, rgba(195,188,229,.5) 55%);
+  padding:0 2px; border-radius:2px;
+}
+.welcome-caution-no{ font-size:14px; color:#e24b4a; font-weight:700; margin:0 0 6px; line-height:1.6; }
+.welcome-caution-yes{ font-size:14px; color:var(--gray-600); margin:0; line-height:1.6; }
 .welcome-patchnotes{
-  background:#F3F4F6; border-radius:10px; padding:10px 12px; font-size:12px; color:#666;
+  background:var(--gray-100); border-radius:10px; padding:10px 12px; font-size:12px; color:var(--gray-600);
   max-height:5em; overflow-y:auto; line-height:1.7;
 }
+/* 하단 버튼 영역 */
+.welcome-actions{ display:flex; gap:8px; padding:0 28px 24px; flex-shrink:0; }
 .welcome-start-btn{
-  width:100%; padding:12px; border:none; border-radius:10px; background:var(--accent-purple); color:#fff;
-  font-size:15px; font-weight:700; cursor:pointer; margin-top:6px; font-family:inherit;
+  flex:1; padding:13px; border:none; border-radius:12px; background:var(--accent-purple); color:#fff;
+  font-size:15px; font-weight:700; cursor:pointer; font-family:inherit; transition:background .15s, transform .08s;
 }
-.welcome-start-btn:hover{ background:#a99bd9; }
+.welcome-start-btn:hover{ background:#b3aadd; }
+.welcome-start-btn:active{ transform:scale(.98); }
+.welcome-share-btn{
+  flex:0 0 auto; padding:13px 20px; border:none; border-radius:12px; background:#333; color:#fff;
+  font-size:15px; font-weight:700; cursor:pointer; font-family:inherit; display:inline-flex; align-items:center; justify-content:center;
+  transition:background .15s, transform .08s;
+}
+.welcome-share-btn:hover{ background:#1a1a1a; }
+.welcome-share-btn:active{ transform:scale(.98); }
 .welcome-modal, .welcome-modal *{ letter-spacing:-0.2px; }
 /* ===== Custom Color Picker ===== */
 .ccp-backdrop{position:fixed;inset:0;z-index:8000;display:none;}
@@ -542,33 +653,41 @@ body.welcome-active{ overflow:hidden; }
 
 <div class="welcome-overlay" id="welcomeOverlay">
   <div class="welcome-modal">
-    <h2 class="welcome-title">촘촘 페어틀 메이커 <span class="version-badge">v1.35</span>
-</h2>
-          <div class="hint" style="text-align:center;">made by EP <a href="https://x.com/efloydp_cms" target="_blank">@efloydp_cms</a></div>
-
-
-    <div class="welcome-section">
-      <h3>사용법</h3>
-      <ol>
-        <li><b>오른쪽 편집 화면</b>(모바일:상단)에서 직접 텍스트를 수정하고 이미지를 업로드하세요.</li>
-        <li><b>왼쪽 하단의 사이드바</b>(모바일:하단)에서 디테일을 조정하세요.</li>
-        <li>제작이 완료되면, 왼쪽 상단(모바일:저장하기 탭)에서 PNG 또는 JPG로 저장하세요.</li>
-        <li><b>프리셋 파일(.json)</b>을 저장해서, 이후에도 동일 파일을 불러와 편집할 수 있습니다.</li>
-      </ol>
+    <button class="welcome-close" id="welcomeCloseBtn" type="button" aria-label="닫기">
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>
+    </button>
+    <div class="welcome-header">
+      <h2 class="welcome-title">촘촘 페어틀 메이커 <span class="version-badge">v1.4</span></h2>
+      <div class="hint">made by EP <a href="https://x.com/efloydp_cms" target="_blank">@efloydp_cms</a></div>
     </div>
 
-    <div class="welcome-section">
-      <h3>주의사항</h3>
-      <p class="welcome-caution-no">X 재배포 &amp; 상업 이용 · 자작 발언 · 이미지 내 카피라이트 삭제 금지</p>
-      <p class="welcome-caution-yes">O 개인 사용 · 악의 없는 리터칭 · 커미션 오픈시 페어틀 제작 추천 사이트로 링크 걸기</p>
+    <div class="welcome-body">
+      <div class="welcome-section welcome-howto">
+        <h3>사용법</h3>
+        <ol>
+          <li><b>오른쪽 편집 화면</b>(모바일:상단)에서 직접 텍스트를 수정하고 이미지를 업로드하세요.</li>
+          <li><b>왼쪽 하단의 사이드바</b>(모바일:하단)에서 디테일을 조정하세요.</li>
+          <li>제작이 완료되면, 왼쪽 상단(모바일:저장하기 탭)에서 PNG 또는 JPG로 저장하세요.</li>
+          <li><b>프리셋 파일(.json)</b>을 저장해서, 이후에도 동일 파일을 불러와 편집할 수 있습니다.</li>
+        </ol>
+      </div>
+
+      <div class="welcome-section">
+        <h3>주의사항</h3>
+        <p class="welcome-caution-no">X 재배포 &amp; 상업 이용 · 자작 발언 · 이미지 내 카피라이트 삭제 금지</p>
+        <p class="welcome-caution-yes">O 개인 사용 · 악의 없는 리터칭 · 커미션 오픈시 페어틀 제작 추천 사이트로 링크 걸기</p>
+      </div>
+
+      <div class="welcome-section">
+        <h3>패치 노트</h3>
+        <div class="welcome-patchnotes"><b>v1.4</b> 2026.07.10 - 실행 취소/다시 실행 및 브라우저 자동 저장(복구) 추가, 카드형 사이드바 UI 및 탭 메뉴 개편, 디자인 정리<br><b>v1.35</b> 2026.07.09 - 메인/SD 이미지 정렬·사이즈 조절 기능 추가, 대상 전체/개별 토글 및 사이드바 UI 개편, 눈 색상 두 눈 연동 방식 개선, 공유하기 버튼 추가<br><b>v1.3</b> 2026.07.09 - 눈 동공 추가 기능 업데이트<br><b>v1.2</b> 2026.07.08 - 새로고침시 경고창 표시, .json 파일 다른 이름으로 저장, 인터페이스 사용성 개선 및 폰트 변경, 프리셋 이미지 자동 압축(용량 감소), 프리셋 보안 강화, 내보내기 안정화(파일명 자동/실패 안내), 두 눈 일괄 적용 캐릭터별 저장, 접근성 개선<br><b>v1.1</b> 2026.07.07 - 커스텀 컬러피커 추가, 일부 드래그 버그 픽스 및 사용성 개선<br><b>v1</b> 2026.06.28 배포 - 이 서비스는 Claude의 도움을 받아 제작하였습니다.</div>
+      </div>
     </div>
 
-    <div class="welcome-section">
-      <h3>패치 노트</h3>
-      <div class="welcome-patchnotes"><b>v1.35</b> 2026.07.09 - 실행취소/다시실행 추가, 브라우저 자동 저장 기능 추가, 메인/SD 이미지 정렬·사이즈 조절 기능 추가, 대상 전체/개별 토글 및 사이드바 UI 개편, 눈 색상 양쪽 눈 선택 방식 개선, 공유하기 버튼 추가<br><b>v1.3</b> 2026.07.09 - 눈 동공 추가 기능 업데이트<br><b>v1.2</b> 2026.07.08 - 새로고침시 경고창 표시, .json 파일 다른 이름으로 저장, 인터페이스 사용성 개선 및 폰트 변경, 프리셋 이미지 자동 압축(용량 감소), 프리셋 보안 강화, 내보내기 안정화(파일명 자동/실패 안내), 두 눈 일괄 적용 캐릭터별 저장, 접근성 개선<br><b>v1.1</b> 2026.07.07 - 커스텀 컬러피커 추가, 일부 드래그 버그 픽스 및 사용성 개선<br><b>v1</b> 2026.06.28 배포 - 이 서비스는 Claude의 도움을 받아 제작하였습니다.</div>
+    <div class="welcome-actions">
+      <button class="welcome-start-btn" id="welcomeStartBtn" type="button">시작하기</button>
+      <button class="welcome-share-btn" id="welcomeShareBtn" type="button"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:5px;"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>공유하기</button>
     </div>
-
-    <button class="welcome-start-btn" id="welcomeStartBtn" type="button">시작하기</button>
   </div>
 </div>
 
@@ -587,7 +706,7 @@ body.welcome-active{ overflow:hidden; }
     <div class="export-box" id="exportBox">
       <div class="export-box-title-row">
         <h2>촘촘 페어틀 메이커</h2>
-        <span class="version-badge">v1.35</span>
+        <span class="version-badge">v1.4</span>
       </div>
       <div class="btn-row">
         <button class="btn blue" id="exportPng">PNG 저장</button>
@@ -597,19 +716,23 @@ body.welcome-active{ overflow:hidden; }
 
       <h3 style="margin-top:16px;">프리셋 내보내기</h3>
       <div class="row"><input type="text" id="presetNameInput" placeholder="파일 이름 (예: 페어명_날짜)" style="flex:1;padding:5px 7px;border:1px solid #ddd;border-radius:6px;font-size:12px;font-family:inherit;"></div>
-      <button class="btn purple" id="savePresetBtn">프리셋 파일 저장 (.json)</button>
       <input type="file" id="presetFileInput" accept=".json,application/json" style="display:none;">
-      <button class="btn secondary" id="loadPresetBtn" style="margin-top:6px;">프리셋 파일 불러오기</button>
+      <div class="btn-row" style="margin-top:6px;">
+        <button class="btn purple" id="savePresetBtn">프리셋 저장</button>
+        <button class="btn secondary" id="loadPresetBtn">프리셋 불러오기</button>
+      </div>
       <div class="hint">이미지를 포함한 전체 구성이 .json 파일 하나로 내 기기에 저장되고, 파일을 다시 불러와서 편집할 수 있습니다.</div>
 
     </div>
 
     <div class="panel">
       <div class="tab-buttons">
-        <button class="tab-btn active" data-tab="add">캐릭터 추가</button>
-        <button class="tab-btn" data-tab="settings">캐릭터 설정</button>
-        <button class="tab-btn" data-tab="images">캐릭터 이미지</button>
-        <button class="tab-btn" data-tab="save" id="saveTabBtn">저장하기</button>
+        <div class="tab-track">
+          <button class="tab-btn active" data-tab="add">캐릭터 추가</button>
+          <button class="tab-btn" data-tab="settings">캐릭터 설정</button>
+          <button class="tab-btn" data-tab="images">캐릭터 이미지</button>
+          <button class="tab-btn" data-tab="save" id="saveTabBtn">저장하기</button>
+        </div>
       </div>
 
       <div class="panel-body">
@@ -740,8 +863,8 @@ body.welcome-active{ overflow:hidden; }
           <div class="align-grid" id="mainImgAlignGrid"></div>
         </div>
         <div class="row"><label>이미지 사이즈</label>
-          <input type="number" id="mainImgSizeVal" min="1" step="1" style="width:70px;padding:5px 7px;border:1px solid #ddd;border-radius:6px;font-size:12px;font-family:inherit;">
-          <select id="mainImgSizeUnit" style="width:60px;"><option value="pct">%</option><option value="px">px</option></select>
+          <input type="number" id="mainImgSizeVal" min="1" step="1" class="size-input">
+          <select id="mainImgSizeUnit" style="width:64px;"><option value="pct">%</option><option value="px">px</option></select>
         </div>
         <div class="row"><label>이미지 세로 길이</label></div>
         <div class="row"><input type="range" id="canvasHeightSlider" min="400" max="1400" step="2" value="994"><span id="canvasHeightVal" style="width:46px;text-align:right;">기본</span></div>
@@ -796,8 +919,8 @@ body.welcome-active{ overflow:hidden; }
           <div class="align-grid" id="sdImgAlignGrid"></div>
         </div>
         <div class="row"><label>이미지 사이즈</label>
-          <input type="number" id="sdImgSizeVal" min="1" step="1" style="width:70px;padding:5px 7px;border:1px solid #ddd;border-radius:6px;font-size:12px;font-family:inherit;">
-          <select id="sdImgSizeUnit" style="width:60px;"><option value="pct">%</option><option value="px">px</option></select>
+          <input type="number" id="sdImgSizeVal" min="1" step="1" class="size-input">
+          <select id="sdImgSizeUnit" style="width:64px;"><option value="pct">%</option><option value="px">px</option></select>
         </div>
         <div class="row"><label>이미지 세로 길이</label></div>
         <div class="row"><input type="range" id="sdHeightSlider" min="200" max="900" step="2" value="465"><span id="sdHeightVal" style="width:46px;text-align:right;">기본</span></div>
@@ -871,8 +994,8 @@ body.welcome-active{ overflow:hidden; }
 
 <template id="colTemplate">
   <div class="col-wrap">
-    <button type="button" class="col-drag" aria-label="캐릭터 순서 변경 (드래그)">⠿</button>
-    <button type="button" class="col-remove" aria-label="캐릭터 삭제">✕</button>
+    <button type="button" class="col-drag" aria-label="캐릭터 순서 변경 (드래그)"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><circle cx="9" cy="6" r="1.6"/><circle cx="15" cy="6" r="1.6"/><circle cx="9" cy="12" r="1.6"/><circle cx="15" cy="12" r="1.6"/><circle cx="9" cy="18" r="1.6"/><circle cx="15" cy="18" r="1.6"/></svg></button>
+    <button type="button" class="col-remove" aria-label="캐릭터 삭제"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg></button>
     <div class="col">
       <div class="char-head">
         <div class="badge" data-role="badge">A</div>
@@ -1718,28 +1841,41 @@ function revealSidebarSection(tabName, sectionEl, targetSelectId, charId, extra)
     }
   }
   if(extra) extra();
-  /* 클릭으로 활성화된 섹션의 h3 앞에 ▶ 표시 (현재 활성 섹션에 계속 유지, 다른 섹션 활성화 전까지) */
+  revealSidebarSection._revealedThisClick = true;
+  /* 클릭으로 활성화된 섹션 강조 (다른 곳 클릭 시 clearSideActive가 먼저 해제) */
   if(sectionEl){
     const sc = sectionEl.closest('.side-content');
-    if(sc && !sc.classList.contains('side-active')){
+    if(sc){
       document.querySelectorAll('.side-content.side-active').forEach(el=> el.classList.remove('side-active'));
       sc.classList.add('side-active');
+      revealSidebarSection._activeEl = sc;
     }
   }
   requestAnimationFrame(()=>{
     if(!sectionEl) return;
-    const panel = document.querySelector('.panel');
-    const tabBar = document.querySelector('.tab-buttons');
-    const tabBarHeight = tabBar ? tabBar.offsetHeight : 0;
+    const panel = document.querySelector('.panel-body');
+    if(!panel) return;
     const panelRect = panel.getBoundingClientRect();
     const secRect = sectionEl.getBoundingClientRect();
-    const delta = secRect.top - panelRect.top - tabBarHeight - 6;
+    const delta = secRect.top - panelRect.top - 6;
     if(Math.abs(delta) > 2){
       if(typeof window.__cchomMarkProgrammaticScroll === 'function') window.__cchomMarkProgrammaticScroll(panel);
       panel.scrollTo({ top: panel.scrollTop + delta, behavior:'smooth' });
     }
   });
 }
+
+/* 클릭 시작 시 reveal 여부 플래그를 리셋하고, 클릭이 끝난 뒤 어떤 섹션도 활성화되지 않았으면 하이라이트 해제 */
+document.addEventListener('pointerdown', ()=>{ revealSidebarSection._revealedThisClick = false; }, true);
+document.addEventListener('click', (e)=>{
+  const clickedInsideActive = e.target && e.target.closest && e.target.closest('.side-content.side-active');
+  setTimeout(()=>{
+    /* reveal이 새 섹션을 활성화했거나, 현재 활성 섹션 내부를 클릭한 경우는 유지 */
+    if(revealSidebarSection._revealedThisClick || clickedInsideActive) return;
+    document.querySelectorAll('.side-content.side-active').forEach(el=> el.classList.remove('side-active'));
+    revealSidebarSection._activeEl = null;
+  }, 0);
+}, false);
 
 /* 색상 입력(swatch/theme-btn)을 눌렀을 때 - 시트 안의 것일 경우에만 사이드바 이동 */
 function handleSheetColorClick(inputEl){
@@ -3628,9 +3764,18 @@ updateEyeModeSubRowVisibility();
 updateSourceToggleUI();
 
 /* ---------- 시작 모달 ---------- */
-document.getElementById('welcomeStartBtn').addEventListener('click', ()=>{
-  document.getElementById('welcomeOverlay').remove();
+function dismissWelcome(){
+  const ov = document.getElementById('welcomeOverlay');
+  if(ov) ov.remove();
   document.body.classList.remove('welcome-active');
+}
+document.getElementById('welcomeStartBtn').addEventListener('click', dismissWelcome);
+document.getElementById('welcomeCloseBtn').addEventListener('click', dismissWelcome);
+document.getElementById('welcomeShareBtn').addEventListener('click', ()=>{
+  const text = '#촘촘_페어틀_메이커';
+  const url = 'https://efloydp.github.io/CChomMaker_EP';
+  const intent = 'https://twitter.com/intent/tweet?text=' + encodeURIComponent(text) + '&url=' + encodeURIComponent(url);
+  window.open(intent, '_blank', 'noopener,noreferrer');
 });
 (function(){
   /* ─ 피커 DOM을 직접 생성 ─ */
