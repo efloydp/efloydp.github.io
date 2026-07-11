@@ -2414,6 +2414,8 @@ function onSwatchColorInput(swatchEl, color, id){
       }
     }
   } else {
+    /* 피부 등 나머지 스와치도 직렬화(swatchColor)가 dataset.maincolor를 우선 참조하므로 반드시 기록 */
+    swatchEl.dataset.maincolor = color;
     swatchEl.style.background = color;
   }
   syncPanelColorChip(part, id, color);
