@@ -1502,6 +1502,10 @@ function restoreColumn(data, resolveImg){
   hairSw.style.background = buildBg(hairSw.dataset.maincolor, hairSettings[id].mode, hairSettings[id].sub);
   repaintEye(id, 'L');
   repaintEye(id, 'R');
+  /* 피부 스와치는 모드가 없으므로 저장된 기본색을 그대로 배경에 입힘.
+     (머리/눈과 달리 별도 repaint가 없어서, 이게 없으면 불러올 때 피부색이 기본 회색으로 보였음) */
+  const skinSw = q('.swatch[data-part="skin"]');
+  if(skinSw) skinSw.style.background = skinSw.dataset.maincolor || '#F3F4F6';
 
   /* 안광 개수/위치/크기/색/표시여부 복원 (initColumn이 만든 기본값을 덮어씀) */
   ensureIrisSlots(id, data.irisCount || 1);
