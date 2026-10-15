@@ -42,3 +42,7 @@ Microsoft 참고 문서:
 - https://learn.microsoft.com/en-us/windows/win32/api/libloaderapi/nf-libloaderapi-setdefaultdlldirectories
 - https://learn.microsoft.com/en-us/windows/win32/api/wingdi/nf-wingdi-addfontmemresourceex
 
+## v1 추가 도구 보안 범위
+
+전역 단축키는 Windows RegisterHotKey/UnregisterHotKey로 등록·해제하며 키보드 후킹이나 입력 내용 수집을 사용하지 않습니다. 충돌하는 키를 강제로 빼앗지 않습니다. 알림음 WAV는 메모리에서 생성하며 파일 다운로드·외부 음원 실행을 하지 않습니다. 음량은 생성 음원의 진폭만 조절합니다. 포커스 유휴 판정은 기존 GetLastInputInfo의 경과 시간만 사용합니다. 새 옵션은 기존 로컬 XML에 저장되며 추가 네트워크 연결이나 관리자 권한을 요구하지 않습니다.
+
