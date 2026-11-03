@@ -49,8 +49,11 @@ Windows용 포터블 작업 타이머입니다. 설치 없이 실행하며 카�
 
 현재 EXE는 미서명 상태입니다. SmartScreen 또는 조직 정책에 따른 경고·차단이 있을 수 있습니다. 말풍선의 포커스 유지와 위치 추적은 검증했으나 실제 타블렛 필압 하드웨어는 직접 검증하지 못했습니다. 자세한 범위는 [보안 점검 보고서](./SECURITY.md)를 확인하세요.
 
-ZIP SHA-256: `0e99756271527c2f09e3b57f9b9fe4a0583366447393d7653a378cb0df258340`
+ZIP SHA-256: `9f47eb2ac0720a54eec55090ecfec3dcedd9a2ac751f2d5c1fb05a81b9fa65c2`
 
 이 폴더의 [SHA256SUMS.txt](./SHA256SUMS.txt)는 ZIP을, ZIP 안의 SHA256SUMS.txt는 압축 해제한 파일을 검증합니다. 해시는 코드 서명을 대신하지 않습니다.
 
 made by EP · [@efloydp_cms](https://x.com/efloydp_cms)
+
+
+1분 전 예고의 글자는 Pretendard Medium 10.5pt를 4배 해상도로 그린 뒤 고품질 축소하여 표시합니다.
