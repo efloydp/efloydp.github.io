@@ -3695,7 +3695,7 @@ const imageQuickMenu=document.createElement('div');
 imageQuickMenu.className='image-quick-menu';imageQuickMenu.hidden=true;
 imageQuickMenu.setAttribute('role','group');imageQuickMenu.setAttribute('aria-label','선택한 이미지 빠른 메뉴');
 imageQuickMenu.title='방향키 / Ctrl + 방향키: 1px 이동 · Shift + 방향키: 10px 이동';
-imageQuickMenu.innerHTML='<button type="button" data-action="replace">이미지 교체</button><button type="button" data-action="center">가운데 정렬</button><button type="button" data-action="reset">배치 초기화</button>';
+imageQuickMenu.innerHTML='<button type="button" data-action="replace">이미지 교체</button><button type="button" data-action="center">가운데 정렬</button><button type="button" data-action="height">높이 맞춤</button><button type="button" data-action="reset">초기화</button>';
 document.body.appendChild(imageQuickMenu);
 const imageReplaceInput=document.createElement('input');
 imageReplaceInput.type='file';imageReplaceInput.accept='image/*';imageReplaceInput.hidden=true;
@@ -3715,6 +3715,18 @@ function centerSelectedImage(){
   const wrap=selectedImageLayer;if(!wrap?.isConnected)return;
   const {container,col,kind}=selectedImageContext(wrap);
   placeByAnchor(wrap,container,kind||'main','mc');
+  if(kind)setAnchor(kind,col.dataset.id,'mc');
+  finishQuickImageEdit(wrap);
+}
+function fitSelectedImageHeight(){
+  const wrap=selectedImageLayer;if(!wrap?.isConnected)return;
+  const {container,col,kind}=selectedImageContext(wrap),img=wrap.querySelector('img');
+  const height=container.clientHeight;
+  const ratio=img?.naturalHeight ? img.naturalWidth/img.naturalHeight : wrap.offsetWidth/wrap.offsetHeight;
+  if(!height||!Number.isFinite(ratio)||ratio<=0)return;
+  const width=height*ratio;
+  wrap.style.width=width+'px';wrap.style.height=height+'px';
+  wrap.style.left=(container.clientWidth-width)/2+'px';wrap.style.top='0px';
   if(kind)setAnchor(kind,col.dataset.id,'mc');
   finishQuickImageEdit(wrap);
 }
@@ -3738,6 +3750,7 @@ imageQuickMenu.addEventListener('click',e=>{
   if(!selectedImageLayer?.isConnected)return;
   if(action==='replace'){imageReplacementTarget=selectedImageLayer;imageReplaceInput.value='';imageReplaceInput.click();}
   if(action==='center')centerSelectedImage();
+  if(action==='height')fitSelectedImageHeight();
   if(action==='reset')resetSelectedImage();
 });
 imageReplaceInput.addEventListener('change',()=>{
