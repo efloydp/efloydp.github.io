@@ -386,7 +386,11 @@ input[type=file]{ font-size:11px; width:100%; }
 .layer-wrap{ position:absolute; cursor:move; user-select:none; z-index:1000; touch-action:none; }
 .layer-wrap img{ width:100%; height:100%; display:block; pointer-events:none; }
 .layer-wrap.sticker-wrap{ z-index:2500; }
-.resize-handle{ position:absolute; width:16px; height:16px; background:#778EAE; border:2px solid #fff; border-radius:50%; cursor:se-resize; z-index:50; right:-8px; bottom:-8px; touch-action:none; }
+.resize-handle{ display:none; position:absolute; width:16px; height:16px; background:#778EAE; border:2px solid #fff; border-radius:50%; cursor:se-resize; z-index:50; right:-8px; bottom:-8px; touch-action:none; }
+.layer-wrap.image-selected{outline:3px solid #8d81c2;}
+.layer-wrap.image-selected>.resize-handle{display:block;}
+.sheet.exporting .image-selected{outline:none!important;}
+.sheet.exporting .resize-handle{display:none!important;}
 .del-handle{ position:fixed; width:32px; height:32px; background:#e24b4a; color:#fff; border:2px solid #fff; padding:0; font-family:inherit; border-radius:50%; font-size:16px; display:flex; align-items:center; justify-content:center; cursor:pointer; line-height:1; z-index:6000; touch-action:none; box-shadow:0 1px 5px #0003; }
 .del-handle[hidden]{display:none;}
 
@@ -689,8 +693,6 @@ body.welcome-active{ overflow:hidden; }
 .sheet[data-template="bakery"] .col-drag{right:0;}
 .bakery-only{display:none;}
 body[data-template="bakery"] .bakery-only{display:block;}
-.sheet[data-template="bakery"] .sticker-selected{outline:3px solid #8d81c2;}
-.sheet.exporting .sticker-selected{outline:none!important;}
 .sheet[data-template="bakery"] .bakery-reference{display:block;position:absolute;left:0;top:calc(513px + var(--bakery-upper-shift,0px));width:248px;z-index:1200;}
 .sheet[data-template="bakery"] .bakery-reference[data-slot="1"]{top:calc(784px + var(--bakery-upper-shift,0px));}
 .sheet[data-template="bakery"] .col-wrap:nth-child(2) .bakery-reference{left:379px;}
@@ -3679,7 +3681,9 @@ imageDeleteButton.textContent='✕';
 imageDeleteButton.hidden=true;
 document.body.appendChild(imageDeleteButton);
 function selectImageLayer(wrap){
+  selectedImageLayer?.classList.remove('image-selected');
   selectedImageLayer=wrap?.isConnected ? wrap : null;
+  selectedImageLayer?.classList.add('image-selected');
   if(!selectedImageLayer) imageDeleteButton.hidden=true;
   scheduleImageDeletePosition();
 }
@@ -3703,21 +3707,17 @@ function positionImageDeleteButton(){
   if(right<=left||bottom<=top){imageDeleteButton.hidden=true;return;}
   const size=32,gap=4;
   const clamp=(v,max)=>Math.max(6,Math.min(v,max-size-6));
-  const xs=[right-size-gap,left+gap,(left+right-size)/2].map(x=>clamp(x,innerWidth));
-  const ys=[top+gap,bottom-size-gap,(top+bottom-size)/2].map(y=>clamp(y,innerHeight));
-  const candidates=[[xs[0],ys[0]],[xs[1],ys[0]],[xs[0],ys[1]],[xs[1],ys[1]],[xs[2],ys[0]],[xs[2],ys[1]],[xs[0],ys[2]],[xs[1],ys[2]],[xs[2],ys[2]]];
-  /* 다른 이미지/출처/사이드바와 겹치면 선택한 이미지가 보이는 모서리로 이동. */
+  const corner=[rect.right-size-gap,rect.top+gap];
+  /* 원래 우측 상단이 잘리거나 가려질 때만 보이는 이미지의 위쪽 가운데로 이동. */
   const clearAt=(x,y)=>{
     const hit=document.elementsFromPoint(x,y).find(node=>node!==imageDeleteButton&&getComputedStyle(node).pointerEvents!=='none');
     return hit?.closest('.layer-wrap')===el;
   };
-  let pos=candidates.find(([x,y])=>[[4,4],[size-4,4],[4,size-4],[size-4,size-4],[size/2,size/2]].every(([dx,dy])=>clearAt(x+dx,y+dy)));
-  if(!pos&&(right-left<size+8||bottom-top<size+8)&&clearAt((left+right)/2,(top+bottom)/2)){
-    pos=[clamp((left+right-size)/2,innerWidth),clamp((top+bottom-size)/2,innerHeight)];
-  }
-  /* 완전히 가려진 이미지의 X를 다른 이미지 위에 남기지 않음. */
-  imageDeleteButton.hidden=!pos;
-  if(pos){imageDeleteButton.style.left=pos[0]+'px';imageDeleteButton.style.top=pos[1]+'px';}
+  const cornerVisible=corner[0]>=left&&corner[1]>=top&&corner[0]+size<=right&&corner[1]+size<=bottom&&
+    [[4,4],[size-4,4],[4,size-4],[size-4,size-4],[size/2,size/2]].every(([dx,dy])=>clearAt(corner[0]+dx,corner[1]+dy));
+  const pos=cornerVisible?corner:[clamp((left+right-size)/2,innerWidth),clamp(top+gap,innerHeight)];
+  imageDeleteButton.hidden=false;
+  imageDeleteButton.style.left=pos[0]+'px';imageDeleteButton.style.top=pos[1]+'px';
 }
 imageDeleteButton.addEventListener('pointerdown',e=>{e.preventDefault();e.stopPropagation();});
 imageDeleteButton.addEventListener('click',e=>{
