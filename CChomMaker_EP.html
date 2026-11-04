@@ -387,7 +387,8 @@ input[type=file]{ font-size:11px; width:100%; }
 .layer-wrap img{ width:100%; height:100%; display:block; pointer-events:none; }
 .layer-wrap.sticker-wrap{ z-index:2500; }
 .resize-handle{ position:absolute; width:16px; height:16px; background:#778EAE; border:2px solid #fff; border-radius:50%; cursor:se-resize; z-index:50; right:-8px; bottom:-8px; touch-action:none; }
-.del-handle{ position:absolute; width:40px; height:40px; background:#e24b4a; color:#fff; border:none; padding:0; font-family:inherit; border-radius:50%; font-size:18px; display:flex; align-items:center; justify-content:center; cursor:pointer; line-height:1; z-index:50; right:30px; top:30px; touch-action:none; }
+.del-handle{ position:fixed; width:32px; height:32px; background:#e24b4a; color:#fff; border:2px solid #fff; padding:0; font-family:inherit; border-radius:50%; font-size:16px; display:flex; align-items:center; justify-content:center; cursor:pointer; line-height:1; z-index:6000; touch-action:none; box-shadow:0 1px 5px #0003; }
+.del-handle[hidden]{display:none;}
 
 .animal-box{
   position:absolute; z-index:1500; background:var(--accent-blue); color:#fff; font-size:28px; font-weight:600;
@@ -1449,6 +1450,8 @@ function createImageLayer(opts){
       refreshStickerPanel();
     }
     if(opts.onPlace) opts.onPlace(wrap);
+    /* 업로드만 자동 선택. 프리셋/자동 저장 복원에서는 X를 표시하지 않음. */
+    if(!opts.geom) selectImageLayer(wrap);
   }
   if(opts.geom){
     img.src = opts.src;
@@ -3663,6 +3666,84 @@ document.getElementById('stickerInput').addEventListener('change', e=>{
   e.target.value='';
 });
 
+/* 삭제 버튼은 시트 밖의 편집 UI로 표시: 이미지 확대/클리핑/겹침에 가려지지 않음. */
+let selectedImageLayer = null;
+let imageDeleteFrame = 0;
+const imageDeleteActions = new WeakMap();
+const imageDeleteButton = document.createElement('button');
+imageDeleteButton.type='button';
+imageDeleteButton.className='del-handle';
+imageDeleteButton.setAttribute('aria-label','선택한 이미지 삭제');
+imageDeleteButton.title='선택한 이미지 삭제';
+imageDeleteButton.textContent='✕';
+imageDeleteButton.hidden=true;
+document.body.appendChild(imageDeleteButton);
+function selectImageLayer(wrap){
+  selectedImageLayer=wrap?.isConnected ? wrap : null;
+  if(!selectedImageLayer) imageDeleteButton.hidden=true;
+  scheduleImageDeletePosition();
+}
+function scheduleImageDeletePosition(){
+  if(imageDeleteFrame)return;
+  imageDeleteFrame=requestAnimationFrame(()=>{imageDeleteFrame=0;positionImageDeleteButton();});
+}
+function positionImageDeleteButton(){
+  const el=selectedImageLayer;
+  if(!el?.isConnected){selectedImageLayer=null;imageDeleteButton.hidden=true;return;}
+  const rect=el.getBoundingClientRect();
+  let left=Math.max(6,rect.left),top=Math.max(6,rect.top);
+  let right=Math.min(innerWidth-6,rect.right),bottom=Math.min(innerHeight-6,rect.bottom);
+  for(let p=el.parentElement;p;p=p.parentElement){
+    const css=getComputedStyle(p),r=p.getBoundingClientRect();
+    if(css.display==='none'||css.visibility==='hidden'){imageDeleteButton.hidden=true;return;}
+    if(p===sheet||/(hidden|clip|auto|scroll)/.test(css.overflowX)){left=Math.max(left,r.left);right=Math.min(right,r.right);}
+    if(p===sheet||/(hidden|clip|auto|scroll)/.test(css.overflowY)){top=Math.max(top,r.top);bottom=Math.min(bottom,r.bottom);}
+  }
+  /* 작은 이미지에서도 버튼 크기를 유지하고 화면 밖으로 나가지 않도록 함. */
+  if(right<=left||bottom<=top){imageDeleteButton.hidden=true;return;}
+  const size=32,gap=4;
+  const clamp=(v,max)=>Math.max(6,Math.min(v,max-size-6));
+  const xs=[right-size-gap,left+gap,(left+right-size)/2].map(x=>clamp(x,innerWidth));
+  const ys=[top+gap,bottom-size-gap,(top+bottom-size)/2].map(y=>clamp(y,innerHeight));
+  const candidates=[[xs[0],ys[0]],[xs[1],ys[0]],[xs[0],ys[1]],[xs[1],ys[1]],[xs[2],ys[0]],[xs[2],ys[1]],[xs[0],ys[2]],[xs[1],ys[2]],[xs[2],ys[2]]];
+  /* 다른 이미지/출처/사이드바와 겹치면 선택한 이미지가 보이는 모서리로 이동. */
+  const clearAt=(x,y)=>{
+    const hit=document.elementsFromPoint(x,y).find(node=>node!==imageDeleteButton&&getComputedStyle(node).pointerEvents!=='none');
+    return hit?.closest('.layer-wrap')===el;
+  };
+  let pos=candidates.find(([x,y])=>[[4,4],[size-4,4],[4,size-4],[size-4,size-4],[size/2,size/2]].every(([dx,dy])=>clearAt(x+dx,y+dy)));
+  if(!pos&&(right-left<size+8||bottom-top<size+8)&&clearAt((left+right)/2,(top+bottom)/2)){
+    pos=[clamp((left+right-size)/2,innerWidth),clamp((top+bottom-size)/2,innerHeight)];
+  }
+  /* 완전히 가려진 이미지의 X를 다른 이미지 위에 남기지 않음. */
+  imageDeleteButton.hidden=!pos;
+  if(pos){imageDeleteButton.style.left=pos[0]+'px';imageDeleteButton.style.top=pos[1]+'px';}
+}
+imageDeleteButton.addEventListener('pointerdown',e=>{e.preventDefault();e.stopPropagation();});
+imageDeleteButton.addEventListener('click',e=>{
+  e.stopPropagation();
+  const el=selectedImageLayer,remove=imageDeleteActions.get(el);
+  selectImageLayer(null);
+  if(el?.isConnected&&remove)remove();
+});
+document.addEventListener('pointerdown',e=>{
+  if(imageDeleteButton.contains(e.target))return;
+  const wrap=e.target.closest('.layer-wrap');
+  if(wrap&&sheet.contains(wrap)){selectImageLayer(wrap);return;}
+  /* 사이드바에서 크기/정렬을 조절하는 동안에는 선택 유지. */
+  if(e.target.closest('#sidebar,.zoom-controls'))return;
+  selectImageLayer(null);
+},true);
+document.addEventListener('focusin',e=>{
+  const wrap=e.target.closest('.layer-wrap');
+  if(wrap&&sheet.contains(wrap))selectImageLayer(wrap);
+  else if(sheet.contains(e.target))selectImageLayer(null);
+});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')selectImageLayer(null);});
+window.addEventListener('resize',scheduleImageDeletePosition);
+document.addEventListener('scroll',scheduleImageDeletePosition,true);
+new MutationObserver(()=>{if(selectedImageLayer)scheduleImageDeletePosition();}).observe(sheet,{subtree:true,childList:true,attributes:true,attributeFilter:['style','class','data-template']});
+
 /* ---------- 드래그 + 비율유지 리사이즈 + 삭제 + 가운데 스냅/앵커 ---------- */
 function makeResizableDraggable(el, addDelete, onDelete, snapCenterX, anchorCenter, autoDeleteOutside){
   const container = el.parentElement;
@@ -3673,17 +3754,10 @@ function makeResizableDraggable(el, addDelete, onDelete, snapCenterX, anchorCent
   resizeH.style.touchAction = 'none';
   el.appendChild(resizeH);
 
-  let delH = null;
   if(addDelete){
-    delH = document.createElement('button');
-    delH.type = 'button';
-    delH.className='del-handle';
-    delH.setAttribute('aria-label','이미지 삭제');
-    delH.innerHTML='✕';
-    el.appendChild(delH);
-    delH.addEventListener('pointerdown', ev=>ev.stopPropagation());
-    delH.addEventListener('click', ev=>{
-      ev.stopPropagation();
+    el.tabIndex=0;
+    el.setAttribute('aria-label','이미지 선택');
+    imageDeleteActions.set(el,()=>{
       el.remove();
       if(onDelete) onDelete();
       if(el.classList.contains('sticker-wrap'))refreshStickerPanel();
@@ -3718,7 +3792,7 @@ function makeResizableDraggable(el, addDelete, onDelete, snapCenterX, anchorCent
   });
 
   el.addEventListener('pointerdown', ev=>{
-    if(ev.target===resizeH || ev.target===delH) return;
+    if(ev.target===resizeH) return;
     ev.preventDefault();
     el.setPointerCapture && el.setPointerCapture(ev.pointerId);
     const startX=ev.clientX, startY=ev.clientY;
@@ -4136,6 +4210,7 @@ function refreshStickerPanel(){
 }
 function selectBakerySticker(wrap){
   if(activeTemplate!=='bakery')return;
+  selectImageLayer(wrap);
   if(selectedSticker!==wrap)document.querySelectorAll('#stickerAlignGrid button').forEach(btn=>btn.classList.remove('active'));
   selectedSticker=wrap;
   refreshStickerPanel();
