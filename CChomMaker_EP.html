@@ -393,6 +393,11 @@ input[type=file]{ font-size:11px; width:100%; }
 .sheet.exporting .resize-handle{display:none!important;}
 .del-handle{ position:fixed; width:32px; height:32px; background:#e24b4a; color:#fff; border:2px solid #fff; padding:0; font-family:inherit; border-radius:50%; font-size:16px; display:flex; align-items:center; justify-content:center; cursor:pointer; line-height:1; z-index:6000; touch-action:none; box-shadow:0 1px 5px #0003; }
 .del-handle[hidden]{display:none;}
+.image-quick-menu{position:fixed;z-index:6000;display:flex;gap:4px;padding:5px;background:#fff;border:1px solid #ddd;border-radius:10px;box-shadow:0 2px 10px #0002;font-family:'Pretendard','Malgun Gothic',sans-serif;}
+.image-quick-menu[hidden]{display:none;}
+.image-quick-menu button{border:0;border-radius:6px;padding:7px 9px;background:#f3f4f6;color:#555;font-family:inherit;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;}
+.image-quick-menu button:hover{background:#eee9fa;color:#7161a0;}
+.image-quick-menu button:focus-visible{outline:2px solid #8d81c2;}
 
 .animal-box{
   position:absolute; z-index:1500; background:var(--accent-blue); color:#fff; font-size:28px; font-weight:600;
@@ -661,6 +666,12 @@ body.welcome-active{ overflow:hidden; }
   transform:translate(-50%,-50%);pointer-events:none;
 }
 .ccp-bottom{display:flex;align-items:center;gap:8px;}
+.ccp-recent{margin-top:12px;padding-top:10px;border-top:1px solid #eee;}
+.ccp-recent-label{font-size:12px;font-weight:600;color:#777;margin-bottom:8px;}
+.ccp-recent-colors{display:grid;grid-template-columns:repeat(6,1fr);gap:7px;}
+.ccp-recent-colors button{width:100%;height:29px;border:1px solid #0002;border-radius:6px;cursor:pointer;}
+.ccp-recent-colors button:focus-visible{outline:2px solid #8d81c2;outline-offset:2px;}
+.ccp-recent-empty{grid-column:1/-1;font-size:11px;color:#999;line-height:1.5;}
 .ccp-eyedropper{
   flex-shrink:0;width:34px;height:34px;border:1px solid #ddd;border-radius:8px;
   background:#f8f8f8;cursor:pointer;display:flex;align-items:center;justify-content:center;
@@ -754,7 +765,7 @@ body[data-template="bakery"] #bakeryStickerControls select{width:100%;min-width:
 
       <div class="welcome-section">
         <h3>패치 노트</h3>
-        <div class="welcome-patchnotes"><b>v2</b> 2026.11.04 - 빵집(2인 고정) 템플릿 추가, 템플릿 간 공통 정보 공유 및 배치 별도 보관<br><b>v1.42</b> 2026.08.12 - 눈 동공 '윤회안' PNG/JPG 내보내기 시 크기가 확대되어 보이던 오류 수정<br><b>v1.41</b> 2026.07.12 - 프리셋/자동 저장 후 불러올 때 피부 색상이 반영되지 않던 오류 수정<br><b>v1.4</b> 2026.07.10 - 실행 취소/다시 실행 및 브라우저 자동 저장(복구) 추가, 카드형 사이드바 UI 및 탭 메뉴 개편, 디자인 정리<br><b>v1.35</b> 2026.07.09 - 메인/SD 이미지 정렬·사이즈 조절 기능 추가, 대상 전체/개별 토글 및 사이드바 UI 개편, 눈 색상 두 눈 연동 방식 개선, 공유하기 버튼 추가<br><b>v1.3</b> 2026.07.09 - 눈 동공 추가 기능 업데이트<br><b>v1.2</b> 2026.07.08 - 새로고침시 경고창 표시, .json 파일 다른 이름으로 저장, 인터페이스 사용성 개선 및 폰트 변경, 프리셋 이미지 자동 압축(용량 감소), 프리셋 보안 강화, 내보내기 안정화(파일명 자동/실패 안내), 두 눈 일괄 적용 캐릭터별 저장, 접근성 개선<br><b>v1.1</b> 2026.07.07 - 커스텀 컬러피커 추가, 일부 드래그 버그 픽스 및 사용성 개선<br><b>v1</b> 2026.06.28 배포 - 이 서비스는 Claude의 도움을 받아 제작하였습니다.</div>
+        <div class="welcome-patchnotes"><b>v2</b> 2026.11.04 - 빵집(2인 고정) 템플릿 추가, 템플릿 간 공통 정보 공유 및 배치 별도 보관, 사용성 개선<br><b>v1.42</b> 2026.08.12 - 눈 동공 '윤회안' PNG/JPG 내보내기 시 크기가 확대되어 보이던 오류 수정<br><b>v1.41</b> 2026.07.12 - 프리셋/자동 저장 후 불러올 때 피부 색상이 반영되지 않던 오류 수정<br><b>v1.4</b> 2026.07.10 - 실행 취소/다시 실행 및 브라우저 자동 저장(복구) 추가, 카드형 사이드바 UI 및 탭 메뉴 개편, 디자인 정리<br><b>v1.35</b> 2026.07.09 - 메인/SD 이미지 정렬·사이즈 조절 기능 추가, 대상 전체/개별 토글 및 사이드바 UI 개편, 눈 색상 두 눈 연동 방식 개선, 공유하기 버튼 추가<br><b>v1.3</b> 2026.07.09 - 눈 동공 추가 기능 업데이트<br><b>v1.2</b> 2026.07.08 - 새로고침시 경고창 표시, .json 파일 다른 이름으로 저장, 인터페이스 사용성 개선 및 폰트 변경, 프리셋 이미지 자동 압축(용량 감소), 프리셋 보안 강화, 내보내기 안정화(파일명 자동/실패 안내), 두 눈 일괄 적용 캐릭터별 저장, 접근성 개선<br><b>v1.1</b> 2026.07.07 - 커스텀 컬러피커 추가, 일부 드래그 버그 픽스 및 사용성 개선<br><b>v1</b> 2026.06.28 배포 - 이 서비스는 Claude의 도움을 받아 제작하였습니다.</div>
       </div>
     </div>
 
@@ -3680,11 +3691,83 @@ imageDeleteButton.title='선택한 이미지 삭제';
 imageDeleteButton.textContent='✕';
 imageDeleteButton.hidden=true;
 document.body.appendChild(imageDeleteButton);
+const imageQuickMenu=document.createElement('div');
+imageQuickMenu.className='image-quick-menu';imageQuickMenu.hidden=true;
+imageQuickMenu.setAttribute('role','group');imageQuickMenu.setAttribute('aria-label','선택한 이미지 빠른 메뉴');
+imageQuickMenu.title='방향키 / Ctrl + 방향키: 1px 이동 · Shift + 방향키: 10px 이동';
+imageQuickMenu.innerHTML='<button type="button" data-action="replace">이미지 교체</button><button type="button" data-action="center">가운데 정렬</button><button type="button" data-action="reset">배치 초기화</button>';
+document.body.appendChild(imageQuickMenu);
+const imageReplaceInput=document.createElement('input');
+imageReplaceInput.type='file';imageReplaceInput.accept='image/*';imageReplaceInput.hidden=true;
+document.body.appendChild(imageReplaceInput);
+let imageReplacementTarget=null;
+function selectedImageContext(wrap){
+  const container=wrap.parentElement,col=wrap.closest('.col-wrap');
+  const kind=container.matches('.canvas-box')?'main':container.matches('.sd-zone')?'sd':null;
+  return {container,col,kind};
+}
+function finishQuickImageEdit(wrap){
+  if(!wrap?.isConnected)return;
+  refreshImagePanels();scheduleImageDeletePosition();markDirty();
+  if(window.pushHistory)window.pushHistory();
+}
+function centerSelectedImage(){
+  const wrap=selectedImageLayer;if(!wrap?.isConnected)return;
+  const {container,col,kind}=selectedImageContext(wrap);
+  placeByAnchor(wrap,container,kind||'main','mc');
+  if(kind)setAnchor(kind,col.dataset.id,'mc');
+  finishQuickImageEdit(wrap);
+}
+function resetSelectedImage(){
+  const wrap=selectedImageLayer;if(!wrap?.isConnected)return;
+  const {container,col,kind}=selectedImageContext(wrap),img=wrap.querySelector('img');
+  if(!img.naturalWidth||!img.naturalHeight)return;
+  const ratio=img.naturalHeight/img.naturalWidth;
+  let g;
+  if(wrap.classList.contains('sticker-wrap'))g={width:280,height:280*ratio,left:40,top:160};
+  else if(kind==='main'&&activeTemplate==='bakery')g=bakeryMainGeometry(img.naturalWidth,img.naturalHeight,Array.from(columnsWrap.children).indexOf(col),container.clientWidth,container.clientHeight);
+  else if(kind==='main'){const width=Math.min(container.clientWidth*.8,400);g={width,height:width*ratio,left:(container.clientWidth-width)/2,top:20};}
+  else{const width=Math.min(container.clientWidth,container.clientHeight/ratio),height=width*ratio;g={width,height,left:(container.clientWidth-width)/2,top:(container.clientHeight-height)/2};}
+  for(const key of ['width','height','left','top'])wrap.style[key]=typeof g[key]==='number'?g[key]+'px':g[key];
+  if(kind)setAnchor(kind,col.dataset.id,kind==='sd'?'mc':'tc');
+  finishQuickImageEdit(wrap);
+}
+imageQuickMenu.addEventListener('pointerdown',e=>e.preventDefault());
+imageQuickMenu.addEventListener('click',e=>{
+  const action=e.target.closest('button')?.dataset.action;
+  if(!selectedImageLayer?.isConnected)return;
+  if(action==='replace'){imageReplacementTarget=selectedImageLayer;imageReplaceInput.value='';imageReplaceInput.click();}
+  if(action==='center')centerSelectedImage();
+  if(action==='reset')resetSelectedImage();
+});
+imageReplaceInput.addEventListener('change',()=>{
+  const file=imageReplaceInput.files[0],wrap=imageReplacementTarget;
+  imageReplacementTarget=null;
+  if(!file||!wrap?.isConnected)return;
+  const sequence=(wrap._replacementSequence||0)+1;wrap._replacementSequence=sequence;
+  const current=()=>wrap.isConnected&&wrap._replacementSequence===sequence;
+  const reader=new FileReader();
+  reader.onload=()=>compressImage(reader.result,src=>{
+    const probe=new Image();
+    probe.onload=()=>{
+      if(!current())return;
+      /* 교체 전 위치/가로 크기를 유지하고, 새 이미지 비율에 맞춰 세로 크기만 조정. */
+      const width=parseFloat(wrap.style.width)||wrap.offsetWidth;
+      wrap.querySelector('img').src=src;
+      wrap.style.height=(width*probe.naturalHeight/probe.naturalWidth)+'px';
+      finishQuickImageEdit(wrap);
+    };
+    probe.onerror=()=>{if(current())alert('이미지를 읽지 못했어요. 다른 이미지 파일을 선택해 주세요.');};
+    probe.src=src;
+  });
+  reader.onerror=()=>alert('이미지 파일을 읽지 못했어요. 다시 선택해 주세요.');
+  reader.readAsDataURL(file);
+});
 function selectImageLayer(wrap){
   selectedImageLayer?.classList.remove('image-selected');
   selectedImageLayer=wrap?.isConnected ? wrap : null;
   selectedImageLayer?.classList.add('image-selected');
-  if(!selectedImageLayer) imageDeleteButton.hidden=true;
+  if(!selectedImageLayer){imageDeleteButton.hidden=true;imageQuickMenu.hidden=true;}
   scheduleImageDeletePosition();
 }
 function scheduleImageDeletePosition(){
@@ -3692,6 +3775,7 @@ function scheduleImageDeletePosition(){
   imageDeleteFrame=requestAnimationFrame(()=>{imageDeleteFrame=0;positionImageDeleteButton();});
 }
 function positionImageDeleteButton(){
+  imageQuickMenu.hidden=true;
   const el=selectedImageLayer;
   if(!el?.isConnected){selectedImageLayer=null;imageDeleteButton.hidden=true;return;}
   const rect=el.getBoundingClientRect();
@@ -3718,6 +3802,11 @@ function positionImageDeleteButton(){
   const pos=cornerVisible?corner:[clamp((left+right-size)/2,innerWidth),clamp(top+gap,innerHeight)];
   imageDeleteButton.hidden=false;
   imageDeleteButton.style.left=pos[0]+'px';imageDeleteButton.style.top=pos[1]+'px';
+  imageQuickMenu.hidden=false;
+  const menuWidth=imageQuickMenu.offsetWidth,menuHeight=imageQuickMenu.offsetHeight;
+  imageQuickMenu.style.left=Math.max(6,Math.min((left+right-menuWidth)/2,innerWidth-menuWidth-6))+'px';
+  /* 보통 이미지 위쪽, 화면 상단에 붙은 경우에는 X 바로 아래에 표시. */
+  imageQuickMenu.style.top=Math.max(6,Math.min(top-menuHeight-8>=6?top-menuHeight-8:top+size+gap,innerHeight-menuHeight-6))+'px';
 }
 imageDeleteButton.addEventListener('pointerdown',e=>{e.preventDefault();e.stopPropagation();});
 imageDeleteButton.addEventListener('click',e=>{
@@ -3727,9 +3816,9 @@ imageDeleteButton.addEventListener('click',e=>{
   if(el?.isConnected&&remove)remove();
 });
 document.addEventListener('pointerdown',e=>{
-  if(imageDeleteButton.contains(e.target))return;
+  if(imageDeleteButton.contains(e.target)||imageQuickMenu.contains(e.target)||e.target===imageReplaceInput)return;
   const wrap=e.target.closest('.layer-wrap');
-  if(wrap&&sheet.contains(wrap)){selectImageLayer(wrap);return;}
+  if(wrap&&sheet.contains(wrap)){selectImageLayer(wrap);wrap.focus({preventScroll:true});return;}
   /* 사이드바에서 크기/정렬을 조절하는 동안에는 선택 유지. */
   if(e.target.closest('#sidebar,.zoom-controls'))return;
   selectImageLayer(null);
@@ -3740,6 +3829,23 @@ document.addEventListener('focusin',e=>{
   else if(sheet.contains(e.target))selectImageLayer(null);
 });
 document.addEventListener('keydown',e=>{if(e.key==='Escape')selectImageLayer(null);});
+let imageNudgeActive=false;
+document.addEventListener('keydown',e=>{
+  const deltas={ArrowLeft:[-1,0],ArrowRight:[1,0],ArrowUp:[0,-1],ArrowDown:[0,1]},delta=deltas[e.key];
+  const wrap=selectedImageLayer,t=e.target;
+  if(!delta||!wrap?.isConnected||!wrap.getClientRects().length||e.defaultPrevented||e.isComposing||e.metaKey||e.altKey||
+    t?.isContentEditable||t?.closest?.('input,textarea,select,[role="textbox"],#ccpPicker'))return;
+  e.preventDefault();
+  if(!imageNudgeActive&&window.pushHistory)window.pushHistory();
+  imageNudgeActive=true;
+  const step=e.shiftKey&&!e.ctrlKey?10:1;
+  wrap.style.left=((parseFloat(wrap.style.left)||0)+delta[0]*step)+'px';
+  wrap.style.top=((parseFloat(wrap.style.top)||0)+delta[1]*step)+'px';
+  markDirty();scheduleImageDeletePosition();
+});
+function finishImageNudge(){if(imageNudgeActive){imageNudgeActive=false;if(window.pushHistory)window.pushHistory();}}
+document.addEventListener('keyup',e=>{if(e.key.startsWith('Arrow'))finishImageNudge();});
+window.addEventListener('blur',finishImageNudge);
 window.addEventListener('resize',scheduleImageDeletePosition);
 document.addEventListener('scroll',scheduleImageDeletePosition,true);
 new MutationObserver(()=>{if(selectedImageLayer)scheduleImageDeletePosition();}).observe(sheet,{subtree:true,childList:true,attributes:true,attributeFilter:['style','class','data-template']});
@@ -4339,7 +4445,8 @@ document.getElementById('welcomeShareBtn').addEventListener('click', ()=>{
       </button>
       <div id="ccpPreview" class="ccp-preview"></div>
       <input id="ccpHexInputField" class="ccp-hex-input" maxlength="7" placeholder="#RRGGBB" autocomplete="off" spellcheck="false">
-    </div>`;
+    </div>
+    <div class="ccp-recent"><div class="ccp-recent-label">최근 사용 색상</div><div id="ccpRecentColors" class="ccp-recent-colors"></div></div>`;
   document.body.appendChild(picker);
 
   /* ─ Color math ─ */
@@ -4385,6 +4492,35 @@ document.getElementById('welcomeShareBtn').addEventListener('click', ()=>{
   hueCanvas.width=512; hueCanvas.height=28;
 
   let curInput=null,H=0,S=1,V=1,internal=false,extClean=null;
+  const RECENT_COLOR_KEY='CChomMakerEP_recentColors';
+  let recentColors=[],pendingRecent=null;
+  try{const saved=JSON.parse(localStorage.getItem(RECENT_COLOR_KEY)||'[]');if(Array.isArray(saved))recentColors=[...new Set(saved.filter(v=>typeof v==='string'&&/^#[0-9a-f]{6}$/i.test(v)).map(v=>v.toUpperCase()))].slice(0,12);}catch(_){}
+  const recentGrid=document.getElementById('ccpRecentColors');
+  function renderRecentColors(){
+    recentGrid.replaceChildren();
+    if(!recentColors.length){const hint=document.createElement('span');hint.className='ccp-recent-empty';hint.textContent='사용한 색상이 여기에 보관됩니다.';recentGrid.append(hint);return;}
+    recentColors.forEach(hex=>{
+      const button=document.createElement('button');button.type='button';button.style.background=hex;
+      button.title=hex;button.setAttribute('aria-label',hex+' 적용');button.dataset.color=hex;
+      button.addEventListener('click',()=>{if(!curInput)return;if(applyHex(hex)){drawGradient();updateCursors();commit();rememberPendingColor();}});
+      recentGrid.append(button);
+    });
+  }
+  function rememberColor(hex){
+    if(typeof hex!=='string'||!/^#[0-9a-f]{6}$/i.test(hex))return;
+    hex=hex.toUpperCase();recentColors=[hex,...recentColors.filter(c=>c!==hex)].slice(0,12);
+    try{localStorage.setItem(RECENT_COLOR_KEY,JSON.stringify(recentColors));}catch(_){}
+    renderRecentColors();
+  }
+  function rememberPendingColor(){if(pendingRecent){rememberColor(pendingRecent);pendingRecent=null;}}
+  renderRecentColors();
+  /* 드래그 중간색은 쌓지 않고, 피커를 닫거나 다른 색상칩으로 이동할 때 최종 색만 보관. */
+  document.addEventListener('change',e=>{
+    if(!e.target.matches?.('input[type="color"]')||internal)return;
+    if(e.target===curInput)pendingRecent=e.target.value;
+    else rememberColor(e.target.value);
+  });
+  window.addEventListener('pagehide',rememberPendingColor);
 
   function drawGradient(){
     const ctx=gradCanvas.getContext('2d');
@@ -4418,6 +4554,7 @@ document.getElementById('welcomeShareBtn').addEventListener('click', ()=>{
     internal=true;
     const hex=hsvToHex(H,S,V);
     curInput.value=hex;
+    pendingRecent=hex;
     curInput.dispatchEvent(new Event('input',{bubbles:true}));
     curInput.dispatchEvent(new Event('change',{bubbles:true}));
     internal=false;
@@ -4472,6 +4609,7 @@ document.getElementById('welcomeShareBtn').addEventListener('click', ()=>{
     picker.style.left=left+'px';picker.style.top=top+'px';
   }
   function openPicker(inp){
+    rememberPendingColor();
     if(extClean){extClean();extClean=null;}
     document.querySelectorAll('.swatch.picker-open').forEach(s=> s.classList.remove('picker-open'));
     curInput=inp;
@@ -4501,6 +4639,7 @@ document.getElementById('welcomeShareBtn').addEventListener('click', ()=>{
     extClean=()=>inp.removeEventListener('input',onExt);
   }
   function closePicker(){
+    rememberPendingColor();
     picker.style.display='none';
     document.querySelectorAll('.swatch.picker-open').forEach(s=> s.classList.remove('picker-open'));
     if(extClean){extClean();extClean=null;}curInput=null;
