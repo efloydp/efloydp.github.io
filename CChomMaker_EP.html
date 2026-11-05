@@ -984,14 +984,14 @@ body[data-template="bakery"] #bakeryStickerControls select{width:100%;min-width:
       <div class="tab-content" data-tab-content="images">
         <h3>관계성 / 캐해<span class="note-new-badge">NEW</span></h3>
         <div class="relationship-control">
-          <div class="row"><label for="relationshipShow">상호 관계성</label><input type="checkbox" id="relationshipShow" hidden>
+          <div class="row"><label for="relationshipShow">상호 관계성</label><input type="checkbox" id="relationshipShow" checked hidden>
             <div class="mini-toggle" data-for="relationshipShow">
               <button type="button" class="mini-toggle-btn" data-val="off">OFF</button><button type="button" class="mini-toggle-btn" data-val="on">ON</button>
             </div>
           </div>
           <div class="hint">2인일 때만 표시됩니다.</div>
         </div>
-        <div class="row"><label for="interpretationShow">캐해 OK / NG</label><input type="checkbox" id="interpretationShow" hidden>
+        <div class="row"><label for="interpretationShow">캐해 OK / NG</label><input type="checkbox" id="interpretationShow" checked hidden>
           <div class="mini-toggle" data-for="interpretationShow">
             <button type="button" class="mini-toggle-btn" data-val="off">OFF</button><button type="button" class="mini-toggle-btn" data-val="on">ON</button>
           </div>
@@ -4453,6 +4453,14 @@ function refreshSheetNotes(){
 relationshipField.addEventListener('input',()=>{
   relationshipText = relationshipField.innerText;
   markDirty();
+});
+relationshipBox.addEventListener('click',()=>{
+  revealSidebarSection('images', relationshipToggle.closest('.row'));
+});
+columnsWrap.addEventListener('click',e=>{
+  if(e.target.closest('.interpretation-notes')){
+    revealSidebarSection('images', interpretationToggle.closest('.row'));
+  }
 });
 [relationshipToggle,interpretationToggle].forEach(toggle=>{
   setupMiniToggle(toggle.id);
