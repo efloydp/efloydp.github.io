@@ -749,8 +749,9 @@ body[data-template="bakery"] .bakery-only{display:block;}
 .sheet[data-template="bakery"] .sd-placeholder{border:0;background:#f3f4f6;padding-bottom:50px;}
 .sheet[data-template="bakery"] .source-text{position:absolute;left:0;top:calc(1306px + var(--bakery-upper-shift,0px));width:248px;margin:0;font-size:17px;text-align:left;white-space:nowrap;overflow:hidden;}
 .sheet[data-template="bakery"] .col-wrap:nth-child(2) .source-text{left:379px;text-align:right;}
-.sheet[data-template="bakery"] .bakery-animal-label{display:block;position:absolute;top:calc(1249px + var(--bakery-upper-shift,0px));left:0;width:248px;height:53px;line-height:53px;text-align:center;color:white;background:var(--bakery-theme);border-radius:0 0 15px 15px;font-size:25.5px;font-weight:600;z-index:1600;outline:none;}
+.sheet[data-template="bakery"] .bakery-animal-label{display:block;position:absolute;top:calc(1249px + var(--bakery-upper-shift,0px));left:0;width:248px;height:53px;line-height:53px;text-align:center;color:var(--animal-text-color, #fff);background:var(--bakery-theme);border-radius:0 0 15px 15px;font-size:25.5px;font-weight:600;z-index:1600;outline:none;}
 .sheet[data-template="bakery"] .col-wrap:nth-child(2) .bakery-animal-label{left:379px;}
+.sheet[data-template="bakery"] .col-wrap:has(.animal-box.off) .bakery-animal-label{display:none;}
 .sheet[data-template="bakery"] .bakery-heading{display:block;position:absolute;top:var(--bakery-heading-top,544px);left:50%;transform:translateX(-50%) scaleX(0.94);}
 .sheet[data-template="bakery"] .bakery-heading.off{display:none!important;}
 .sheet[data-template="bakery"] .source-text{color:#bbb;line-height:23px;min-height:23px;transform:none;font-weight:400;z-index:1600;}
@@ -982,7 +983,7 @@ body[data-template="bakery"] #bakeryStickerControls select{width:100%;min-width:
       </div>
 
       <div class="tab-content" data-tab-content="images">
-        <h3>관계성 / 캐해<span class="note-new-badge">NEW</span></h3>
+        <h3 id="sheetNotesHeading">관계성 / 캐해<span class="note-new-badge">NEW</span></h3>
         <div class="relationship-control">
           <div class="row"><label for="relationshipShow">상호 관계성</label><input type="checkbox" id="relationshipShow" checked hidden>
             <div class="mini-toggle" data-for="relationshipShow">
@@ -1039,7 +1040,7 @@ body[data-template="bakery"] #bakeryStickerControls select{width:100%;min-width:
             <button class="mini-toggle-btn active" id="animalOnBtn" type="button" data-val="on">ON</button>
           </div>
         </div>
-        <div class="row" style="margin-top:8px;"><label>위치</label>
+        <div class="row bakery-incompatible" style="margin-top:8px;"><label>위치</label>
           <select id="animalPositionSelect">
             <option value="bl">왼쪽 아래</option>
             <option value="br">오른쪽 아래</option>
@@ -1047,7 +1048,7 @@ body[data-template="bakery"] #bakeryStickerControls select{width:100%;min-width:
             <option value="tr">오른쪽 위</option>
           </select>
         </div>
-        <div class="hint">메인 이미지 박스의 네 모서리 중 한 곳에 위치합니다 (기본: 왼쪽 아래).</div>
+        <div class="hint bakery-incompatible">메인 이미지 박스의 네 모서리 중 한 곳에 위치합니다 (기본: 왼쪽 아래).</div>
 
         <h3 id="sourceTextHeading">커미션 출처</h3>
         <div class="row">
@@ -1981,6 +1982,7 @@ function relabelAll(){
   applySourceTextState();
   refreshSelectors();
   syncAllTargetToggles();
+  updateAnimalToggleUI();
   updateBakeryLayout();
   refreshStickerPanel();
   refreshBakeryReferenceControls();
@@ -2191,7 +2193,7 @@ function handleSheetColorClick(inputEl){
 
 /* 동물화 박스 / 커미션 출처 / SD 이미지 / 의상묘사 클릭 시 사이드바의 해당 ON/OFF 설정으로 이동 */
 columnsWrap.addEventListener('click', e=>{
-  const animalBox = e.target.closest('[data-role="animalbox"]');
+  const animalBox = e.target.closest('[data-role="animalbox"], .bakery-animal-label');
   if(animalBox){
     const colWrap = animalBox.closest('.col-wrap');
     const id = colWrap ? colWrap.dataset.id : null;
@@ -3605,6 +3607,7 @@ function applyThemeTextColor(id, color){
   const textColor = lum > 0.65 ? '#909090' : '#ffffff';
   colWrap.querySelector('[data-role="themebtn"]').style.color = textColor;
   colWrap.querySelector('[data-role="animalbox"]').style.color = textColor;
+  colWrap.style.setProperty("--animal-text-color", textColor);
   /* 흰 시트 배경 위에서 글자가 안 보이지 않도록, 정확히 '#ffffff'가 아니라
      밝기가 흰색에 가까운 색(거의 흰색 계열)이면 모두 회색으로 대체 */
   const nearWhite = lum > 0.9;
@@ -4454,13 +4457,12 @@ relationshipField.addEventListener('input',()=>{
   relationshipText = relationshipField.innerText;
   markDirty();
 });
-relationshipBox.addEventListener('click',()=>{
-  revealSidebarSection('images', relationshipToggle.closest('.row'));
-});
+function revealSheetNotes(){
+  revealSidebarSection('images', document.getElementById('sheetNotesHeading'));
+}
+relationshipBox.addEventListener('click',revealSheetNotes);
 columnsWrap.addEventListener('click',e=>{
-  if(e.target.closest('.interpretation-notes')){
-    revealSidebarSection('images', interpretationToggle.closest('.row'));
-  }
+  if(e.target.closest('.interpretation-notes')) revealSheetNotes();
 });
 [relationshipToggle,interpretationToggle].forEach(toggle=>{
   setupMiniToggle(toggle.id);
@@ -4625,10 +4627,6 @@ function applyTemplateUI(){
     const hint = section?.querySelector('.hint');
     if(hint) hint.textContent = bakery ? '가운데 의상 & 헤어 제목을 숨기거나 보여줍니다.' : '모든 캐릭터에 일괄 적용됩니다.';
   }
-  ['animalBoxHeading'].forEach(id=>{
-    const section = document.getElementById(id)?.closest('.side-content');
-    if(section) section.classList.toggle('bakery-incompatible',bakery);
-  });
   ['canvasHeightSlider','sdHeightSlider'].forEach(id=>{
     const slider=document.getElementById(id);
     if(slider){
