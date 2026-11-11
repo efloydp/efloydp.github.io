@@ -3615,9 +3615,9 @@ function applyThemeTextColor(id, color){
     } else {
       const channels = color.slice(1).match(/.{2}/g).map(channel=>parseInt(channel,16));
       const lightness = (Math.max(...channels)+Math.min(...channels))/2;
-      const darkerLightness = lightness/3;
-      // 밝은 색의 HSL 색상·채도를 유지하면서 명도만 1/3로 낮춘다.
-      const scale = darkerLightness/(255-lightness);
+      const darkerLightness = lightness*2/3;
+      // 밝은 색의 HSL 색상·채도를 유지하고, 명도를 낮추는 정도는 이전의 절반으로 적용한다.
+      const scale = Math.min(darkerLightness,255-darkerLightness)/Math.min(lightness,255-lightness);
       const darkerChannels = channels.map(channel=>Math.round(darkerLightness+(channel-lightness)*scale));
       badgeColor = 'rgb('+darkerChannels.join(', ')+')';
     }
