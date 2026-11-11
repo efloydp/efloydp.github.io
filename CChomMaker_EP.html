@@ -3608,10 +3608,21 @@ function applyThemeTextColor(id, color){
   colWrap.querySelector('[data-role="themebtn"]').style.color = textColor;
   colWrap.querySelector('[data-role="animalbox"]').style.color = textColor;
   colWrap.style.setProperty("--animal-text-color", textColor);
-  /* 흰 시트 배경 위에서 글자가 안 보이지 않도록, 정확히 '#ffffff'가 아니라
-     밝기가 흰색에 가까운 색(거의 흰색 계열)이면 모두 회색으로 대체 */
-  const nearWhite = lum > 0.9;
-  colWrap.querySelector('[data-role="badge"]').style.color = nearWhite ? '#909090' : color;
+  let badgeColor = color;
+  if(lum > 0.9){
+    if(color.toLowerCase() === '#ffffff'){
+      badgeColor = '#a0a0a0';
+    } else {
+      const channels = color.slice(1).match(/.{2}/g).map(channel=>parseInt(channel,16));
+      const lightness = (Math.max(...channels)+Math.min(...channels))/2;
+      const darkerLightness = lightness/3;
+      // 밝은 색의 HSL 색상·채도를 유지하면서 명도만 1/3로 낮춘다.
+      const scale = darkerLightness/(255-lightness);
+      const darkerChannels = channels.map(channel=>Math.round(darkerLightness+(channel-lightness)*scale));
+      badgeColor = 'rgb('+darkerChannels.join(', ')+')';
+    }
+  }
+  colWrap.querySelector('[data-role="badge"]').style.color = badgeColor;
 }
 function applyThemeToId(id, color){
   columnsWrap.querySelector(`.col-wrap[data-id="${id}"]`)?.style.setProperty("--bakery-theme", color);
